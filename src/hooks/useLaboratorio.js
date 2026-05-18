@@ -6,66 +6,54 @@ const db = supabaseAdmin ?? supabase
 
 // ── COAs ─────────────────────────────────────────────────────────────────────
 
-export function useCoas() {
+export function useLotesSinCoa() {
   return useQuery({
-    queryKey: ['laboratorio', 'coas'],
+    queryKey: ['laboratorio', 'lotes-sin-coa'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('coas')
-        .select('id, numero_lote, archivo_url, creado_en, trabajos_produccion (id, codigo, nombre, numero_lote, estado, fecha_fin)')
-        .order('creado_en', { ascending: false })
+      const { data, error } = await db
+        .from('producciones')
+        .select('id, codigo, nombre, cantidad, numero_lote, fecha_produccion, fecha_vencimiento, coa_url')
+        .is('coa_url', null)
+        .order('fecha_produccion', { ascending: false })
       if (error) throw error
       return data ?? []
     },
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 30,
   })
 }
 
-export function useTrabajosSinCoa() {
+export function useLotesConCoa() {
   return useQuery({
-    queryKey: ['laboratorio', 'trabajos-sin-coa'],
+    queryKey: ['laboratorio', 'lotes-con-coa'],
     queryFn: async () => {
-      const { data: conCoa, error: e1 } = await supabase
-        .from('coas')
-        .select('trabajo_id')
-      if (e1) throw e1
-
-      const idsConCoa = (conCoa ?? []).map(c => c.trabajo_id)
-
-      let q = supabase
-        .from('trabajos_produccion')
-        .select('id, codigo, nombre, numero_lote, estado, fecha_fin, fecha_inicio')
-        .eq('estado', 'completado')
-        .order('fecha_fin', { ascending: false })
-
-      if (idsConCoa.length > 0) {
-        q = q.not('id', 'in', `(${idsConCoa.join(',')})`)
-      }
-
-      const { data, error: e2 } = await q
-      if (e2) throw e2
+      const { data, error } = await db
+        .from('producciones')
+        .select('id, codigo, nombre, cantidad, numero_lote, fecha_produccion, coa_url')
+        .not('coa_url', 'is', null)
+        .order('fecha_produccion', { ascending: false })
+        .limit(100)
+      if (error) throw error
       return data ?? []
     },
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 30,
   })
 }
 
-export function useSubirCoa() {
+export function useSubirCoaLote() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ trabajoId, archivoUrl, numeroLote }) => {
-      const { data: { user } } = await supabase.auth.getUser()
-      const { error } = await db.from('coas').insert({
-        trabajo_id:  trabajoId,
-        archivo_url: archivoUrl,
-        numero_lote: numeroLote || null,
-        subido_por:  user?.id ?? null,
-      })
+    mutationFn: async ({ loteId, archivo }) => {
+      const ext  = archivo.name.split('.').pop()
+      const path = `lotes/${loteId}/${Date.now()}.${ext}`
+      const { error: upErr } = await db.storage.from('coas').upload(path, archivo, { upsert: true })
+      if (upErr) throw new Error(`Error al subir archivo: ${upErr.message}`)
+      const { data: { publicUrl } } = db.storage.from('coas').getPublicUrl(path)
+      const { error } = await db.from('producciones').update({ coa_url: publicUrl }).eq('id', loteId)
       if (error) throw error
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['laboratorio', 'coas'] })
-      qc.invalidateQueries({ queryKey: ['laboratorio', 'trabajos-sin-coa'] })
+      qc.invalidateQueries({ queryKey: ['laboratorio', 'lotes-sin-coa'] })
+      qc.invalidateQueries({ queryKey: ['laboratorio', 'lotes-con-coa'] })
     },
   })
 }

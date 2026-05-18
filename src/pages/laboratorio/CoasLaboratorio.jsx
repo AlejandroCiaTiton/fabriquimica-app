@@ -1,54 +1,67 @@
-import { useState } from 'react'
-import { useCoas, useTrabajosSinCoa, useSubirCoa } from '../../hooks/useLaboratorio'
+import { useState, useRef } from 'react'
+import { useLotesSinCoa, useLotesConCoa, useSubirCoaLote } from '../../hooks/useLaboratorio'
 
-function FormSubirCoa({ trabajo, onSubmit, onCancel }) {
-  const [url, setUrl]     = useState('')
-  const [lote, setLote]   = useState(trabajo.numero_lote || '')
-  const [error, setError] = useState('')
+function fmtFecha(str) {
+  if (!str) return '—'
+  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
+}
+
+function fmtKg(n) {
+  if (!n) return '—'
+  return parseFloat(n).toLocaleString('es-AR', { maximumFractionDigits: 0 }) + ' kg'
+}
+
+function FormSubirCoa({ lote, onSubmit, onCancel }) {
+  const [archivo, setArchivo] = useState(null)
+  const [error, setError]     = useState('')
+  const [cargando, setCargando] = useState(false)
+  const inputRef = useRef()
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!url.trim()) { setError('La URL del archivo es requerida'); return }
+    if (!archivo) { setError('Seleccioná un archivo PDF'); return }
     setError('')
-    await onSubmit({ trabajoId: trabajo.id, archivoUrl: url.trim(), numeroLote: lote.trim() || null })
+    setCargando(true)
+    try {
+      await onSubmit({ loteId: lote.id, archivo })
+    } catch (err) {
+      setError(err.message)
+      setCargando(false)
+    }
   }
 
   return (
     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-2">
-      <p className="text-xs font-medium text-blue-800 mb-3">
-        Subir COA — {trabajo.codigo} · {trabajo.nombre}
+      <p className="text-xs font-semibold text-blue-800 mb-3">
+        Subir COA — {lote.nombre}{lote.numero_lote ? ` · Lote ${lote.numero_lote}` : ''}
       </p>
-      {/* TODO: implementar upload a Supabase Storage bucket 'coas' en lugar de URL manual */}
       <form onSubmit={handleSubmit} className="space-y-3">
-        <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">
-            URL del archivo <span className="text-red-500">*</span>
-          </label>
+        <div
+          onClick={() => inputRef.current?.click()}
+          className="border-2 border-dashed border-blue-200 rounded-lg p-4 text-center cursor-pointer hover:border-[#004a99] transition-colors"
+        >
+          {archivo ? (
+            <p className="text-sm text-gray-700 font-medium">{archivo.name}</p>
+          ) : (
+            <p className="text-sm text-gray-400">Click para seleccionar un archivo PDF o Word</p>
+          )}
           <input
-            value={url}
-            onChange={e => setUrl(e.target.value)}
-            placeholder="https://..."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            ref={inputRef}
+            type="file"
+            accept=".pdf,.doc,.docx"
+            className="hidden"
+            onChange={e => setArchivo(e.target.files[0] || null)}
           />
         </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Número de lote</label>
-          <input
-            value={lote}
-            onChange={e => setLote(e.target.value)}
-            placeholder="Ej: L-2024-001"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
-          />
-        </div>
-        {error && (
-          <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded px-2 py-1.5">{error}</p>
-        )}
+        {error && <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded px-2 py-1.5">{error}</p>}
         <div className="flex justify-end gap-2">
           <button type="button" onClick={onCancel} className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5">
             Cancelar
           </button>
-          <button type="submit" className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors">
-            Guardar COA
+          <button type="submit" disabled={cargando}
+            className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors disabled:opacity-60 flex items-center gap-2">
+            {cargando && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
+            {cargando ? 'Subiendo…' : 'Guardar COA'}
           </button>
         </div>
       </form>
@@ -57,64 +70,88 @@ function FormSubirCoa({ trabajo, onSubmit, onCancel }) {
 }
 
 export default function CoasLaboratorio() {
-  const { data: coas = [],     isLoading: loadingCoas }     = useCoas()
-  const { data: sinCoa = [],   isLoading: loadingSinCoa }   = useTrabajosSinCoa()
-  const subirCoa = useSubirCoa()
+  const { data: sinCoa = [], isLoading: loadingSin } = useLotesSinCoa()
+  const { data: conCoa = [], isLoading: loadingCon } = useLotesConCoa()
+  const subirCoa = useSubirCoaLote()
 
-  const [formAbierto, setFormAbierto] = useState(null) // trabajo.id
+  const [formAbierto, setFormAbierto] = useState(null)
+  const [buscar, setBuscar] = useState('')
+
+  const sinCoaFiltrados = buscar.trim()
+    ? sinCoa.filter(l =>
+        l.nombre?.toLowerCase().includes(buscar.toLowerCase()) ||
+        l.codigo?.toLowerCase().includes(buscar.toLowerCase()) ||
+        l.numero_lote?.toLowerCase().includes(buscar.toLowerCase())
+      )
+    : sinCoa
 
   async function handleSubir(datos) {
-    try {
-      await subirCoa.mutateAsync(datos)
-      setFormAbierto(null)
-    } catch (err) {
-      alert(err.message)
-    }
+    await subirCoa.mutateAsync(datos)
+    setFormAbierto(null)
   }
 
   return (
     <div className="p-6 max-w-5xl space-y-8">
       <div>
         <h1 className="text-xl font-bold text-gray-900">Certificados de Análisis (COA)</h1>
-        <p className="text-sm text-gray-400 mt-0.5">Gestión de COAs por lote de producción</p>
+        <p className="text-sm text-gray-400 mt-0.5">Cargá el COA para cada lote fabricado</p>
       </div>
 
-      {/* Trabajos sin COA */}
+      {/* Lotes sin COA */}
       <section>
-        <h2 className="text-base font-semibold text-gray-800 mb-3">Trabajos completados sin COA</h2>
-        {loadingSinCoa ? (
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-base font-semibold text-gray-800">
+            Lotes sin COA
+            {sinCoa.length > 0 && (
+              <span className="ml-2 text-xs font-normal bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
+                {sinCoa.length}
+              </span>
+            )}
+          </h2>
+          <input
+            value={buscar}
+            onChange={e => setBuscar(e.target.value)}
+            placeholder="Buscar producto o lote…"
+            className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] w-52"
+          />
+        </div>
+
+        {loadingSin ? (
           <div className="py-8 flex justify-center">
             <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
           </div>
-        ) : sinCoa.length === 0 ? (
+        ) : sinCoaFiltrados.length === 0 ? (
           <div className="bg-white rounded-[10px] shadow-card py-10 text-center text-sm text-gray-400">
-            Todos los trabajos completados tienen COA cargado.
+            {buscar ? 'No se encontraron lotes.' : 'Todos los lotes tienen COA cargado.'}
           </div>
         ) : (
           <div className="bg-white rounded-[10px] shadow-card divide-y divide-gray-50">
-            {sinCoa.map(trabajo => (
-              <div key={trabajo.id} className="p-4">
+            {sinCoaFiltrados.map(lote => (
+              <div key={lote.id} className="p-4">
                 <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <span className="font-medium text-gray-900">{trabajo.codigo}</span>
-                    <span className="ml-2 text-sm text-gray-600">{trabajo.nombre}</span>
-                    {trabajo.numero_lote && (
-                      <span className="ml-2 text-xs text-gray-400">Lote: {trabajo.numero_lote}</span>
-                    )}
-                    {trabajo.fecha_fin && (
-                      <span className="ml-2 text-xs text-gray-400">Fin: {trabajo.fecha_fin}</span>
-                    )}
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-medium text-gray-900">{lote.nombre}</span>
+                      {lote.codigo && (
+                        <span className="text-xs text-gray-400 font-mono">{lote.codigo}</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 mt-0.5 text-xs text-gray-400">
+                      {lote.numero_lote && <span>Lote: <span className="font-medium text-gray-600">{lote.numero_lote}</span></span>}
+                      <span>Fecha: {fmtFecha(lote.fecha_produccion)}</span>
+                      <span>{fmtKg(lote.cantidad)}</span>
+                    </div>
                   </div>
                   <button
-                    onClick={() => setFormAbierto(formAbierto === trabajo.id ? null : trabajo.id)}
+                    onClick={() => setFormAbierto(formAbierto === lote.id ? null : lote.id)}
                     className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors flex-shrink-0"
                   >
                     Subir COA
                   </button>
                 </div>
-                {formAbierto === trabajo.id && (
+                {formAbierto === lote.id && (
                   <FormSubirCoa
-                    trabajo={trabajo}
+                    lote={lote}
                     onSubmit={handleSubir}
                     onCancel={() => setFormAbierto(null)}
                   />
@@ -125,44 +162,43 @@ export default function CoasLaboratorio() {
         )}
       </section>
 
-      {/* COAs existentes */}
+      {/* COAs cargados */}
       <section>
         <h2 className="text-base font-semibold text-gray-800 mb-3">COAs cargados</h2>
-        {loadingCoas ? (
+        {loadingCon ? (
           <div className="py-8 flex justify-center">
             <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
           </div>
-        ) : coas.length === 0 ? (
+        ) : conCoa.length === 0 ? (
           <div className="bg-white rounded-[10px] shadow-card py-10 text-center text-sm text-gray-400">
             No hay COAs cargados aún.
           </div>
         ) : (
           <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Código</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Producto</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Lote</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Cargado</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Fecha</th>
+                  <th className="text-right px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">Cantidad</th>
                   <th className="px-4 py-3"/>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {coas.map(coa => (
-                  <tr key={coa.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium text-gray-900">{coa.trabajos_produccion?.codigo || '—'}</td>
-                    <td className="px-4 py-3 text-gray-700">{coa.trabajos_produccion?.nombre || '—'}</td>
-                    <td className="px-4 py-3 text-gray-500">{coa.numero_lote || coa.trabajos_produccion?.numero_lote || '—'}</td>
-                    <td className="px-4 py-3 text-gray-400 text-xs">{new Date(coa.creado_en).toLocaleDateString('es-AR')}</td>
+                {conCoa.map(lote => (
+                  <tr key={lote.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
-                      <a
-                        href={coa.archivo_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#004a99] hover:underline text-xs font-medium"
-                      >
-                        Ver PDF
+                      <p className="font-medium text-gray-900">{lote.nombre}</p>
+                      {lote.codigo && <p className="text-xs text-gray-400 font-mono">{lote.codigo}</p>}
+                    </td>
+                    <td className="px-4 py-3 text-gray-600">{lote.numero_lote || '—'}</td>
+                    <td className="px-4 py-3 text-gray-400 text-xs">{fmtFecha(lote.fecha_produccion)}</td>
+                    <td className="px-4 py-3 text-right text-gray-600">{fmtKg(lote.cantidad)}</td>
+                    <td className="px-4 py-3 text-right">
+                      <a href={lote.coa_url} target="_blank" rel="noopener noreferrer"
+                        className="text-[#004a99] hover:underline text-xs font-medium">
+                        Ver COA
                       </a>
                     </td>
                   </tr>

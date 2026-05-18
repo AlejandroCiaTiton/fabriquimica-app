@@ -11,7 +11,7 @@ function useProductosAdmin() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('productos')
-        .select('id, codigo, nombre, presentacion, activo, precios_actuales(id, lista1_may, lista4_std, lista3_min)')
+        .select('id, codigo, nombre, presentacion, activo, precios_actuales(producto_id, lista1_may, lista4_std, lista3_min)')
         .order('nombre')
       if (error) throw error
       return data
@@ -27,7 +27,7 @@ function useActualizarPrecio() {
       const { error } = await supabase
         .from('precios_actuales')
         .update({ [campo]: parseFloat(valor) || null })
-        .eq('id', precioId)
+        .eq('producto_id', precioId)
       if (error) throw error
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin', 'productos'] }),
@@ -188,7 +188,7 @@ function ModalImportar({ productos, onClose }) {
       if (r.lista4_std !== undefined) update.lista4_std = r.lista4_std
       if (r.lista3_min !== undefined) update.lista3_min = r.lista3_min
       if (!Object.keys(update).length) continue
-      const { error } = await supabase.from('precios_actuales').update(update).eq('id', r.pr.id)
+      const { error } = await supabase.from('precios_actuales').update(update).eq('producto_id', r.pr.producto_id)
       if (error) fail++ ; else ok++
     }
     setGuardando(false)
