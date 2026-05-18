@@ -1,0 +1,276 @@
+import { useState, useMemo } from 'react'
+import { useProductos } from '../../hooks/useProductos'
+import { useProducciones, useRegistrarProduccion } from '../../hooks/useProduccion'
+import { esProduccionPropia } from '../../data/produccionPropia'
+
+const HOY = new Date().toISOString().split('T')[0]
+
+const EMPTY = {
+  tipo:             'existente',
+  productoId:       '',
+  codigo:           '',
+  nombre:           '',
+  cantidad:         '',
+  fechaProduccion:  HOY,
+  numeroLote:       '',
+  fechaVencimiento: '',
+  notas:            '',
+}
+
+const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]'
+
+function fmtFecha(str) {
+  if (!str) return '—'
+  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
+}
+
+function BadgeVto({ fecha }) {
+  if (!fecha) return <span className="text-gray-300">—</span>
+  const vencido = new Date(fecha + 'T00:00:00') < new Date()
+  return (
+    <span className={`font-medium text-sm ${vencido ? 'text-red-600' : 'text-gray-700'}`}>
+      {fmtFecha(fecha)}
+      {vencido && <span className="ml-1 text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full">Vencido</span>}
+    </span>
+  )
+}
+
+export default function RegistrarProduccion() {
+  const { data: todosProductos = [] }              = useProductos()
+  const { data: historial = [], isLoading: loadH } = useProducciones()
+  const productos = useMemo(
+    () => todosProductos.filter(p => esProduccionPropia(p.nombre)),
+    [todosProductos]
+  )
+  const registrar = useRegistrarProduccion()
+
+  const [tab,     setTab]  = useState('registrar')
+  const [form,    setForm] = useState(EMPTY)
+  const [coaFile, setCoa]  = useState(null)
+  const [err,     setErr]  = useState('')
+  const [ok,      setOk]   = useState('')
+  const [busH,    setBusH] = useState('')
+
+  const prodSel = productos.find(p => String(p.id) === String(form.productoId))
+
+  function set(key, val) { setForm(f => ({ ...f, [key]: val })) }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setErr(''); setOk('')
+
+    if (form.tipo === 'existente' && !form.productoId) {
+      setErr('Seleccioná un producto'); return
+    }
+    if (form.tipo === 'nuevo' && (!form.codigo.trim() || !form.nombre.trim())) {
+      setErr('Código y nombre son obligatorios'); return
+    }
+    if (!form.cantidad || parseFloat(form.cantidad) <= 0) {
+      setErr('La cantidad debe ser mayor a 0'); return
+    }
+
+    const payload = form.tipo === 'existente'
+      ? { productoId: form.productoId, codigo: prodSel?.codigo ?? '', nombre: prodSel?.nombre ?? '',
+          cantidad: form.cantidad, fechaProduccion: form.fechaProduccion,
+          numeroLote: form.numeroLote, fechaVencimiento: form.fechaVencimiento,
+          notas: form.notas, coaFile, esNuevo: false }
+      : { productoId: null, codigo: form.codigo.trim(), nombre: form.nombre.trim(),
+          cantidad: form.cantidad, fechaProduccion: form.fechaProduccion,
+          numeroLote: form.numeroLote, fechaVencimiento: form.fechaVencimiento,
+          notas: form.notas, coaFile, esNuevo: true }
+
+    try {
+      await registrar.mutateAsync(payload)
+      setOk(`Producción registrada: ${payload.nombre} — ${form.cantidad} kg/lt`)
+      setForm(EMPTY)
+      setCoa(null)
+    } catch (e) {
+      setErr(e.message)
+    }
+  }
+
+  const histFiltrado = busH.trim()
+    ? historial.filter(r =>
+        r.nombre?.toLowerCase().includes(busH.toLowerCase()) ||
+        r.codigo?.toLowerCase().includes(busH.toLowerCase()) ||
+        r.numero_lote?.toLowerCase().includes(busH.toLowerCase())
+      )
+    : historial
+
+  return (
+    <div className="p-6 max-w-3xl">
+      <div className="mb-6">
+        <h1 className="text-xl font-bold text-gray-900">Registrar producción</h1>
+        <p className="text-sm text-gray-400 mt-0.5">Registrá los lotes producidos — actualiza el stock automáticamente</p>
+      </div>
+
+      <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-lg w-fit">
+        {[['registrar', 'Registrar lote'], ['historial', 'Historial']].map(([v, l]) => (
+          <button key={v} onClick={() => setTab(v)}
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'
+            }`}>
+            {l}
+            {v === 'historial' && historial.length > 0 && (
+              <span className="ml-1.5 bg-gray-200 text-gray-600 text-xs px-1.5 py-0.5 rounded-full">{historial.length}</span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Registrar ──────────────────────────────────────────────────────── */}
+      {tab === 'registrar' && (
+        <div className="bg-white rounded-[10px] shadow-card p-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Producto</label>
+              <div className="flex gap-2 mb-3">
+                {[['existente', 'Producto existente'], ['nuevo', 'Nuevo producto']].map(([v, l]) => (
+                  <button key={v} type="button"
+                    onClick={() => { set('tipo', v); setErr(''); setOk('') }}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                      form.tipo === v
+                        ? 'border-[#004a99] bg-blue-50 text-[#004a99]'
+                        : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                    }`}>
+                    {l}
+                  </button>
+                ))}
+              </div>
+
+              {form.tipo === 'existente' && (
+                <select value={form.productoId} onChange={e => set('productoId', e.target.value)} className={INPUT}>
+                  <option value="">Seleccionar producto…</option>
+                  {productos.map(p => (
+                    <option key={p.id} value={p.id}>{p.nombre}{p.codigo ? ` — ${p.codigo}` : ''}</option>
+                  ))}
+                </select>
+              )}
+
+              {form.tipo === 'nuevo' && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Código <span className="text-red-500">*</span></label>
+                    <input className={INPUT} value={form.codigo} onChange={e => set('codigo', e.target.value)} placeholder="Ej: FQ-001"/>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Nombre <span className="text-red-500">*</span></label>
+                    <input className={INPUT} value={form.nombre} onChange={e => set('nombre', e.target.value)} placeholder="Nombre del producto"/>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Cantidad producida (kg/lt) <span className="text-red-500">*</span></label>
+              <input className={INPUT} type="number" min="0.01" step="0.01"
+                value={form.cantidad} onChange={e => set('cantidad', e.target.value)} placeholder="0"/>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de producción <span className="text-red-500">*</span></label>
+              <input className={INPUT} type="date"
+                value={form.fechaProduccion} onChange={e => set('fechaProduccion', e.target.value)}/>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">N° de lote</label>
+                <input className={INPUT} value={form.numeroLote}
+                  onChange={e => set('numeroLote', e.target.value)} placeholder="Ej: L2025-042"/>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de vencimiento</label>
+                <input className={INPUT} type="date"
+                  value={form.fechaVencimiento} onChange={e => set('fechaVencimiento', e.target.value)}/>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Notas</label>
+              <textarea className={INPUT + ' resize-none'} rows={2}
+                value={form.notas} onChange={e => set('notas', e.target.value)}
+                placeholder="Observaciones del lote…"/>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">COA (opcional)</label>
+              <input
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                onChange={e => setCoa(e.target.files?.[0] ?? null)}
+                className="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-[#004a99] hover:file:bg-blue-100 cursor-pointer"
+              />
+              {coaFile && <p className="text-xs text-gray-400 mt-1 truncate">{coaFile.name}</p>}
+            </div>
+
+            {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{err}</p>}
+            {ok  && <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">{ok}</p>}
+
+            <button type="submit" disabled={registrar.isPending}
+              className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+              {registrar.isPending && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
+              Registrar lote
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* ── Historial ──────────────────────────────────────────────────────── */}
+      {tab === 'historial' && (
+        <>
+          <div className="relative max-w-sm mb-4">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" value={busH} onChange={e => setBusH(e.target.value)}
+              placeholder="Buscar por producto, código o lote…"
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+          </div>
+
+          <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
+            {loadH
+              ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+              : histFiltrado.length === 0
+              ? <div className="p-12 text-center text-sm text-gray-400">Sin producciones registradas</div>
+              : (
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-100">
+                      <th className="text-left px-4 py-3 font-medium text-gray-500">Producto</th>
+                      <th className="text-left px-4 py-3 font-medium text-gray-500 w-28">Código</th>
+                      <th className="text-right px-4 py-3 font-medium text-gray-500 w-24">Cantidad</th>
+                      <th className="text-left px-4 py-3 font-medium text-gray-500 w-28">Producción</th>
+                      <th className="text-left px-4 py-3 font-medium text-gray-500 w-32">Lote</th>
+                      <th className="text-left px-4 py-3 font-medium text-gray-500 w-36">Vencimiento</th>
+                      <th className="text-center px-4 py-3 font-medium text-gray-500 w-16">COA</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-50">
+                    {histFiltrado.map(r => (
+                      <tr key={r.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-2.5 font-medium text-gray-900">{r.nombre}</td>
+                        <td className="px-4 py-2.5 font-mono text-xs text-gray-400">{r.codigo || '—'}</td>
+                        <td className="px-4 py-2.5 text-right font-medium text-gray-800">{r.cantidad}</td>
+                        <td className="px-4 py-2.5 text-gray-500">{fmtFecha(r.fecha_produccion)}</td>
+                        <td className="px-4 py-2.5 font-mono text-xs text-gray-500">{r.numero_lote || '—'}</td>
+                        <td className="px-4 py-2.5"><BadgeVto fecha={r.fecha_vencimiento}/></td>
+                        <td className="px-4 py-2.5 text-center">
+                          {r.coa_url
+                            ? <a href={r.coa_url} target="_blank" rel="noopener noreferrer"
+                                className="text-[#004a99] hover:underline text-xs font-medium">Ver</a>
+                            : <span className="text-gray-300">—</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )
+            }
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
