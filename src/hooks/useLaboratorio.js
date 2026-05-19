@@ -48,13 +48,38 @@ export function useSubirCoaLote() {
       const { error: upErr } = await db.storage.from('coas').upload(path, archivo, { upsert: true })
       if (upErr) throw new Error(`Error al subir archivo: ${upErr.message}`)
       const { data: { publicUrl } } = db.storage.from('coas').getPublicUrl(path)
-      const { error } = await db.from('producciones').update({ coa_url: publicUrl }).eq('id', loteId)
-      if (error) throw error
+      const { error: updErr } = await db.from('producciones').update({ coa_url: publicUrl }).eq('id', loteId)
+      if (updErr) throw updErr
+      const { data: { user } } = await supabase.auth.getUser()
+      const { error: verErr } = await db.from('coa_versiones').insert({
+        produccion_id: loteId,
+        url:           publicUrl,
+        creado_por:    user?.id ?? null,
+      })
+      if (verErr) throw verErr
     },
-    onSuccess: () => {
+    onSuccess: (_, { loteId }) => {
       qc.invalidateQueries({ queryKey: ['laboratorio', 'lotes-sin-coa'] })
       qc.invalidateQueries({ queryKey: ['laboratorio', 'lotes-con-coa'] })
+      qc.invalidateQueries({ queryKey: ['laboratorio', 'coa-versiones', loteId] })
     },
+  })
+}
+
+export function useCoaVersiones(produccionId) {
+  return useQuery({
+    queryKey: ['laboratorio', 'coa-versiones', produccionId],
+    enabled:  !!produccionId,
+    queryFn: async () => {
+      const { data, error } = await db
+        .from('coa_versiones')
+        .select('id, url, creado_en, creado_por')
+        .eq('produccion_id', produccionId)
+        .order('creado_en', { ascending: false })
+      if (error) throw error
+      return data ?? []
+    },
+    staleTime: 1000 * 30,
   })
 }
 
