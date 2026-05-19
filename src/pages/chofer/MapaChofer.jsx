@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef } from 'react'
-import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from '@react-google-maps/api'
+import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF, PolylineF } from '@react-google-maps/api'
 import { useEntregasChofer, useConfirmarEntrega, useRegistrarNoEntrega } from '../../hooks/useChofer'
+import { useSeguimientoChofer } from '../../hooks/useSeguimiento'
 
 const LIBRARIES = []
 const CENTER_DEFAULT = { lat: -34.6037, lng: -58.3816 }
@@ -62,6 +63,15 @@ function ModalNoEntrega({ oc, onConfirm, onClose, loading }) {
   )
 }
 
+function markerSvgChofer() {
+  return encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+      <circle cx="18" cy="18" r="14" fill="#2563eb" stroke="white" stroke-width="3"/>
+      <text x="18" y="23" text-anchor="middle" font-size="14" fill="white">🚚</text>
+    </svg>`
+  )
+}
+
 export default function MapaChofer() {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY
 
@@ -73,11 +83,22 @@ export default function MapaChofer() {
   const { data: ordenes = [], isLoading } = useEntregasChofer()
   const { mutate: confirmar, isPending: confirmando } = useConfirmarEntrega()
   const { mutate: noEntrega, isPending: registrando } = useRegistrarNoEntrega()
+  const { activo, error: errorGps, posActual, kmRecorridos, iniciar, detener } = useSeguimientoChofer()
 
   const [selected, setSelected] = useState(null)
   const [modalOC, setModalOC]   = useState(null)
   const mapRef = useRef(null)
   const onLoad = useCallback(map => { mapRef.current = map }, [])
+
+  // Centrar mapa en posición actual cuando cambia
+  const prevPosRef = useRef(null)
+  if (posActual && mapRef.current && (!prevPosRef.current ||
+    Math.abs(posActual.lat - prevPosRef.current.lat) > 0.0005 ||
+    Math.abs(posActual.lng - prevPosRef.current.lng) > 0.0005
+  )) {
+    prevPosRef.current = posActual
+    mapRef.current.panTo(posActual)
+  }
 
   const ordenesConPos = ordenes.filter(oc => {
     const cli = oc.cotizaciones?.clientes
@@ -105,6 +126,43 @@ export default function MapaChofer() {
     <div className="flex h-screen">
       {/* Panel izquierdo */}
       <div className="w-80 bg-white border-r border-gray-200 flex flex-col overflow-hidden flex-shrink-0">
+
+        {/* Control de seguimiento */}
+        <div className={`px-4 py-3 border-b ${activo ? 'bg-green-50 border-green-100' : 'border-gray-100'}`}>
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 min-w-0">
+              {activo
+                ? <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"/>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"/>
+                  </span>
+                : <span className="h-2.5 w-2.5 rounded-full bg-gray-300 flex-shrink-0"/>
+              }
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-gray-800">
+                  {activo ? 'Seguimiento activo' : 'Seguimiento inactivo'}
+                </p>
+                {activo && kmRecorridos > 0 && (
+                  <p className="text-[10px] text-gray-500">{kmRecorridos} km recorridos hoy</p>
+                )}
+                {errorGps && (
+                  <p className="text-[10px] text-red-600 truncate">{errorGps}</p>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={activo ? detener : iniciar}
+              className={`flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${
+                activo
+                  ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                  : 'bg-green-600 text-white hover:bg-green-700'
+              }`}
+            >
+              {activo ? 'Detener' : 'Iniciar'}
+            </button>
+          </div>
+        </div>
+
         <div className="px-4 py-4 border-b border-gray-100">
           <h1 className="text-base font-bold text-gray-900">Mapa de entregas</h1>
           <p className="text-xs text-gray-400 mt-0.5">
@@ -177,6 +235,19 @@ export default function MapaChofer() {
             onLoad={onLoad}
             options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: true }}
           >
+            {/* Marcador posición propia */}
+            {posActual && (
+              <MarkerF
+                position={posActual}
+                icon={{
+                  url: `data:image/svg+xml;charset=UTF-8,${markerSvgChofer()}`,
+                  scaledSize: new window.google.maps.Size(36, 36),
+                  anchor:     new window.google.maps.Point(18, 18),
+                }}
+                zIndex={100}
+              />
+            )}
+
             {ordenesConPos.map(oc => {
               const cli   = oc.cotizaciones?.clientes
               const items = oc.cotizaciones?.cotizacion_items ?? []

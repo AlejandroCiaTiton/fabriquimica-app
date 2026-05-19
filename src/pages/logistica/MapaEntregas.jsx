@@ -1,10 +1,21 @@
 import { useState, useCallback, useRef } from 'react'
-import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from '@react-google-maps/api'
+import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF, PolylineF } from '@react-google-maps/api'
 import { useOrdenesLogistica, useZonas, getUrgencia, checkStock, URGENCIA_CONFIG } from '../../hooks/useLogistica'
+import { useChoforesActivos, useRecorridoChofer } from '../../hooks/useSeguimiento'
 
 const LIBRARIES = []
 const CENTER_DEFAULT = { lat: -34.6037, lng: -58.3816 }
 const MAP_STYLE = { width: '100%', height: '100%' }
+
+function markerSvgChofer(nombre) {
+  const inicial = (nombre || '?')[0].toUpperCase()
+  return encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+      <circle cx="19" cy="19" r="15" fill="#2563eb" stroke="white" stroke-width="3"/>
+      <text x="19" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="white">${inicial}</text>
+    </svg>`
+  )
+}
 
 function markerSvg(color, sinStock) {
   const badge = sinStock
@@ -45,10 +56,14 @@ export default function MapaEntregas() {
 
   const { data: ordenes = [], isLoading } = useOrdenesLogistica()
   const { data: zonas = [] }              = useZonas()
+  const chofores                          = useChoforesActivos()
 
-  const [filtro, setFiltro]       = useState('todos')
+  const [filtro, setFiltro]             = useState('todos')
   const [soloSinStock, setSoloSinStock] = useState(false)
-  const [selected, setSelected]   = useState(null)
+  const [selected, setSelected]         = useState(null)
+  const [choferSelec, setChoferSelec]   = useState(null) // chofer_id para ver recorrido
+  const hoy = new Date().toISOString().split('T')[0]
+  const { data: recorrido = [] } = useRecorridoChofer(choferSelec, hoy)
   const mapRef = useRef(null)
 
   const onLoad = useCallback(map => { mapRef.current = map }, [])
@@ -142,6 +157,43 @@ export default function MapaEntregas() {
           </div>
         </div>
 
+        {/* Choferes activos */}
+        {chofores.length > 0 && (
+          <div className="px-4 py-2 border-b border-gray-100">
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"/>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"/>
+              </span>
+              Choferes en ruta ({chofores.length})
+            </p>
+            <div className="space-y-1">
+              {chofores.map(c => (
+                <button key={c.chofer_id}
+                  onClick={() => {
+                    setChoferSelec(prev => prev === c.chofer_id ? null : c.chofer_id)
+                    if (mapRef.current && c.lat && c.lng) {
+                      mapRef.current.panTo({ lat: Number(c.lat), lng: Number(c.lng) })
+                      mapRef.current.setZoom(14)
+                    }
+                  }}
+                  className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-sm transition-colors ${
+                    choferSelec === c.chofer_id ? 'bg-blue-50 text-blue-800' : 'hover:bg-gray-50 text-gray-700'
+                  }`}
+                >
+                  <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+                    {(c.perfiles?.nombre || '?')[0].toUpperCase()}
+                  </span>
+                  <span className="truncate font-medium">{c.perfiles?.nombre || 'Chofer'}</span>
+                  {choferSelec === c.chofer_id && (
+                    <span className="ml-auto text-[10px] text-blue-600 font-medium">Recorrido</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Lista de OCs */}
         <div className="flex-1 overflow-y-auto divide-y divide-gray-50">
           {filtradas.length === 0 && !isLoading && (
@@ -211,6 +263,41 @@ export default function MapaEntregas() {
             onLoad={onLoad}
             options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: true }}
           >
+            {/* Recorrido del chofer seleccionado */}
+            {recorrido.length > 1 && (
+              <PolylineF
+                path={recorrido.map(p => ({ lat: Number(p.lat), lng: Number(p.lng) }))}
+                options={{ strokeColor: '#2563eb', strokeWeight: 3, strokeOpacity: 0.7 }}
+              />
+            )}
+
+            {/* Marcadores de choferes activos */}
+            {chofores.map(c => c.lat && c.lng ? (
+              <MarkerF
+                key={c.chofer_id}
+                position={{ lat: Number(c.lat), lng: Number(c.lng) }}
+                icon={{
+                  url: `data:image/svg+xml;charset=UTF-8,${markerSvgChofer(c.perfiles?.nombre)}`,
+                  scaledSize: new window.google.maps.Size(38, 38),
+                  anchor:     new window.google.maps.Point(19, 19),
+                }}
+                zIndex={200}
+                onClick={() => setChoferSelec(prev => prev === c.chofer_id ? null : c.chofer_id)}
+              >
+                {choferSelec === c.chofer_id && (
+                  <InfoWindowF
+                    position={{ lat: Number(c.lat), lng: Number(c.lng) }}
+                    onCloseClick={() => setChoferSelec(null)}
+                  >
+                    <div className="text-sm">
+                      <p className="font-bold text-[#004a99]">{c.perfiles?.nombre || 'Chofer'}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">En ruta · {recorrido.length} puntos registrados</p>
+                    </div>
+                  </InfoWindowF>
+                )}
+              </MarkerF>
+            ) : null)}
+
             {filtradas.map(oc => {
               const cli   = oc.cotizaciones?.clientes
               if (!cli?.lat || !cli?.lng) return null
