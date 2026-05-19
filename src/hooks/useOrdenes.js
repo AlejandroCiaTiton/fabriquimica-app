@@ -15,8 +15,7 @@ const SELECT_OC = `
     )
   ),
   recepciones (oc_id, cot_item_id, estado, comentario, accion_correctiva, estado_gestion),
-  facturas (id, numero, pdf_url),
-  comprobantes_pago (id, url, creado_en)
+  facturas (id, numero, pdf_url)
 `
 
 // Misma estructura pero con inner join para poder filtrar por campos de cotizaciones
@@ -160,6 +159,24 @@ export function useAvanzarEstadoOC() {
       qc.invalidateQueries({ queryKey: ['logistica'] })
       qc.invalidateQueries({ queryKey: ['chofer'] })
     },
+  })
+}
+
+export function useComprobantesOC(ocIds = []) {
+  return useQuery({
+    queryKey: ['ordenes', 'comprobantes', ocIds],
+    enabled:  ocIds.length > 0,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('comprobantes_pago')
+        .select('id, oc_id, url, creado_en')
+        .in('oc_id', ocIds)
+        .order('creado_en', { ascending: false })
+      // Si la tabla aún no existe (migration pendiente), devolver vacío
+      if (error) return []
+      return data ?? []
+    },
+    staleTime: 1000 * 30,
   })
 }
 

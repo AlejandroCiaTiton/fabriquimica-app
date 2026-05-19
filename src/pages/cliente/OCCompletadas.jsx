@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useOrdenesCliente, useSubirComprobantePago } from '../../hooks/useOrdenes'
+import { useOrdenesCliente, useSubirComprobantePago, useComprobantesOC } from '../../hooks/useOrdenes'
 
 const PAGO_BADGE = {
   pendiente: { label: 'Pendiente', cls: 'bg-red-100 text-red-700' },
@@ -43,6 +43,9 @@ function BtnSubirComprobante({ ocId }) {
 export default function OCCompletadas() {
   const { data: ordenes = [], isLoading } = useOrdenesCliente()
   const completadas = ordenes.filter(o => o.recepcion_confirmada)
+  const ocIds       = completadas.map(o => o.id)
+  const { data: comprobantes = [] } = useComprobantesOC(ocIds)
+  const comprobanteMap = Object.fromEntries(comprobantes.map(c => [c.oc_id, c]))
 
   return (
     <div className="p-6">
@@ -73,11 +76,11 @@ export default function OCCompletadas() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {completadas.map(oc => {
-                  const recepciones  = oc.recepciones ?? []
-                  const hayProb      = recepciones.some(r => r.estado === 'prob' || r.estado === 'rech')
-                  const pagoBadge    = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
-                  const factura      = Array.isArray(oc.facturas) ? oc.facturas[0] : oc.facturas
-                  const comprobante  = Array.isArray(oc.comprobantes_pago) ? oc.comprobantes_pago[0] : oc.comprobantes_pago
+                  const recepciones = oc.recepciones ?? []
+                  const hayProb     = recepciones.some(r => r.estado === 'prob' || r.estado === 'rech')
+                  const pagoBadge   = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
+                  const factura     = Array.isArray(oc.facturas) ? oc.facturas[0] : oc.facturas
+                  const comprobante = comprobanteMap[oc.id]
 
                   return (
                     <tr key={oc.id} className="hover:bg-gray-50">

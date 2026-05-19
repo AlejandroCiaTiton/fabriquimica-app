@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useOrdenesCliente, useSubirComprobantePago } from '../../hooks/useOrdenes'
+import { useOrdenesCliente, useSubirComprobantePago, useComprobantesOC } from '../../hooks/useOrdenes'
 import { useMarcarItemRecepcion, useConfirmarRecepcion } from '../../hooks/useRecepciones'
 import { supabase } from '../../lib/supabase'
 
@@ -65,12 +65,11 @@ function BtnSubirComprobante({ ocId }) {
   )
 }
 
-function PanelDespacho({ oc }) {
+function PanelDespacho({ oc, comprobante }) {
   const tieneInfo = oc.numero_factura || oc.fecha_estimada_entrega || oc.estado_pago
   if (!tieneInfo) return null
-  const pago       = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
-  const factura    = Array.isArray(oc.facturas) ? oc.facturas[0] : oc.facturas
-  const comprobante = Array.isArray(oc.comprobantes_pago) ? oc.comprobantes_pago[0] : oc.comprobantes_pago
+  const pago    = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
+  const factura = Array.isArray(oc.facturas) ? oc.facturas[0] : oc.facturas
 
   return (
     <div className="mb-3 p-3 bg-blue-50 border border-blue-100 rounded-lg space-y-2">
@@ -270,7 +269,7 @@ function RecepcionForm({ oc }) {
   )
 }
 
-function OCCard({ oc }) {
+function OCCard({ oc, comprobante }) {
   const [expandido, setExpandido] = useState(false)
   const items = oc.cotizaciones?.cotizacion_items ?? []
 
@@ -300,7 +299,7 @@ function OCCard({ oc }) {
       </div>
 
       <PipelineBar estado={oc.estado} />
-      <PanelDespacho oc={oc} />
+      <PanelDespacho oc={oc} comprobante={comprobante} />
 
       {expandido && (
         <>
@@ -321,7 +320,10 @@ function OCCard({ oc }) {
 
 export default function OCEnCurso() {
   const { data: ordenes = [], isLoading } = useOrdenesCliente()
-  const enCurso = ordenes.filter(o => !o.recepcion_confirmada)
+  const enCurso  = ordenes.filter(o => !o.recepcion_confirmada)
+  const ocIds    = enCurso.map(o => o.id)
+  const { data: comprobantes = [] } = useComprobantesOC(ocIds)
+  const comprobanteMap = Object.fromEntries(comprobantes.map(c => [c.oc_id, c]))
 
   return (
     <div className="p-6">
@@ -331,7 +333,7 @@ export default function OCEnCurso() {
       </div>
       {isLoading && <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>}
       {!isLoading && enCurso.length === 0 && <div className="text-center py-12 text-gray-400 text-sm">No hay órdenes en curso.</div>}
-      {!isLoading && <div className="space-y-3 max-w-2xl">{enCurso.map(oc => <OCCard key={oc.id} oc={oc}/>)}</div>}
+      {!isLoading && <div className="space-y-3 max-w-2xl">{enCurso.map(oc => <OCCard key={oc.id} oc={oc} comprobante={comprobanteMap[oc.id]}/>)}</div>}
     </div>
   )
 }
