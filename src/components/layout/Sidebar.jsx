@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useVendedorAlertas } from '../../hooks/useAlertas'
 import { useClientesConDeuda } from '../../hooks/useFinanzas'
 import { usePedidosExpo } from '../../hooks/useExpo'
+import { useSolicitudesPendientesCount } from '../../hooks/useMuestras'
 
 const iconos = {
   stock:         'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
@@ -21,6 +22,7 @@ const iconos = {
   expo_cotizaciones:     'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064',
   expo_nueva:            'M12 4v16m8-8H4',
   alta_empresa:          'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+  muestras:              'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
 }
 
 function NavItem({ to, icon, label, soon, badge }) {
@@ -58,7 +60,8 @@ export default function Sidebar() {
   const { data: alertas }    = useVendedorAlertas()
   const { data: deudaCount } = useClientesConDeuda()
   const { data: pedidosExpo = [] } = usePedidosExpo({ enabled: isVendedorExpo })
-  const expoCount = pedidosExpo.filter(p => p.estado === 'cotizado').length
+  const expoCount     = pedidosExpo.filter(p => p.estado === 'cotizado').length
+  const muestrasCount = useSolicitudesPendientesCount()
 
   async function handleLogout() {
     await logout()
@@ -81,6 +84,7 @@ export default function Sidebar() {
             <NavItem to="/vendedor/expo-cotizaciones"  icon="expo_cotizaciones"  label="Cotizaciones EXPO" badge={expoCount} />
             <NavItem to="/vendedor/expo-nueva"         icon="expo_nueva"         label="Nueva cotización EXPO" />
             <NavItem to="/vendedor/ordenes"            icon="ordenes"            label="Órdenes de compra" badge={alertas?.ordenes} />
+            <NavItem to="/vendedor/muestras"           icon="muestras"           label="Muestras" badge={muestrasCount} />
             <NavItem to="/vendedor/alta-empresa"       icon="alta_empresa"       label="Alta de empresa" />
           </>
         ) : (
@@ -90,6 +94,7 @@ export default function Sidebar() {
             <NavItem to="/vendedor/solicitudes"  icon="solicitudes"   label="Solicitudes"  badge={alertas?.solicitudes} />
             <NavItem to="/vendedor/cotizaciones" icon="cotizaciones" label="Cotizaciones" badge={alertas?.cotizaciones} />
             <NavItem to="/vendedor/ordenes"      icon="ordenes"      label="Órdenes"      badge={alertas?.ordenes} />
+            <NavItem to="/vendedor/muestras"     icon="muestras"     label="Muestras"     badge={muestrasCount} />
             <NavItem to="/vendedor/alta-empresa" icon="alta_empresa" label="Alta de empresa" />
             <NavItem to="/vendedor/historico"    icon="historico"    label="Histórico de compras" />
             <NavItem to="/vendedor/directorio"   icon="directorio"   label="Directorio de clientes" />

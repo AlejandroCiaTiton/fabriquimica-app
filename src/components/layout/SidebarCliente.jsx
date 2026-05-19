@@ -7,6 +7,7 @@ const ICONOS = {
   encurso:     'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
   historial:   'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   empresa:     'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+  muestras:    'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
 }
 
 function NavItem({ to, icon, label, badge }) {
@@ -34,7 +35,7 @@ function NavItem({ to, icon, label, badge }) {
   )
 }
 
-export default function SidebarCliente({ badgeCotizaciones = 0, perfilIncompleto = false }) {
+export default function SidebarCliente({ badgeCotizaciones = 0, perfilIncompleto = false, badgeMuestras = 0 }) {
   const { perfil, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -55,7 +56,8 @@ export default function SidebarCliente({ badgeCotizaciones = 0, perfilIncompleto
         <NavItem to="/cliente/cotizaciones"    icon="cotizaciones" label="Mis Cotizaciones" badge={badgeCotizaciones} />
         <NavItem to="/cliente/oc-en-curso"     icon="encurso"      label="OC en Curso" />
         <NavItem to="/cliente/oc-completadas"  icon="historial"    label="OC Completadas" />
-        <NavItem to="/cliente/mi-empresa"      icon="empresa"      label="Mi Empresa" badge={perfilIncompleto ? '!' : 0} />
+        <NavItem to="/cliente/muestras"        icon="muestras"     label="Muestras"       badge={badgeMuestras} />
+        <NavItem to="/cliente/mi-empresa"      icon="empresa"      label="Mi Empresa"     badge={perfilIncompleto ? '!' : 0} />
       </nav>
 
       <div className="border-t border-gray-100 px-4 py-3">

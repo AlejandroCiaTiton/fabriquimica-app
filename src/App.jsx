@@ -13,7 +13,8 @@ const StockVendedor   = lazy(() => import('./pages/vendedor/StockVendedor'))
 const NuevaCotizacion = lazy(() => import('./pages/vendedor/NuevaCotizacion'))
 const Cotizaciones    = lazy(() => import('./pages/vendedor/Cotizaciones'))
 const Solicitudes     = lazy(() => import('./pages/vendedor/Solicitudes'))
-const OrdenesCopra    = lazy(() => import('./pages/vendedor/OrdenesCopra'))
+const OrdenesCopra      = lazy(() => import('./pages/vendedor/OrdenesCopra'))
+const MuestrasVendedor  = lazy(() => import('./pages/vendedor/MuestrasVendedor'))
 const Estadisticas    = lazy(() => import('./pages/vendedor/Estadisticas'))
 const PlanVentas      = lazy(() => import('./pages/vendedor/PlanVentas'))
 const AltaVendedor    = lazy(() => import('./pages/vendedor/AltaVendedor'))
@@ -26,6 +27,7 @@ const MisCotizaciones = lazy(() => import('./pages/cliente/MisCotizaciones'))
 const OCEnCurso       = lazy(() => import('./pages/cliente/OCEnCurso'))
 const OCCompletadas   = lazy(() => import('./pages/cliente/OCCompletadas'))
 const PerfilEmpresa   = lazy(() => import('./pages/cliente/PerfilEmpresa'))
+const MuestrasCliente = lazy(() => import('./pages/cliente/MuestrasCliente'))
 const AdminLayout     = lazy(() => import('./pages/admin/AdminLayout'))
 const Precios         = lazy(() => import('./pages/admin/Precios'))
 const Stock           = lazy(() => import('./pages/admin/Stock'))
@@ -149,6 +151,7 @@ function AppRoutes() {
           <Route path="expo-cotizaciones"    element={<CotizacionesExpo />} />
           <Route path="expo-nueva"           element={<NuevaCotizacionExpo />} />
           <Route path="alta-empresa"         element={<AltaEmpresaVendedor />} />
+          <Route path="muestras"             element={<MuestrasVendedor />} />
         </Route>
 
         {/* Cliente */}
@@ -162,6 +165,7 @@ function AppRoutes() {
           <Route path="cotizaciones"    element={<MisCotizaciones />} />
           <Route path="oc-en-curso"     element={<OCEnCurso />} />
           <Route path="oc-completadas"  element={<OCCompletadas />} />
+          <Route path="muestras"        element={<MuestrasCliente />} />
           <Route path="mi-empresa"      element={<PerfilEmpresa />} />
         </Route>
 
