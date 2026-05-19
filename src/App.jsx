@@ -25,6 +25,7 @@ const NuevaSolicitud  = lazy(() => import('./pages/cliente/NuevaSolicitud'))
 const MisCotizaciones = lazy(() => import('./pages/cliente/MisCotizaciones'))
 const OCEnCurso       = lazy(() => import('./pages/cliente/OCEnCurso'))
 const OCCompletadas   = lazy(() => import('./pages/cliente/OCCompletadas'))
+const PerfilEmpresa   = lazy(() => import('./pages/cliente/PerfilEmpresa'))
 const AdminLayout     = lazy(() => import('./pages/admin/AdminLayout'))
 const Precios         = lazy(() => import('./pages/admin/Precios'))
 const Stock           = lazy(() => import('./pages/admin/Stock'))
@@ -161,6 +162,7 @@ function AppRoutes() {
           <Route path="cotizaciones"    element={<MisCotizaciones />} />
           <Route path="oc-en-curso"     element={<OCEnCurso />} />
           <Route path="oc-completadas"  element={<OCCompletadas />} />
+          <Route path="mi-empresa"      element={<PerfilEmpresa />} />
         </Route>
 
         {/* Admin */}

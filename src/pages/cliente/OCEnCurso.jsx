@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useOrdenesCliente } from '../../hooks/useOrdenes'
+import { useOrdenesCliente, useSubirComprobantePago } from '../../hooks/useOrdenes'
 import { useMarcarItemRecepcion, useConfirmarRecepcion } from '../../hooks/useRecepciones'
 import { supabase } from '../../lib/supabase'
 
@@ -37,16 +37,58 @@ function PipelineBar({ estado }) {
   )
 }
 
+function BtnSubirComprobante({ ocId }) {
+  const subir = useSubirComprobantePago()
+  const [uploading, setUploading] = useState(false)
+
+  async function handleFile(e) {
+    const file = e.target.files[0]
+    if (!file) return
+    setUploading(true)
+    try { await subir.mutateAsync({ ocId, file }) }
+    finally { setUploading(false); e.target.value = '' }
+  }
+
+  return (
+    <label className={`flex items-center gap-1.5 cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${
+      uploading ? 'border-gray-200 text-gray-400' : 'border-[#004a99] text-[#004a99] hover:bg-blue-50'
+    }`}>
+      <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden" disabled={uploading} onChange={handleFile}/>
+      {uploading
+        ? <><div className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"/> Subiendo…</>
+        : <><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+          </svg>
+          Subir comprobante</>
+      }
+    </label>
+  )
+}
+
 function PanelDespacho({ oc }) {
   const tieneInfo = oc.numero_factura || oc.fecha_estimada_entrega || oc.estado_pago
   if (!tieneInfo) return null
-  const pago = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
+  const pago       = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
+  const factura    = Array.isArray(oc.facturas) ? oc.facturas[0] : oc.facturas
+  const comprobante = Array.isArray(oc.comprobantes_pago) ? oc.comprobantes_pago[0] : oc.comprobantes_pago
+
   return (
-    <div className="mb-3 p-3 bg-blue-50 border border-blue-100 rounded-lg space-y-1.5">
-      <p className="text-[10px] font-semibold text-[#004a99] uppercase tracking-wide mb-2">Información de despacho</p>
-      <div className="flex flex-wrap gap-3 text-xs text-gray-700">
+    <div className="mb-3 p-3 bg-blue-50 border border-blue-100 rounded-lg space-y-2">
+      <p className="text-[10px] font-semibold text-[#004a99] uppercase tracking-wide">Información de despacho</p>
+      <div className="flex flex-wrap gap-3 text-xs text-gray-700 items-center">
         {oc.numero_factura && (
-          <span>Factura: <span className="font-semibold">{oc.numero_factura}</span></span>
+          <span className="flex items-center gap-1">
+            Factura: <span className="font-semibold">{oc.numero_factura}</span>
+            {factura?.pdf_url && (
+              <a href={factura.pdf_url} target="_blank" rel="noopener noreferrer"
+                className="ml-1 text-[#004a99] hover:underline flex items-center gap-0.5 font-semibold">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                PDF
+              </a>
+            )}
+          </span>
         )}
         {oc.fecha_estimada_entrega && (
           <span>Entrega estimada: <span className="font-semibold">
@@ -58,6 +100,18 @@ function PanelDespacho({ oc }) {
             {pago.label}
           </span>
         )}
+      </div>
+      <div className="pt-1 border-t border-blue-100 flex items-center gap-3 flex-wrap">
+        {comprobante
+          ? <a href={comprobante.url} target="_blank" rel="noopener noreferrer"
+              className="text-xs text-green-700 font-medium flex items-center gap-1 hover:underline">
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Comprobante de pago cargado
+            </a>
+          : <BtnSubirComprobante ocId={oc.id}/>
+        }
       </div>
     </div>
   )

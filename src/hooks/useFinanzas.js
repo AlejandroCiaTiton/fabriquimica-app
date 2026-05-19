@@ -133,6 +133,35 @@ export function useEmitirFactura() {
   })
 }
 
+// ── PDF de factura ────────────────────────────────────────────────────────────
+
+export function useSubirFacturaPDF() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ facturaId, file }) => {
+      const ext  = file.name.split('.').pop()
+      const path = `${facturaId}.${ext}`
+      const { error: upErr } = await db.storage
+        .from('facturas')
+        .upload(path, file, { upsert: true })
+      if (upErr) throw upErr
+      const { data: { publicUrl } } = db.storage
+        .from('facturas')
+        .getPublicUrl(path)
+      const { error: dbErr } = await db
+        .from('facturas')
+        .update({ pdf_url: publicUrl })
+        .eq('id', facturaId)
+      if (dbErr) throw dbErr
+      return publicUrl
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['finanzas'] })
+      qc.invalidateQueries({ queryKey: ['ordenes'] })
+    },
+  })
+}
+
 // ── Estado de pago ────────────────────────────────────────────────────────────
 
 export function useActualizarEstadoPago() {

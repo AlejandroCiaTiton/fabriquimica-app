@@ -41,7 +41,7 @@ function useClientesAdmin() {
     queryFn: async () => {
       const { data, error } = await db
         .from('clientes')
-        .select('id, razon_social, cuit, pais, es_exterior, direccion, condicion_pago, estado, vendedor_id, vendedores(id, perfiles(nombre)), contactos(id, nombre, tipo, email, telefono)')
+        .select('id, razon_social, cuit, pais, es_exterior, direccion, condicion_pago, estado, vendedor_id, afip_url, ingresos_brutos_url, cm05_url, horario_entrega, telefonos_recepcion, vendedores(id, perfiles(nombre)), contactos(id, nombre, tipo, email, telefono)')
         .order('razon_social')
       if (error) throw error
       return data
@@ -239,6 +239,7 @@ export default function MaestroClientes() {
                 <th className="text-left px-4 py-3 font-medium text-gray-500 w-36">Vendedor</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-500 w-32">Zona</th>
                 <th className="text-center px-4 py-3 font-medium text-gray-500 w-24">Coords.</th>
+                <th className="text-center px-4 py-3 font-medium text-gray-500 w-20">Docs</th>
                 <th className="text-center px-4 py-3 font-medium text-gray-500 w-24">Contactos</th>
                 <th className="text-center px-4 py-3 font-medium text-gray-500 w-28">Estado</th>
               </tr>
@@ -302,6 +303,13 @@ export default function MaestroClientes() {
                           {geocodingId === c.id ? '…' : 'Geocodificar'}
                         </button>
                     }
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    <div className="flex items-center justify-center gap-1" title={`AFIP: ${c.afip_url ? 'OK' : '—'} | IIBB: ${c.ingresos_brutos_url ? 'OK' : '—'} | CM05: ${c.cm05_url ? 'OK' : '—'}`}>
+                      <span className={`w-2 h-2 rounded-full ${c.afip_url ? 'bg-blue-500' : 'bg-gray-200'}`} title="AFIP"/>
+                      <span className={`w-2 h-2 rounded-full ${c.ingresos_brutos_url ? 'bg-green-500' : 'bg-gray-200'}`} title="IIBB"/>
+                      <span className={`w-2 h-2 rounded-full ${c.cm05_url ? 'bg-amber-500' : 'bg-gray-200'}`} title="CM05"/>
+                    </div>
                   </td>
                   <td className="px-4 py-2 text-center">
                     <button onClick={() => setModalCliente(c)}

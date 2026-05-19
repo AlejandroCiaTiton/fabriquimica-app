@@ -6,6 +6,7 @@ const ICONOS = {
   cotizaciones:'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
   encurso:     'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
   historial:   'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  empresa:     'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
 }
 
 function NavItem({ to, icon, label, badge }) {
@@ -33,7 +34,7 @@ function NavItem({ to, icon, label, badge }) {
   )
 }
 
-export default function SidebarCliente({ badgeCotizaciones = 0 }) {
+export default function SidebarCliente({ badgeCotizaciones = 0, perfilIncompleto = false }) {
   const { perfil, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -54,6 +55,7 @@ export default function SidebarCliente({ badgeCotizaciones = 0 }) {
         <NavItem to="/cliente/cotizaciones"    icon="cotizaciones" label="Mis Cotizaciones" badge={badgeCotizaciones} />
         <NavItem to="/cliente/oc-en-curso"     icon="encurso"      label="OC en Curso" />
         <NavItem to="/cliente/oc-completadas"  icon="historial"    label="OC Completadas" />
+        <NavItem to="/cliente/mi-empresa"      icon="empresa"      label="Mi Empresa" badge={perfilIncompleto ? '!' : 0} />
       </nav>
 
       <div className="border-t border-gray-100 px-4 py-3">

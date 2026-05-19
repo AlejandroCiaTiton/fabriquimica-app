@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useOCsFinanzas, useEmitirFactura, sinFactura } from '../../hooks/useFinanzas'
+import { useOCsFinanzas, useEmitirFactura, useSubirFacturaPDF, sinFactura } from '../../hooks/useFinanzas'
 import { TIPOS_COMPROBANTE, PUNTO_VENTA_DEFAULT, AFIP_ENABLED } from '../../lib/afip'
 
 const ESTADO_LABEL = {
@@ -19,11 +19,14 @@ function fmtMoneda(n) {
 }
 
 function ModalEmitir({ oc, onClose }) {
-  const [tipo,       setTipo]      = useState('B')
-  const [puntoVenta, setPuntoVenta] = useState(PUNTO_VENTA_DEFAULT)
-  const [resultado,  setResultado] = useState(null)
-  const [err,        setErr]       = useState('')
-  const emitir = useEmitirFactura()
+  const [tipo,        setTipo]      = useState('B')
+  const [puntoVenta,  setPuntoVenta] = useState(PUNTO_VENTA_DEFAULT)
+  const [resultado,   setResultado] = useState(null)
+  const [err,         setErr]       = useState('')
+  const [pdfUploading, setPdfUploading] = useState(false)
+  const [pdfUrl,      setPdfUrl]    = useState(null)
+  const emitir    = useEmitirFactura()
+  const subirPDF  = useSubirFacturaPDF()
 
   const cliente = oc.cotizaciones?.clientes?.razon_social ?? '—'
   const total   = oc.cotizaciones?.total ?? 0
@@ -165,6 +168,43 @@ function ModalEmitir({ oc, onClose }) {
                   <p className="text-[10px] text-yellow-600">⚠ CAE simulado — no válido ante AFIP</p>
                 )}
               </div>
+
+              {/* PDF upload */}
+              <div className="border border-gray-200 rounded-lg px-4 py-3">
+                <p className="text-xs font-semibold text-gray-600 mb-2">Adjuntar PDF de factura (opcional)</p>
+                {pdfUrl
+                  ? <div className="flex items-center gap-2 text-green-700 text-xs">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                      PDF adjunto correctamente
+                      <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="ml-auto text-[#004a99] hover:underline font-medium">Ver</a>
+                    </div>
+                  : <label className={`flex items-center gap-2 cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border w-fit transition-colors ${
+                      pdfUploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-600 hover:border-[#004a99] hover:text-[#004a99]'
+                    }`}>
+                      <input type="file" accept=".pdf" className="hidden" disabled={pdfUploading}
+                        onChange={async e => {
+                          const file = e.target.files[0]
+                          if (!file || !resultado.factura?.id) return
+                          setPdfUploading(true)
+                          try {
+                            const url = await subirPDF.mutateAsync({ facturaId: resultado.factura.id, file })
+                            setPdfUrl(url)
+                          } finally { setPdfUploading(false); e.target.value = '' }
+                        }}
+                      />
+                      {pdfUploading
+                        ? <><div className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"/> Subiendo…</>
+                        : <><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                          </svg>
+                          Subir PDF</>
+                      }
+                    </label>
+                }
+              </div>
+
               <button onClick={onClose}
                 className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-lg transition-colors">
                 Cerrar

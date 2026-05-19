@@ -14,7 +14,9 @@ const SELECT_OC = `
       productos (id, codigo, nombre, presentacion)
     )
   ),
-  recepciones (oc_id, cot_item_id, estado, comentario, accion_correctiva, estado_gestion)
+  recepciones (oc_id, cot_item_id, estado, comentario, accion_correctiva, estado_gestion),
+  facturas (id, numero, pdf_url),
+  comprobantes_pago (id, url, creado_en)
 `
 
 // Misma estructura pero con inner join para poder filtrar por campos de cotizaciones
@@ -158,5 +160,29 @@ export function useAvanzarEstadoOC() {
       qc.invalidateQueries({ queryKey: ['logistica'] })
       qc.invalidateQueries({ queryKey: ['chofer'] })
     },
+  })
+}
+
+export function useSubirComprobantePago() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ ocId, file }) => {
+      const { data: { user } } = await supabase.auth.getUser()
+      const ext  = file.name.split('.').pop()
+      const path = `${ocId}/${Date.now()}.${ext}`
+      const { error: upErr } = await supabase.storage
+        .from('comprobantes')
+        .upload(path, file, { upsert: false })
+      if (upErr) throw upErr
+      const { data: { publicUrl } } = supabase.storage
+        .from('comprobantes')
+        .getPublicUrl(path)
+      const { error: dbErr } = await supabase
+        .from('comprobantes_pago')
+        .insert({ oc_id: ocId, url: publicUrl, subido_por: user.id })
+      if (dbErr) throw dbErr
+      return publicUrl
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['ordenes'] }),
   })
 }
