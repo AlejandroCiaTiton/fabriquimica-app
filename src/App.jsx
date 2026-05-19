@@ -63,7 +63,8 @@ const LaboratorioLayout    = lazy(() => import('./pages/laboratorio/LaboratorioL
 const CoasLaboratorio      = lazy(() => import('./pages/laboratorio/CoasLaboratorio'))
 const MuestrasLaboratorio  = lazy(() => import('./pages/laboratorio/MuestrasLaboratorio'))
 const ContratiposLaboratorio = lazy(() => import('./pages/laboratorio/ContratiposLaboratorio'))
-const DesarrollosLaboratorio = lazy(() => import('./pages/laboratorio/DesarrollosLaboratorio'))
+const DesarrollosLaboratorio  = lazy(() => import('./pages/laboratorio/DesarrollosLaboratorio'))
+const DocumentosLaboratorio   = lazy(() => import('./pages/laboratorio/DocumentosLaboratorio'))
 const Transportistas       = lazy(() => import('./pages/logistica/Transportistas'))
 const CronogramaEnvios     = lazy(() => import('./pages/logistica/CronogramaEnvios'))
 
@@ -261,6 +262,7 @@ function AppRoutes() {
         }>
           <Route index element={<Navigate to="coas" replace />} />
           <Route path="coas"        element={<CoasLaboratorio />} />
+          <Route path="documentos"  element={<DocumentosLaboratorio />} />
           <Route path="muestras"    element={<MuestrasLaboratorio />} />
           <Route path="contratipos" element={<ContratiposLaboratorio />} />
           <Route path="desarrollos" element={<DesarrollosLaboratorio />} />

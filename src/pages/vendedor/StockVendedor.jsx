@@ -11,7 +11,7 @@ function useStockVendedor() {
     queryFn: async () => {
       const { data, error } = await db
         .from('productos')
-        .select('id, codigo, nombre, presentacion, stock_actual(cantidad)')
+        .select('id, codigo, nombre, presentacion, ficha_tecnica_url, tds_url, hoja_seguridad_url, stock_actual(cantidad)')
         .order('nombre')
       if (error) throw error
       return data ?? []
@@ -90,6 +90,40 @@ function PanelDetalle({ producto, onClose }) {
           </button>
         </div>
       </div>
+
+      {/* Documentos del producto */}
+      {(producto.ficha_tecnica_url || producto.tds_url || producto.hoja_seguridad_url) && (
+        <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide mr-1">Docs</span>
+          {producto.ficha_tecnica_url && (
+            <a href={producto.ficha_tecnica_url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 hover:opacity-80">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+              </svg>
+              Ficha Técnica
+            </a>
+          )}
+          {producto.tds_url && (
+            <a href={producto.tds_url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700 hover:opacity-80">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+              </svg>
+              TDS
+            </a>
+          )}
+          {producto.hoja_seguridad_url && (
+            <a href={producto.hoja_seguridad_url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 hover:opacity-80">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+              </svg>
+              Hoja de Seguridad
+            </a>
+          )}
+        </div>
+      )}
 
       {/* Movimientos */}
       <div className="flex-1 overflow-y-auto">

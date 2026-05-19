@@ -13,6 +13,9 @@ export function useProductos() {
           nombre,
           presentacion,
           activo,
+          ficha_tecnica_url,
+          tds_url,
+          hoja_seguridad_url,
           precios_actuales (
             lista1_may,
             lista4_std,

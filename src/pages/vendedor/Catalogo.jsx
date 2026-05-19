@@ -121,6 +121,7 @@ export default function Catalogo() {
                 <th className="text-left px-4 py-3 font-medium text-gray-500 w-32">Código</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-500">Producto</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-500 w-40">Presentación</th>
+                <th className="text-center px-4 py-3 font-medium text-gray-500 w-28">Docs</th>
                 <th className="text-right px-4 py-3 font-medium text-gray-500 w-32">
                   {LISTAS.find(l => l.key === lista)?.title}
                 </th>
@@ -130,7 +131,7 @@ export default function Catalogo() {
             <tbody className="divide-y divide-gray-50">
               {filtrados.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-10 text-center text-gray-400">
+                  <td colSpan={6} className="px-4 py-10 text-center text-gray-400">
                     No se encontraron productos para "{busqueda}"
                   </td>
                 </tr>
@@ -142,6 +143,28 @@ export default function Catalogo() {
                       <td className="px-4 py-2.5 font-mono text-xs text-gray-500">{p.codigo}</td>
                       <td className="px-4 py-2.5 font-medium text-gray-900">{p.nombre}</td>
                       <td className="px-4 py-2.5 text-gray-500">{p.presentacion || '—'}</td>
+                      <td className="px-4 py-2.5">
+                        <div className="flex items-center justify-center gap-1">
+                          {p.ficha_tecnica_url && (
+                            <a href={p.ficha_tecnica_url} target="_blank" rel="noopener noreferrer"
+                              title="Ficha Técnica"
+                              className="text-xs font-semibold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 hover:opacity-80">FT</a>
+                          )}
+                          {p.tds_url && (
+                            <a href={p.tds_url} target="_blank" rel="noopener noreferrer"
+                              title="Technical Data Sheet"
+                              className="text-xs font-semibold px-1.5 py-0.5 rounded bg-green-100 text-green-700 hover:opacity-80">TDS</a>
+                          )}
+                          {p.hoja_seguridad_url && (
+                            <a href={p.hoja_seguridad_url} target="_blank" rel="noopener noreferrer"
+                              title="Hoja de Seguridad"
+                              className="text-xs font-semibold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 hover:opacity-80">HS</a>
+                          )}
+                          {!p.ficha_tecnica_url && !p.tds_url && !p.hoja_seguridad_url && (
+                            <span className="text-gray-300">—</span>
+                          )}
+                        </div>
+                      </td>
                       <td className="px-4 py-2.5 text-right font-medium text-gray-800">
                         {formatUSD(getPrecio(p, lista))}
                       </td>

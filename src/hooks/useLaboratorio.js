@@ -161,6 +161,44 @@ export function useActualizarDesarrollo() {
   })
 }
 
+// ── Documentos de producto ────────────────────────────────────────────────────
+
+export function useProductosDocumentos() {
+  return useQuery({
+    queryKey: ['laboratorio', 'documentos-producto'],
+    queryFn: async () => {
+      const { data, error } = await db
+        .from('productos')
+        .select('id, codigo, nombre, presentacion, ficha_tecnica_url, tds_url, hoja_seguridad_url')
+        .eq('activo', true)
+        .order('nombre')
+      if (error) throw error
+      return data ?? []
+    },
+    staleTime: 1000 * 30,
+  })
+}
+
+export function useSubirDocumentoProducto() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ productoId, tipo, archivo }) => {
+      const ext  = archivo.name.split('.').pop()
+      const path = `productos/${productoId}/${tipo}.${ext}`
+      const { error: upErr } = await db.storage.from('documentos').upload(path, archivo, { upsert: true })
+      if (upErr) throw new Error(`Error al subir archivo: ${upErr.message}`)
+      const { data: { publicUrl } } = db.storage.from('documentos').getPublicUrl(path)
+      const { error } = await db.from('productos').update({ [tipo]: publicUrl }).eq('id', productoId)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['laboratorio', 'documentos-producto'] })
+      qc.invalidateQueries({ queryKey: ['productos'] })
+      qc.invalidateQueries({ queryKey: ['vendedor', 'stock'] })
+    },
+  })
+}
+
 // ── Contratipos (migrado de admin) ────────────────────────────────────────────
 
 export function useContratipos() {
