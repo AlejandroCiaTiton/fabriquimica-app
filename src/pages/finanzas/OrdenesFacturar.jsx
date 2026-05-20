@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useOCsFinanzas, useEmitirFactura, useSubirFacturaPDF, sinFactura } from '../../hooks/useFinanzas'
 import { TIPOS_COMPROBANTE, PUNTO_VENTA_DEFAULT, AFIP_ENABLED } from '../../lib/afip'
+import { fmtFecha } from '../../utils/calc'
 
 const ESTADO_LABEL = {
   'recibida':       { label: 'Recibida',       cls: 'bg-blue-100 text-blue-700' },
@@ -9,22 +10,19 @@ const ESTADO_LABEL = {
   'entregada':      { label: 'Entregada',      cls: 'bg-gray-100 text-gray-600' },
 }
 
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str).toLocaleDateString('es-AR')
-}
-
 function fmtMoneda(n) {
   return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(n ?? 0)
 }
 
 function ModalEmitir({ oc, onClose }) {
-  const [tipo,        setTipo]      = useState('B')
-  const [puntoVenta,  setPuntoVenta] = useState(PUNTO_VENTA_DEFAULT)
-  const [resultado,   setResultado] = useState(null)
-  const [err,         setErr]       = useState('')
-  const [pdfUploading, setPdfUploading] = useState(false)
-  const [pdfUrl,      setPdfUrl]    = useState(null)
+  const [tipo,            setTipo]          = useState('B')
+  const [puntoVenta,      setPuntoVenta]    = useState(PUNTO_VENTA_DEFAULT)
+  const [fechaVencimiento, setFechaVenc]   = useState('')
+  const [resultado,       setResultado]    = useState(null)
+  const [err,             setErr]          = useState('')
+  const [pdfUploading,    setPdfUploading] = useState(false)
+  const [pdfUrl,          setPdfUrl]       = useState(null)
+  const [pdfErr,          setPdfErr]       = useState('')
   const emitir    = useEmitirFactura()
   const subirPDF  = useSubirFacturaPDF()
 
@@ -35,7 +33,10 @@ function ModalEmitir({ oc, onClose }) {
   async function handleEmitir() {
     setErr(''); setResultado(null)
     try {
-      const res = await emitir.mutateAsync({ oc, tipoComprobante: tipo, puntoVenta })
+      const res = await emitir.mutateAsync({
+        oc, tipoComprobante: tipo, puntoVenta,
+        fechaVencimiento: fechaVencimiento || undefined,
+      })
       setResultado(res)
     } catch (e) {
       setErr(e.message)
@@ -128,6 +129,18 @@ function ModalEmitir({ oc, onClose }) {
                 />
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Vencimiento del pago
+                  <span className="ml-1 text-xs font-normal text-gray-400">(para análisis de deudores)</span>
+                </label>
+                <input type="date"
+                  value={fechaVencimiento}
+                  onChange={e => setFechaVenc(e.target.value)}
+                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                />
+              </div>
+
               {!AFIP_ENABLED && (
                 <div className="flex items-start gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2.5 text-xs text-yellow-800">
                   <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
@@ -164,6 +177,12 @@ function ModalEmitir({ oc, onClose }) {
                   <span className="text-gray-500">Vto. CAE</span>
                   <span className="text-gray-700">{fmtFecha(resultado.afipResult?.caeVencimiento)}</span>
                 </div>
+                {resultado.fechaVencimiento && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Vto. pago</span>
+                    <span className="font-medium text-gray-900">{fmtFecha(resultado.fechaVencimiento)}</span>
+                  </div>
+                )}
                 {resultado.afipResult?.stub && (
                   <p className="text-[10px] text-yellow-600">⚠ CAE simulado — no válido ante AFIP</p>
                 )}
@@ -172,6 +191,7 @@ function ModalEmitir({ oc, onClose }) {
               {/* PDF upload */}
               <div className="border border-gray-200 rounded-lg px-4 py-3">
                 <p className="text-xs font-semibold text-gray-600 mb-2">Adjuntar PDF de factura (opcional)</p>
+                {pdfErr && <p className="text-xs text-red-600 bg-red-50 border border-red-100 rounded px-2 py-1.5 mb-2">{pdfErr}</p>}
                 {pdfUrl
                   ? <div className="flex items-center gap-2 text-green-700 text-xs">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -187,10 +207,12 @@ function ModalEmitir({ oc, onClose }) {
                         onChange={async e => {
                           const file = e.target.files[0]
                           if (!file || !resultado.factura?.id) return
-                          setPdfUploading(true)
+                          setPdfUploading(true); setPdfErr('')
                           try {
                             const url = await subirPDF.mutateAsync({ facturaId: resultado.factura.id, file })
                             setPdfUrl(url)
+                          } catch (e) {
+                            setPdfErr(e.message)
                           } finally { setPdfUploading(false); e.target.value = '' }
                         }}
                       />

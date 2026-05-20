@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react'
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF, PolylineF } from '@react-google-maps/api'
 import { useEntregasChofer, useConfirmarEntrega, useRegistrarNoEntrega } from '../../hooks/useChofer'
 import { useSeguimientoChofer } from '../../hooks/useSeguimiento'
+import { fmtFecha } from '../../utils/calc'
 
 const LIBRARIES = []
 const CENTER_DEFAULT = { lat: -34.6037, lng: -58.3816 }
@@ -14,11 +15,6 @@ function markerSvg(confirmado) {
       <circle cx="14" cy="14" r="11" fill="${color}" stroke="white" stroke-width="2"/>
     </svg>`
   )
-}
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
 }
 
 function getFechaEntrega(oc) {

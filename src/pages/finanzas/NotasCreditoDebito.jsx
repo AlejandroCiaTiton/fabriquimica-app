@@ -1,14 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNotasCredDebito, useCrearNota, useEmitirNota, useAnularNota } from '../../hooks/useFinanzas'
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str).toLocaleDateString('es-AR')
-}
-
-function fmtUSD(n) {
-  return 'USD ' + Number(n ?? 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-}
+import { fmtFecha, fmtUSD } from '../../utils/calc'
 
 const TIPO_CFG = {
   credito: { label: 'NC', fullLabel: 'Nota de Crédito', cls: 'bg-green-100 text-green-700' },

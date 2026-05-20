@@ -17,7 +17,8 @@ const TIPOS_USUARIO = [
   { value: 'deposito',      tipoDB: 'deposito',      label: 'Depósito',        desc: 'Cronograma de envíos: confirma carga y reporta problemas' },
   { value: 'produccion',    tipoDB: 'produccion',    label: 'Producción',      desc: 'Registro de producción, órdenes y calendario' },
   { value: 'laboratorio',   tipoDB: 'laboratorio',   label: 'Laboratorio',     desc: 'COAs por lote, muestras, contratipos y desarrollos' },
-  { value: 'chofer',        tipoDB: 'chofer',        label: 'Chofer',          desc: 'Vista calendarizada de entregas y confirmación en ruta' },
+  { value: 'chofer',           tipoDB: 'chofer',           label: 'Chofer',             desc: 'Vista calendarizada de entregas y confirmación en ruta' },
+  { value: 'asistente_ventas', tipoDB: 'asistente_ventas', label: 'Asistente de ventas', desc: 'Visibilidad de todas las órdenes de compra, sin importar el vendedor asignado' },
 ]
 
 export default function GestionUsuarios() {

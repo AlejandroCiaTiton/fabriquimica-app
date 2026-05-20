@@ -36,9 +36,9 @@ export default function SidebarVendedorExpo() {
 
   return (
     <aside className="fixed top-0 left-0 h-full w-60 bg-white border-r border-gray-200 flex flex-col z-40">
-      <div className="px-5 py-4 border-b border-gray-100">
-        <span className="text-lg font-bold text-[#004a99]">Fabriquímica</span>
-        <p className="text-xs text-gray-400 mt-0.5">Exportaciones</p>
+      <div className="px-5 py-4 border-b border-green-900 bg-[#1b4332]">
+        <img src="/logo_fabriquimica.png" alt="Fabriquímica" className="h-8 object-contain" />
+        <p className="text-xs text-green-200 mt-0.5">Exportaciones</p>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-1">
         <NavItem to="/expo/cotizaciones"   icon="cotizaciones" label="Mis cotizaciones" badge={cotizadosPendientes} />

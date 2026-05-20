@@ -70,6 +70,8 @@ const DesarrollosLaboratorio  = lazy(() => import('./pages/laboratorio/Desarroll
 const DocumentosLaboratorio   = lazy(() => import('./pages/laboratorio/DocumentosLaboratorio'))
 const Transportistas       = lazy(() => import('./pages/logistica/Transportistas'))
 const CronogramaEnvios     = lazy(() => import('./pages/logistica/CronogramaEnvios'))
+const AsistenteLayout      = lazy(() => import('./pages/asistente/AsistenteLayout'))
+const OrdenesAsistente     = lazy(() => import('./pages/asistente/OrdenesAsistente'))
 
 
 function Spinner() {
@@ -108,6 +110,7 @@ function RedirectPorRol() {
   if (perfil.tipo === 'comex')         return <Navigate to="/comex/solicitudes" replace />
   if (perfil.tipo === 'deposito')      return <Navigate to="/deposito/cronograma" replace />
   if (perfil.tipo === 'laboratorio')   return <Navigate to="/laboratorio/coas" replace />
+  if (perfil.tipo === 'asistente_ventas') return <Navigate to="/asistente/ordenes" replace />
 
   return <Navigate to="/login" replace />
 }
@@ -272,6 +275,18 @@ function AppRoutes() {
           <Route path="muestras"    element={<MuestrasLaboratorio />} />
           <Route path="contratipos" element={<ContratiposLaboratorio />} />
           <Route path="desarrollos" element={<DesarrollosLaboratorio />} />
+        </Route>
+
+        {/* Asistente de ventas */}
+        <Route path="/asistente" element={
+          <RutaProtegida roles={['asistente_ventas']}>
+            <AsistenteLayout />
+          </RutaProtegida>
+        }>
+          <Route index element={<Navigate to="ordenes" replace />} />
+          <Route path="ordenes"    element={<OrdenesAsistente />} />
+          <Route path="historico"  element={<HistoricoCompras />} />
+          <Route path="directorio" element={<DirectorioClientes />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

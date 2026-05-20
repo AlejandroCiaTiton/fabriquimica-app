@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useOrdenesCliente, useSubirComprobantePago, useComprobantesOC } from '../../hooks/useOrdenes'
+import { useOrdenesCliente, useSubirComprobantePago, useComprobantesOC, useFacturasPdfOC } from '../../hooks/useOrdenes'
+import { fmtUSD } from '../../utils/calc'
 
 const PAGO_BADGE = {
   pendiente: { label: 'Pendiente', cls: 'bg-red-100 text-red-700' },
@@ -7,36 +8,36 @@ const PAGO_BADGE = {
   pagado:    { label: 'Pagado',    cls: 'bg-green-100 text-green-700' },
 }
 
-function fmtUSD(v) {
-  if (v == null) return '—'
-  return 'USD ' + Number(v).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-}
-
 function BtnSubirComprobante({ ocId }) {
   const subir = useSubirComprobantePago()
   const [uploading, setUploading] = useState(false)
+  const [err,       setErr]       = useState('')
 
   async function handleFile(e) {
     const file = e.target.files[0]
     if (!file) return
-    setUploading(true)
+    setUploading(true); setErr('')
     try { await subir.mutateAsync({ ocId, file }) }
+    catch (e) { setErr(e.message) }
     finally { setUploading(false); e.target.value = '' }
   }
 
   return (
-    <label className={`flex items-center gap-1 cursor-pointer text-xs font-medium px-2 py-1 rounded border transition-colors ${
-      uploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-500 hover:border-[#004a99] hover:text-[#004a99]'
-    }`}>
-      <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden" disabled={uploading} onChange={handleFile}/>
-      {uploading
-        ? <div className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"/>
-        : <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-          </svg>
-      }
-      {uploading ? 'Subiendo…' : 'Subir'}
-    </label>
+    <div className="flex flex-col items-center gap-0.5">
+      <label className={`flex items-center gap-1 cursor-pointer text-xs font-medium px-2 py-1 rounded border transition-colors ${
+        uploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-500 hover:border-[#004a99] hover:text-[#004a99]'
+      }`}>
+        <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden" disabled={uploading} onChange={handleFile}/>
+        {uploading
+          ? <div className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"/>
+          : <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+            </svg>
+        }
+        {uploading ? 'Subiendo…' : 'Subir'}
+      </label>
+      {err && <p className="text-[10px] text-red-500 max-w-[100px] text-center leading-tight">{err}</p>}
+    </div>
   )
 }
 
@@ -45,7 +46,9 @@ export default function OCCompletadas() {
   const completadas = ordenes.filter(o => o.recepcion_confirmada)
   const ocIds       = completadas.map(o => o.id)
   const { data: comprobantes = [] } = useComprobantesOC(ocIds)
+  const { data: facturasPdf  = [] } = useFacturasPdfOC(ocIds)
   const comprobanteMap = Object.fromEntries(comprobantes.map(c => [c.oc_id, c]))
+  const facturaPdfMap  = Object.fromEntries(facturasPdf.map(f => [f.oc_id, f.pdf_url]))
 
   return (
     <div className="p-6">
@@ -76,11 +79,11 @@ export default function OCCompletadas() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {completadas.map(oc => {
-                  const recepciones = oc.recepciones ?? []
-                  const hayProb     = recepciones.some(r => r.estado === 'prob' || r.estado === 'rech')
-                  const pagoBadge   = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
-                  const factura     = Array.isArray(oc.facturas) ? oc.facturas[0] : oc.facturas
-                  const comprobante = comprobanteMap[oc.id]
+                  const recepciones  = oc.recepciones ?? []
+                  const hayProb      = recepciones.some(r => r.estado === 'prob' || r.estado === 'rech')
+                  const pagoBadge    = PAGO_BADGE[oc.estado_pago ?? 'pendiente']
+                  const facturaPdfUrl = facturaPdfMap[oc.id]
+                  const comprobante  = comprobanteMap[oc.id]
 
                   return (
                     <tr key={oc.id} className="hover:bg-gray-50">
@@ -89,8 +92,8 @@ export default function OCCompletadas() {
                       <td className="px-4 py-3 text-gray-500 text-xs">
                         <div className="flex items-center gap-1.5">
                           <span>{oc.numero_factura ?? <span className="text-gray-300">—</span>}</span>
-                          {factura?.pdf_url && (
-                            <a href={factura.pdf_url} target="_blank" rel="noopener noreferrer"
+                          {facturaPdfUrl && (
+                            <a href={facturaPdfUrl} target="_blank" rel="noopener noreferrer"
                               className="text-[#004a99] hover:underline font-medium flex items-center gap-0.5">
                               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>

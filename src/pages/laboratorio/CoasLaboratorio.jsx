@@ -1,10 +1,6 @@
 import { useState, useRef } from 'react'
 import { useLotesSinCoa, useLotesConCoa, useSubirCoaLote, useCoaVersiones } from '../../hooks/useLaboratorio'
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
-}
+import { fmtFecha } from '../../utils/calc'
 
 function fmtFechaHora(str) {
   if (!str) return '—'

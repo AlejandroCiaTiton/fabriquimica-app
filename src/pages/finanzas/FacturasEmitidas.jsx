@@ -1,11 +1,7 @@
 import { useState, useMemo, Fragment } from 'react'
 import { useFacturas } from '../../hooks/useFinanzas'
 import { AFIP_ENABLED } from '../../lib/afip'
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
-}
+import { fmtFecha } from '../../utils/calc'
 
 function fmtMoneda(n) {
   return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(n ?? 0)

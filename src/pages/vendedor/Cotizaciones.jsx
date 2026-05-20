@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCotizaciones, useCotizacion, useAceptarCotizacion, useAprobarCotizacion, useCancelarCotizacion, useCerrarCotizacionPerdida } from '../../hooks/useCotizaciones'
 import { supabase } from '../../lib/supabase'
+import { fmtUSD } from '../../utils/calc'
 
 const ESTADOS = {
   espera:    { label: 'En espera',  bg: 'bg-yellow-100',  text: 'text-yellow-800' },
@@ -23,11 +24,6 @@ function Badge({ estado }) {
 }
 
 const FILTROS = ['todos', 'borrador', 'espera', 'revision', 'ganada', 'perdida', 'cancelada']
-
-function fmtUSD(v) {
-  if (v == null) return '—'
-  return 'USD ' + Number(v).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-}
 
 // ─── Modal gestión de cotización ─────────────────────────────────────────────
 

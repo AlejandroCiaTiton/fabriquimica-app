@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 const SELECT_ENVIO = `
   id, estado, cantidad, lote, notas, uso, resultado, creado_en, recibida_en, evaluada_en,
   vendedor_id, cliente_id,
+  seguimiento_tipo, seguimiento_dias, seguimiento_nota, seguimiento_contactado, seguimiento_contactado_en,
   clientes   (id, razon_social),
   productos  (id, nombre, codigo),
   vendedores (id, perfiles(nombre))
@@ -13,7 +14,7 @@ const SELECT_SOLICITUD = `
   id, uso_previsto, estado, respuesta_vendedor, creado_en, respondida_en,
   vendedor_id, cliente_id,
   clientes  (id, razon_social),
-  productos (id, nombre, codigo),
+  productos:productos!muestras_solicitud_producto_id_fkey (id, nombre, codigo),
   producto_alternativo:productos!muestras_solicitud_producto_alternativo_id_fkey (id, nombre, codigo),
   vendedores (id, perfiles(nombre))
 `
@@ -271,6 +272,65 @@ export function useSolicitarMuestra() {
       qc.invalidateQueries({ queryKey: ['muestras', 'solicitudes-cliente'] })
       qc.invalidateQueries({ queryKey: ['muestras', 'solicitudes-vendedor'] })
     },
+  })
+}
+
+export function useAceptarAlternativa() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ solicitud }) => {
+      const prodId = solicitud.producto_alternativo?.id
+      if (!prodId) throw new Error('No hay producto alternativo definido')
+      const { error: envErr } = await supabase
+        .from('muestras_envio')
+        .insert({
+          vendedor_id: solicitud.vendedor_id,
+          cliente_id:  solicitud.cliente_id,
+          producto_id: prodId,
+          cantidad:    1,
+        })
+      if (envErr) throw envErr
+      const { error } = await supabase
+        .from('muestras_solicitud')
+        .update({ estado: 'aceptada', respondida_en: new Date().toISOString() })
+        .eq('id', solicitud.id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['muestras'] }),
+  })
+}
+
+export function useConfigurarSeguimiento() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ envioId, tipo, dias, nota }) => {
+      const { error } = await supabase
+        .from('muestras_envio')
+        .update({
+          seguimiento_tipo:       tipo,
+          seguimiento_dias:       tipo !== 'manual' ? (parseInt(dias) || null) : null,
+          seguimiento_nota:       nota || null,
+          seguimiento_contactado: false,
+          seguimiento_contactado_en: null,
+        })
+        .eq('id', envioId)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['muestras'] }),
+  })
+}
+
+export function useMarcarContactado() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ envioId }) => {
+      const { error } = await supabase
+        .from('muestras_envio')
+        .update({ seguimiento_contactado: true, seguimiento_contactado_en: new Date().toISOString() })
+        .eq('id', envioId)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['muestras'] }),
   })
 }
 

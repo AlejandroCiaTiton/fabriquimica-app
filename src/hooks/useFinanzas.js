@@ -7,7 +7,7 @@ import { emitirFacturaAFIP, formatearNumeroFactura, PUNTO_VENTA_DEFAULT } from '
 const db = supabaseAdmin ?? supabase
 
 const SELECT_OC = `
-  id, numero, estado, estado_pago, numero_factura, creado_en,
+  id, numero, estado, estado_pago, numero_factura, fecha_vencimiento_factura, creado_en,
   cotizaciones(
     id, codigo, total,
     clientes(id, razon_social, cuit),
@@ -74,7 +74,7 @@ export function useFacturas() {
 export function useEmitirFactura() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ oc, tipoComprobante, puntoVenta }) => {
+    mutationFn: async ({ oc, tipoComprobante, puntoVenta, fechaVencimiento }) => {
       const pv = parseInt(puntoVenta)
       if (!pv || pv < 1 || pv > 9999) throw new Error('Punto de venta inválido (debe ser entre 1 y 9999)')
 
@@ -117,13 +117,15 @@ export function useEmitirFactura() {
       if (facErr) throw new Error(`Factura AFIP obtenida (CAE: ${afipResult.cae}) pero falló el registro en el sistema: ${facErr.message}`)
 
       // UPDATE OC
+      const ocUpdate = { numero_factura: nroFormatted }
+      if (fechaVencimiento) ocUpdate.fecha_vencimiento_factura = fechaVencimiento
       const { error: ocErr } = await db
         .from('ordenes_compra')
-        .update({ numero_factura: nroFormatted })
+        .update(ocUpdate)
         .eq('id', oc.id)
       if (ocErr) throw new Error(`Factura registrada pero no se pudo vincular a la OC: ${ocErr.message}`)
 
-      return { factura, afipResult }
+      return { factura, afipResult, fechaVencimiento }
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['finanzas'] })
@@ -326,5 +328,71 @@ export function useAnularNota() {
       if (error) throw error
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['finanzas', 'notas'] }),
+  })
+}
+
+// ── Pagos individuales ────────────────────────────────────────────────────────
+
+export function usePagosOC(ocIds = []) {
+  return useQuery({
+    queryKey: ['finanzas', 'pagos', ocIds],
+    enabled:  ocIds.length > 0,
+    staleTime: 1000 * 30,
+    queryFn: async () => {
+      const { data, error } = await db
+        .from('pagos')
+        .select('id, oc_id, tipo, monto, fecha, nota, creado_en')
+        .in('oc_id', ocIds)
+        .order('fecha', { ascending: true })
+      if (error) return []
+      return data ?? []
+    },
+  })
+}
+
+export function useRegistrarPago() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ ocId, tipo, monto, fecha, nota, totalOC }) => {
+      const { data: { user } } = await supabase.auth.getUser()
+      const { error } = await db.from('pagos').insert({
+        oc_id:          ocId,
+        tipo,
+        monto:          parseFloat(monto),
+        fecha,
+        nota:           nota || null,
+        registrado_por: user.id,
+      })
+      if (error) throw error
+
+      // Recalcular estado_pago en base al total cobrado
+      const { data: allPagos } = await db
+        .from('pagos').select('monto').eq('oc_id', ocId)
+      const totalCobrado = (allPagos ?? []).reduce((s, p) => s + parseFloat(p.monto), 0)
+      const nuevoEstado  = totalCobrado >= parseFloat(totalOC) - 0.01
+        ? 'pagado'
+        : totalCobrado > 0
+          ? 'parcial'
+          : 'pendiente'
+      await db.from('ordenes_compra').update({ estado_pago: nuevoEstado }).eq('id', ocId)
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['finanzas'] })
+      qc.invalidateQueries({ queryKey: ['ordenes'] })
+    },
+  })
+}
+
+export function useActualizarVencimientoFactura() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ ocId, fechaVencimiento }) => {
+      const { error } = await db
+        .from('ordenes_compra')
+        .update({ fecha_vencimiento_factura: fechaVencimiento || null })
+        .eq('id', ocId)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['finanzas'] }),
   })
 }

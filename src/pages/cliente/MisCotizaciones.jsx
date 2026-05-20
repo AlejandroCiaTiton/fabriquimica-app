@@ -8,17 +8,7 @@ import { useEmitirOC } from '../../hooks/useOrdenes'
 import { useProductos } from '../../hooks/useProductos'
 import { useCrearSolicitud } from '../../hooks/useSolicitudes'
 
-// ─── helpers ──────────────────────────────────────────────────────────────────
-
-function fmtUSD(val) {
-  if (val == null) return '—'
-  return 'USD ' + Number(val).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-}
-
-function fmtFecha(iso) {
-  if (!iso) return '—'
-  return new Date(iso).toLocaleDateString('es-AR')
-}
+import { fmtUSD, fmtFecha } from '../../utils/calc'
 
 const ESTADOS_BADGE = {
   espera:   { label: 'Pendiente respuesta', bg: 'bg-yellow-100', text: 'text-yellow-800' },
@@ -353,15 +343,18 @@ function ModalConfirmarOC({ items, respuestas, cot, onConfirmar, onCancelar, isP
 
 function ModalEmitirOC({ cot, onClose }) {
   const emitir = useEmitirOC()
-  const [refCliente, setRefCliente] = useState('')
-  const [obs, setObs]               = useState('')
-  const [exito, setExito]           = useState(null)
+  const [refCliente,  setRefCliente]  = useState('')
+  const [obs,         setObs]         = useState('')
+  const [tipoEntrega, setTipoEntrega] = useState('entrega')
+  const [exito,       setExito]       = useState(null)
 
   async function handleEmitir() {
     try {
       const result = await emitir.mutateAsync({
         cotizacionId: cot.id,
-        referenciaCliente: refCliente, observaciones: obs,
+        referenciaCliente: refCliente,
+        observaciones: obs,
+        tipoEntrega,
       })
       setExito(result.numero)
     } catch (err) { alert('Error: ' + err.message) }
@@ -384,6 +377,19 @@ function ModalEmitirOC({ cot, onClose }) {
             <h3 className="font-bold text-gray-900 mb-1">Emitir Orden de Compra</h3>
             <p className="text-sm text-gray-500 mb-4">Cotización: <strong>{cot.codigo}</strong> · {fmtUSD(cot.total)}</p>
             <div className="space-y-3 mb-4">
+              <div>
+                <label className="text-xs font-medium text-gray-500 block mb-2">Tipo de entrega</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[['entrega','Envío a domicilio'],['retiro','Retiro en fábrica']].map(([v, l]) => (
+                    <button key={v} type="button" onClick={() => setTipoEntrega(v)}
+                      className={`py-2 rounded-lg text-xs font-semibold border-2 transition-all ${
+                        tipoEntrega === v ? 'border-[#004a99] bg-blue-50 text-[#004a99]' : 'border-gray-200 text-gray-400'
+                      }`}>
+                      {l}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div>
                 <label className="text-xs font-medium text-gray-500 block mb-1">N° de OC interno (opcional)</label>
                 <input type="text" value={refCliente} onChange={e => setRefCliente(e.target.value)}

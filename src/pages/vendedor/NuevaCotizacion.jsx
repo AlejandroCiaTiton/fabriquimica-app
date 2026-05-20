@@ -5,6 +5,7 @@ import { useClientes } from '../../hooks/useClientes'
 import { useCrearCotizacion, useActualizarCotizacion, useCotizacion } from '../../hooks/useCotizaciones'
 import { useSolicitud } from '../../hooks/useSolicitudes'
 import BuscadorContratipos from '../../components/BuscadorContratipos'
+import { fmtUSD } from '../../utils/calc'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -17,11 +18,6 @@ const LISTAS = [
 function getPrecioLista(precios, listaKey) {
   const p = Array.isArray(precios) ? precios[0] : precios
   return p?.[listaKey] ?? null
-}
-
-function fmtUSD(val) {
-  if (val == null || isNaN(val)) return '—'
-  return 'USD ' + Number(val).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
 function calcVencimiento(dias) {

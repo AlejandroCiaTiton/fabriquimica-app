@@ -25,7 +25,7 @@ export function useEntregasChofer() {
         .from('ordenes_compra')
         .select(SELECT_ENTREGA)
         .eq('tipo_entrega', 'entrega')
-        .eq('estado', 'listo-entrega')
+        .in('estado', ['listo-entrega', 'pendiente-despacho'])
         .order('fecha_estimada_entrega', { ascending: true, nullsFirst: false })
       if (error) throw error
       return data ?? []

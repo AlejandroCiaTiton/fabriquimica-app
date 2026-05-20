@@ -1,13 +1,9 @@
 import { useState } from 'react'
 import { useEntregasChofer, useConfirmarEntrega, useRegistrarNoEntrega } from '../../hooks/useChofer'
+import { fmtFecha } from '../../utils/calc'
 
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 const DIAS_CORTO = ['Do','Lu','Ma','Mi','Ju','Vi','Sá']
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
-}
 
 function toYMD(date) {
   return date.toISOString().slice(0, 10)

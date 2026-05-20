@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useProductos } from '../../hooks/useProductos'
 import { useProducciones, useRegistrarProduccion } from '../../hooks/useProduccion'
 import { esProduccionPropia } from '../../data/produccionPropia'
+import { fmtFecha } from '../../utils/calc'
 
 const HOY = new Date().toISOString().split('T')[0]
 
@@ -18,11 +19,6 @@ const EMPTY = {
 }
 
 const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]'
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
-}
 
 function BadgeVto({ fecha }) {
   if (!fecha) return <span className="text-gray-300">—</span>

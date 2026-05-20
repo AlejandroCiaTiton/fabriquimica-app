@@ -114,11 +114,13 @@ export function useSolicitud(id) {
 }
 
 // ── cliente: crear solicitud ───────────────────────────────────────────────────
+const AUTO_COT_ENABLED = false  // deshabilitado temporalmente
+
 export function useCrearSolicitud() {
   const qc = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ items, observaciones, incoterm, puerto_descarga }) => {
+    mutationFn: async ({ items, observaciones, incoterm, puerto_descarga, tipoEntrega = 'entrega' }) => {
       const { data: { user } } = await supabase.auth.getUser()
 
       const { data: cu } = await db
@@ -150,6 +152,7 @@ export function useCrearSolicitud() {
             observaciones: observaciones  || null,
             cliente_id:    cu?.cliente_id ?? null,
             vendedor_id:   vendedorId,
+            tipo_entrega:  tipoEntrega,
             ...(incoterm        ? { incoterm }        : {}),
             ...(puerto_descarga ? { puerto_descarga } : {}),
           })
@@ -234,7 +237,7 @@ export function useCrearSolicitud() {
 
       // ── Auto-cotización para pedidos < 200 kg (solo clientes nacionales) ──
       const totalKg = items.reduce((s, it) => s + (it.cantidad || 0), 0)
-      if (totalKg < 200 && !esExterior) {
+      if (AUTO_COT_ENABLED && totalKg < 200 && !esExterior) {
         const productoIds = items.map(it => it.producto_id)
 
         const { data: precios } = await supabase

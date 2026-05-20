@@ -28,8 +28,10 @@ export default function Login() {
     <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-4">
       <div className="bg-white rounded-[10px] shadow-md w-full max-w-sm p-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-[#004a99]">Fabriquímica</h1>
-          <p className="text-gray-500 text-sm mt-1">Sistema de Gestión</p>
+          <div className="bg-[#1b4332] rounded-xl px-6 py-4 inline-block mb-2">
+            <img src="/logo_fabriquimica.png" alt="Fabriquímica" className="h-12 object-contain" />
+          </div>
+          <p className="text-gray-500 text-sm">Sistema de Gestión</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

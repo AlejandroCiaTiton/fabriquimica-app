@@ -1,5 +1,6 @@
 import { useState, useMemo, Fragment } from 'react'
 import { useHistoricoCompras } from '../../hooks/useComercial'
+import { fmtFecha } from '../../utils/calc'
 
 const ESTADO_LABEL = {
   'recibida':       { label: 'Recibida',       cls: 'bg-blue-100 text-blue-700'    },
@@ -21,11 +22,6 @@ const ESTADO_TABS = [
   ['listo-entrega',  'Listas'],
   ['entregada',      'Entregadas'],
 ]
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str).toLocaleDateString('es-AR')
-}
 
 function fmtMoneda(n) {
   return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(n ?? 0)

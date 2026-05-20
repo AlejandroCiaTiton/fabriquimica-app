@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { supabaseAdmin } from '../../lib/supabaseAdmin'
+import { fmtFecha } from '../../utils/calc'
 
 const db = supabaseAdmin ?? supabase
 
@@ -338,11 +339,6 @@ const ESTADO_BADGE = {
   'recibida':       { label: 'Recibida',           cls: 'bg-blue-100 text-blue-700'     },
   'en-preparacion': { label: 'En preparación',     cls: 'bg-yellow-100 text-yellow-700' },
   'listo-entrega':  { label: 'Listo para entrega', cls: 'bg-green-100 text-green-700'   },
-}
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str).toLocaleDateString('es-AR')
 }
 
 // ── Tarjeta "listo para entrega" (solo lectura) ───────────────────────────────

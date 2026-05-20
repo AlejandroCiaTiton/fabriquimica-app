@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../lib/supabase'
+import { supabaseAdmin } from '../lib/supabaseAdmin'
 import { generarCodigoOrden } from '../utils/codigoGenerator'
 
 const SELECT_OC = `
@@ -15,7 +16,7 @@ const SELECT_OC = `
     )
   ),
   recepciones (oc_id, cot_item_id, estado, comentario, accion_correctiva, estado_gestion),
-  facturas (id, numero, pdf_url)
+  facturas (id, numero)
 `
 
 // Misma estructura pero con inner join para poder filtrar por campos de cotizaciones
@@ -74,7 +75,7 @@ export function useOrdenesVendedor() {
 export function useEmitirOC() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ cotizacionId, referenciaCliente }) => {
+    mutationFn: async ({ cotizacionId, referenciaCliente, tipoEntrega = 'entrega' }) => {
       const numero = await generarCodigoOrden()
       const { data, error } = await supabase
         .from('ordenes_compra')
@@ -83,6 +84,7 @@ export function useEmitirOC() {
           cotizacion_id:      cotizacionId,
           estado:             'recibida',
           referencia_cliente: referenciaCliente || null,
+          tipo_entrega:       tipoEntrega,
         })
         .select('id, numero')
         .single()
@@ -162,6 +164,23 @@ export function useAvanzarEstadoOC() {
   })
 }
 
+export function useFacturasPdfOC(ocIds = []) {
+  return useQuery({
+    queryKey: ['ordenes', 'facturas-pdf', ocIds],
+    enabled:  ocIds.length > 0,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('facturas')
+        .select('id, oc_id, pdf_url')
+        .in('oc_id', ocIds)
+        .not('pdf_url', 'is', null)
+      if (error) return []
+      return data ?? []
+    },
+    staleTime: 1000 * 60,
+  })
+}
+
 export function useComprobantesOC(ocIds = []) {
   return useQuery({
     queryKey: ['ordenes', 'comprobantes', ocIds],
@@ -201,5 +220,22 @@ export function useSubirComprobantePago() {
       return publicUrl
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['ordenes'] }),
+  })
+}
+
+export function useOrdenesAsistente() {
+  const db = supabaseAdmin ?? supabase
+  return useQuery({
+    queryKey: ['ordenes', 'asistente'],
+    staleTime: 1000 * 30,
+    queryFn: async () => {
+      const { data, error } = await db
+        .from('ordenes_compra')
+        .select(SELECT_OC)
+        .order('creado_en', { ascending: false })
+        .limit(1000)
+      if (error) throw error
+      return data ?? []
+    },
   })
 }

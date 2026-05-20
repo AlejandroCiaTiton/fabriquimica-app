@@ -7,13 +7,17 @@ export function calcularTotales(items) {
 }
 
 export function fmtUSD(val) {
-  if (val == null) return '—'
+  if (val == null || isNaN(val)) return '—'
   return 'USD ' + Number(val).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
-export function fmtFecha(iso) {
-  if (!iso) return '—'
-  return new Date(iso).toLocaleDateString('es-AR')
+export function fmtFecha(str) {
+  if (!str) return '—'
+  // Strings de solo fecha (YYYY-MM-DD) se parsean como UTC → se añade hora local para evitar desfase de día
+  const d = typeof str === 'string' && str.length === 10
+    ? new Date(str + 'T00:00:00')
+    : new Date(str)
+  return d.toLocaleDateString('es-AR')
 }
 
 export function fmtFechaCorta(str) {

@@ -3,7 +3,9 @@ import {
   useMuestrasVendedor, useEnviarMuestra,
   useSolicitudesVendedor, useResponderSolicitud,
   useClientesVendedor, useLotesProducto, useProductosActivos,
+  useConfigurarSeguimiento, useMarcarContactado,
 } from '../../hooks/useMuestras'
+import { fmtFecha } from '../../utils/calc'
 
 const ESTADO_CFG = {
   enviada:   { label: 'Enviada',   cls: 'bg-blue-100 text-blue-700'   },
@@ -16,11 +18,6 @@ const SOLIC_CFG = {
   aceptada:              { label: 'Aceptada',          cls: 'bg-green-100 text-green-700'  },
   alternativa_sugerida:  { label: 'Alternativa suger.', cls: 'bg-blue-100 text-blue-700'   },
   rechazada:             { label: 'Rechazada',         cls: 'bg-red-100 text-red-700'      },
-}
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str).toLocaleDateString('es-AR')
 }
 
 // ── Formulario nuevo envío ────────────────────────────────────────────────────
@@ -113,15 +110,19 @@ function FormNuevoEnvio({ onClose }) {
 function PanelResponder({ solicitud, onClose }) {
   const { data: productos = [] } = useProductosActivos()
   const responder = useResponderSolicitud()
-  const [accion,  setAccion]  = useState('aceptar')
+  const [accion,    setAccion]    = useState('aceptar')
   const [respuesta, setRespuesta] = useState('')
-  const [prodAlt, setProdAlt] = useState('')
-  const [cantidad, setCantidad] = useState('1')
+  const [prodAlt,   setProdAlt]   = useState('')
+  const [prodSelec, setProdSelec] = useState('')
+  const [cantidad,  setCantidad]  = useState('1')
   const [err, setErr] = useState('')
+
+  const necesitaSelector = accion === 'aceptar' && !solicitud.producto_id
 
   async function handleSubmit(e) {
     e.preventDefault()
     setErr('')
+    if (accion === 'aceptar' && necesitaSelector && !prodSelec) { setErr('Seleccioná el producto a enviar.'); return }
     if (accion === 'alternativa' && !prodAlt) { setErr('Seleccioná el producto alternativo.'); return }
     if (accion !== 'rechazar' && !cantidad) { setErr('Indicá la cantidad.'); return }
     try {
@@ -131,7 +132,9 @@ function PanelResponder({ solicitud, onClose }) {
         respuesta,
         productoAlternativoId:  accion === 'alternativa' ? prodAlt : undefined,
         clienteId:              solicitud.cliente_id,
-        productoId:             accion === 'aceptar' ? solicitud.producto_id : (accion === 'alternativa' ? prodAlt : undefined),
+        productoId:             accion === 'aceptar'
+                                  ? (solicitud.producto_id || prodSelec || null)
+                                  : (accion === 'alternativa' ? prodAlt : undefined),
         cantidad:               accion !== 'rechazar' ? parseInt(cantidad) : undefined,
       })
       onClose()
@@ -161,6 +164,17 @@ function PanelResponder({ solicitud, onClose }) {
           ))}
         </div>
       </div>
+
+      {necesitaSelector && (
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 mb-1">Producto a enviar *</label>
+          <select value={prodSelec} onChange={e => setProdSelec(e.target.value)}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+            <option value="">Seleccionar…</option>
+            {productos.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
+          </select>
+        </div>
+      )}
 
       {accion === 'alternativa' && (
         <div>
@@ -208,17 +222,131 @@ function PanelResponder({ solicitud, onClose }) {
   )
 }
 
+// ── Panel de seguimiento ──────────────────────────────────────────────────────
+function SeguimientoPanel({ envio }) {
+  const configurar       = useConfigurarSeguimiento()
+  const marcarContactado = useMarcarContactado()
+  const tieneSeg = !!envio.seguimiento_tipo
+  const [editing, setEditing] = useState(!tieneSeg)
+  const [tipo,    setTipo]    = useState(envio.seguimiento_tipo ?? 'manual')
+  const [dias,    setDias]    = useState(envio.seguimiento_dias?.toString() ?? '7')
+  const [nota,    setNota]    = useState(envio.seguimiento_nota ?? '')
+  const [err,     setErr]     = useState('')
+
+  const fechaConsulta = envio.seguimiento_dias && envio.creado_en
+    ? new Date(new Date(envio.creado_en).getTime() + envio.seguimiento_dias * 86400000)
+    : null
+  const vencido = fechaConsulta && new Date() > fechaConsulta && !envio.seguimiento_contactado
+
+  async function handleGuardar() {
+    setErr('')
+    try {
+      await configurar.mutateAsync({ envioId: envio.id, tipo, dias, nota })
+      setEditing(false)
+    } catch (e) { setErr(e.message) }
+  }
+
+  if (editing) {
+    return (
+      <div className="space-y-3">
+        <div className="flex gap-2">
+          {[['manual','Manual'],['automatico','Automático'],['ambos','Ambos']].map(([v,l]) => (
+            <button key={v} type="button" onClick={() => setTipo(v)}
+              className={`flex-1 py-1.5 rounded text-xs font-semibold border-2 transition-all ${tipo === v ? 'border-[#004a99] bg-blue-50 text-[#004a99]' : 'border-gray-200 text-gray-400'}`}>
+              {l}
+            </button>
+          ))}
+        </div>
+        {(tipo === 'automatico' || tipo === 'ambos') && (
+          <div className="flex items-center gap-2 text-xs text-gray-600">
+            <span>Consultar en</span>
+            <input type="number" min="1" max="365" value={dias} onChange={e => setDias(e.target.value)}
+              className="w-14 border border-gray-200 rounded px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+            <span>días desde el envío</span>
+          </div>
+        )}
+        <textarea rows={2} value={nota} onChange={e => setNota(e.target.value)}
+          placeholder="Nota interna (opcional)…"
+          className="w-full border border-gray-200 rounded px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"/>
+        {err && <p className="text-xs text-red-600">{err}</p>}
+        <div className="flex gap-2">
+          {tieneSeg && (
+            <button type="button" onClick={() => setEditing(false)}
+              className="flex-1 border border-gray-200 text-gray-500 text-xs py-1.5 rounded hover:bg-gray-50">
+              Cancelar
+            </button>
+          )}
+          <button type="button" onClick={handleGuardar} disabled={configurar.isPending}
+            className="flex-1 bg-[#004a99] text-white text-xs font-semibold py-1.5 rounded disabled:opacity-60 flex items-center justify-center gap-1.5">
+            {configurar.isPending && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
+            Guardar
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-wrap gap-1.5 items-center">
+          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+            envio.seguimiento_tipo === 'manual' ? 'bg-gray-100 text-gray-600'
+            : envio.seguimiento_tipo === 'automatico' ? 'bg-blue-100 text-blue-700'
+            : 'bg-purple-100 text-purple-700'
+          }`}>
+            {envio.seguimiento_tipo === 'manual' ? 'Manual' : envio.seguimiento_tipo === 'automatico' ? 'Automático' : 'Manual + Automático'}
+          </span>
+          {fechaConsulta && (
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+              envio.seguimiento_contactado ? 'bg-green-100 text-green-700'
+              : vencido ? 'bg-red-100 text-red-700'
+              : 'bg-gray-100 text-gray-500'
+            }`}>
+              {envio.seguimiento_contactado ? `✓ Contactado ${fmtFecha(envio.seguimiento_contactado_en)}`
+               : vencido ? `⚠ Vencido — ${fmtFecha(fechaConsulta)}`
+               : `Consultar: ${fmtFecha(fechaConsulta)}`}
+            </span>
+          )}
+        </div>
+        <button onClick={() => setEditing(true)} className="text-[10px] text-gray-400 hover:text-[#004a99]">Editar</button>
+      </div>
+      {envio.seguimiento_nota && <p className="text-xs text-gray-500 italic">"{envio.seguimiento_nota}"</p>}
+      {vencido && !envio.seguimiento_contactado && (
+        <button onClick={() => marcarContactado.mutate({ envioId: envio.id })} disabled={marcarContactado.isPending}
+          className="w-full bg-[#004a99] text-white text-xs font-semibold py-1.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-1.5">
+          {marcarContactado.isPending && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
+          Marcar como contactado
+        </button>
+      )}
+    </div>
+  )
+}
+
 // ── Tarjeta de envío ──────────────────────────────────────────────────────────
 function CardEnvio({ envio }) {
-  const cfg = ESTADO_CFG[envio.estado] ?? { label: envio.estado, cls: 'bg-gray-100 text-gray-500' }
+  const cfg      = ESTADO_CFG[envio.estado] ?? { label: envio.estado, cls: 'bg-gray-100 text-gray-500' }
+  const tieneSeg = !!envio.seguimiento_tipo
+  const [showSeg, setShowSeg] = useState(false)
+
+  const fechaConsulta = envio.seguimiento_dias && envio.creado_en
+    ? new Date(new Date(envio.creado_en).getTime() + envio.seguimiento_dias * 86400000)
+    : null
+  const vencido = fechaConsulta && new Date() > fechaConsulta && !envio.seguimiento_contactado
+
   return (
-    <div className="bg-white rounded-[10px] shadow-card p-4">
+    <div className={`bg-white rounded-[10px] shadow-card p-4 ${vencido ? 'border border-red-200' : ''}`}>
       <div className="flex items-start justify-between gap-3 mb-2">
         <div>
           <p className="text-sm font-semibold text-gray-900">{envio.clientes?.razon_social}</p>
           <p className="text-xs text-gray-500">{envio.productos?.nombre}</p>
         </div>
-        <span className={`flex-shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${cfg.cls}`}>{cfg.label}</span>
+        <div className="flex items-center gap-1.5 flex-shrink-0">
+          {vencido && !envio.seguimiento_contactado && (
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-red-100 text-red-700">Seguimiento</span>
+          )}
+          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${cfg.cls}`}>{cfg.label}</span>
+        </div>
       </div>
       <div className="flex flex-wrap gap-3 text-xs text-gray-500 mb-2">
         <span>{envio.cantidad} unidad{envio.cantidad !== 1 ? 'es' : ''}</span>
@@ -227,15 +355,31 @@ function CardEnvio({ envio }) {
       </div>
       {envio.notas && <p className="text-xs text-gray-500 italic mb-2">Nota: {envio.notas}</p>}
       {envio.estado === 'recibida' && envio.recibida_en && (
-        <p className="text-xs text-yellow-700">Recibida el {fmtFecha(envio.recibida_en)}</p>
+        <p className="text-xs text-yellow-700 mb-1">Recibida el {fmtFecha(envio.recibida_en)}</p>
       )}
       {envio.estado === 'evaluada' && (
-        <div className="mt-2 bg-green-50 border border-green-100 rounded-lg px-3 py-2 space-y-1">
+        <div className="mb-2 bg-green-50 border border-green-100 rounded-lg px-3 py-2 space-y-1">
           {envio.uso      && <p className="text-xs text-gray-700"><span className="font-semibold">Uso:</span> {envio.uso}</p>}
           {envio.resultado && <p className="text-xs text-gray-700"><span className="font-semibold">Resultado:</span> {envio.resultado}</p>}
           {envio.evaluada_en && <p className="text-[10px] text-gray-400">Evaluada: {fmtFecha(envio.evaluada_en)}</p>}
         </div>
       )}
+
+      {/* Seguimiento */}
+      <div className="pt-2 border-t border-gray-100">
+        <button onClick={() => setShowSeg(s => !s)}
+          className="flex items-center gap-1 text-xs text-gray-400 hover:text-[#004a99] transition-colors">
+          <svg className={`w-3 h-3 transition-transform ${showSeg ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+          {tieneSeg ? 'Seguimiento configurado' : 'Configurar seguimiento'}
+        </button>
+        {showSeg && (
+          <div className="mt-2">
+            <SeguimientoPanel envio={envio}/>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -246,8 +390,8 @@ export default function MuestrasVendedor() {
   const [showForm,    setShowForm]    = useState(false)
   const [solicSelec,  setSolicSelec]  = useState(null)
 
-  const { data: envios      = [], isLoading: loadEnvios  } = useMuestrasVendedor()
-  const { data: solicitudes = [], isLoading: loadSolic   } = useSolicitudesVendedor()
+  const { data: envios      = [], isLoading: loadEnvios, error: errEnvios  } = useMuestrasVendedor()
+  const { data: solicitudes = [], isLoading: loadSolic,  error: errSolic   } = useSolicitudesVendedor()
 
   const pendientesSolic = solicitudes.filter(s => s.estado === 'pendiente').length
 
@@ -284,6 +428,9 @@ export default function MuestrasVendedor() {
           </button>
         ))}
       </div>
+
+      {errEnvios  && <p className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 font-mono">{errEnvios.message}</p>}
+      {errSolic   && <p className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 font-mono">{errSolic.message}</p>}
 
       {/* ── TAB ENVÍOS ── */}
       {tab === 'envios' && (

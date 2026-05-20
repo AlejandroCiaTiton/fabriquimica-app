@@ -100,6 +100,7 @@ export default function NuevaSolicitud() {
 
   const [items, setItems]               = useState([])
   const [observaciones, setObs]         = useState('')
+  const [tipoEntrega, setTipoEntrega]   = useState('entrega')
   const [incoterm, setIncoterm]         = useState('')
   const [puertoDescarga, setPuerto]     = useState('')
   const [exito, setExito]               = useState(null)
@@ -117,6 +118,7 @@ export default function NuevaSolicitud() {
     try {
       const result = await crearSolicitud.mutateAsync({
         items, observaciones,
+        tipoEntrega,
         incoterm:        esExterior ? incoterm        || null : null,
         puerto_descarga: esExterior ? puertoDescarga  || null : null,
       })
@@ -281,6 +283,38 @@ export default function NuevaSolicitud() {
                 className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Tipo de entrega */}
+      {!esExterior && (
+        <div className="bg-white rounded-[10px] shadow-card p-4 mb-4">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
+            Tipo de entrega
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              ['entrega', 'Envío a domicilio', 'M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l-3-3m3 3l3-3'],
+              ['retiro',  'Retiro en fábrica', 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'],
+            ].map(([v, label, path]) => (
+              <button key={v} type="button" onClick={() => setTipoEntrega(v)}
+                className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
+                  tipoEntrega === v
+                    ? 'border-[#004a99] bg-blue-50 text-[#004a99]'
+                    : 'border-gray-200 text-gray-400 hover:border-gray-300'
+                }`}>
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d={path}/>
+                </svg>
+                <span className="text-sm font-semibold">{label}</span>
+              </button>
+            ))}
+          </div>
+          {tipoEntrega === 'retiro' && (
+            <p className="mt-2 text-xs text-gray-400">
+              Coordinaremos con vos el día y horario de retiro una vez confirmada la orden.
+            </p>
+          )}
         </div>
       )}
 

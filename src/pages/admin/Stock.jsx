@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
+import { fmtFecha } from '../../utils/calc'
 
 // ── Hooks ────────────────────────────────────────────────────────────────────
 
@@ -68,11 +69,6 @@ function parsearCSV(texto) {
     const cols = line.split(',').map(c => c.trim().replace(/"/g, ''))
     return { codigo: cols[codIdx], cantidad: parseFloat(cols[cantIdx]) || 0 }
   }).filter(r => r.codigo)
-}
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
 }
 
 // ── Sub-componentes ───────────────────────────────────────────────────────────

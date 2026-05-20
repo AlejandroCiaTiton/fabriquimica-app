@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { supabaseAdmin } from '../../lib/supabaseAdmin'
+import { fmtFecha } from '../../utils/calc'
 
 const db = supabaseAdmin ?? supabase
 
@@ -42,11 +43,6 @@ function useMovimientos(productoId) {
     },
     staleTime: 1000 * 60,
   })
-}
-
-function fmtFecha(str) {
-  if (!str) return '—'
-  return new Date(str + 'T00:00:00').toLocaleDateString('es-AR')
 }
 
 function estaVencido(fecha) {

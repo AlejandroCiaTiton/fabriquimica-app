@@ -68,6 +68,7 @@ export function AuthProvider({ children }) {
   const isComex         = perfil?.tipo === 'comex'
   const isDeposito      = perfil?.tipo === 'deposito'
   const isLaboratorio   = perfil?.tipo === 'laboratorio'
+  const isAsistente     = perfil?.tipo === 'asistente_ventas'
 
   return (
     <AuthContext.Provider value={{
@@ -87,6 +88,7 @@ export function AuthProvider({ children }) {
       isComex,
       isDeposito,
       isLaboratorio,
+      isAsistente,
       perfilLoading,
       login,
       logout,
