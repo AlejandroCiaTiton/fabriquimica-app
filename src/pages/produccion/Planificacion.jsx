@@ -3,7 +3,7 @@ import { useProductos } from '../../hooks/useProductos'
 import { useTrabajos, useCrearTrabajo, useEliminarTrabajo } from '../../hooks/useProduccion'
 import { esProduccionPropia } from '../../data/produccionPropia'
 
-const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]'
+const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]'
 const HOY   = new Date().toISOString().split('T')[0]
 
 function semanaDesd(base) {
@@ -132,7 +132,7 @@ export default function Planificacion() {
             {ok  && <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">{ok}</p>}
 
             <button type="submit" disabled={crear.isPending}
-              className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+              className="w-full bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
               {crear.isPending && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
               Agregar al plan
             </button>
@@ -176,9 +176,9 @@ export default function Planificacion() {
               if (ocs.length === 0 && !esHoy) return null
               return (
                 <div key={key} className="border-b border-gray-50 last:border-0">
-                  <div className={`px-4 py-2 text-xs font-semibold flex items-center justify-between ${esHoy ? 'bg-blue-50 text-[#004a99]' : 'bg-gray-50 text-gray-500'}`}>
+                  <div className={`px-4 py-2 text-xs font-semibold flex items-center justify-between ${esHoy ? 'bg-blue-50 text-[#1b4332]' : 'bg-gray-50 text-gray-500'}`}>
                     <span className="capitalize">{fmtDia(dia)}</span>
-                    {ocs.length > 0 && <span className="bg-[#004a99] text-white px-1.5 py-0.5 rounded-full">{ocs.length}</span>}
+                    {ocs.length > 0 && <span className="bg-[#1b4332] text-white px-1.5 py-0.5 rounded-full">{ocs.length}</span>}
                   </div>
                   {ocs.length === 0
                     ? <div className="px-4 py-2 text-xs text-gray-300 italic">Sin tareas</div>

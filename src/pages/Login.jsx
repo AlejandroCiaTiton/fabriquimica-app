@@ -29,7 +29,7 @@ export default function Login() {
       <div className="bg-white rounded-[10px] shadow-md w-full max-w-sm p-8">
         <div className="text-center mb-8">
           <div className="mb-2">
-            <img src="/logo_fabriquimica.png" alt="Fabriquímica" className="h-12 object-contain mx-auto" />
+            <img src="/logo.jpg" alt="Fabriquímica" className="h-12 object-contain mx-auto" />
           </div>
           <p className="text-gray-500 text-sm">Sistema de Gestión</p>
         </div>
@@ -41,7 +41,7 @@ export default function Login() {
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
               placeholder="usuario@fabriquimica.com"
               required
             />
@@ -53,14 +53,14 @@ export default function Login() {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
               placeholder="••••••••"
               required
             />
           </div>
 
           <div className="flex justify-end">
-            <Link to="/recuperar" className="text-xs text-[#004a99] hover:underline">
+            <Link to="/recuperar" className="text-xs text-[#1b4332] hover:underline">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
@@ -74,7 +74,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-60"
+            className="w-full bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-60"
           >
             {loading ? 'Ingresando...' : 'Ingresar'}
           </button>
@@ -83,7 +83,7 @@ export default function Login() {
         <div className="mt-6 pt-5 border-t border-gray-100 text-center">
           <p className="text-xs text-gray-400 mb-1">¿Tu empresa aún no es cliente?</p>
           <Link to="/registro"
-            className="text-sm font-semibold text-[#004a99] hover:underline">
+            className="text-sm font-semibold text-[#1b4332] hover:underline">
             Registrate como nuevo cliente →
           </Link>
         </div>

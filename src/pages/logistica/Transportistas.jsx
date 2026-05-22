@@ -57,7 +57,7 @@ export default function Transportistas() {
                 value={form.nombre}
                 onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))}
                 placeholder="Ej: Juan"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -68,7 +68,7 @@ export default function Transportistas() {
                 value={form.apellido}
                 onChange={e => setForm(f => ({ ...f, apellido: e.target.value }))}
                 placeholder="Ej: García"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -77,7 +77,7 @@ export default function Transportistas() {
                 value={form.empresa}
                 onChange={e => setForm(f => ({ ...f, empresa: e.target.value }))}
                 placeholder="Ej: Transportes SA (opcional)"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -86,7 +86,7 @@ export default function Transportistas() {
                 value={form.vehiculo}
                 onChange={e => setForm(f => ({ ...f, vehiculo: e.target.value }))}
                 placeholder="Ej: Ford Transit ABC123 (opcional)"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             {error && (
@@ -98,7 +98,7 @@ export default function Transportistas() {
             <button
               type="submit"
               disabled={crear.isPending}
-              className="w-full bg-[#004a99] hover:bg-[#003d80] disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-[#1b4332] hover:bg-[#152e24] disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               {crear.isPending && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
               Agregar
@@ -112,7 +112,7 @@ export default function Transportistas() {
           </div>
           {isLoading ? (
             <div className="py-12 flex justify-center">
-              <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+              <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
             </div>
           ) : transportistas.length === 0 ? (
             <div className="py-12 text-center text-sm text-gray-400">

@@ -48,10 +48,10 @@ export default function DirectorioClientes() {
           </svg>
           <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
             placeholder="Buscar por nombre o CUIT…"
-            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
         </div>
         <select value={vendedorFiltro} onChange={e => setVendedorFiltro(e.target.value)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white">
+          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white">
           <option value="todos">Todos los vendedores</option>
           {vendedores.map(([id, nombre]) => (
             <option key={id} value={id}>{nombre}</option>
@@ -67,7 +67,7 @@ export default function DirectorioClientes() {
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : filtrados.length === 0
           ? <div className="p-12 text-center text-sm text-gray-400">Sin clientes para estos filtros</div>
           : (
@@ -107,7 +107,7 @@ export default function DirectorioClientes() {
                                 <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{fmtTipo(ct.tipo)}</span>
                               )}
                               {ct.email && (
-                                <a href={`mailto:${ct.email}`} className="text-[#004a99] hover:underline">{ct.email}</a>
+                                <a href={`mailto:${ct.email}`} className="text-[#1b4332] hover:underline">{ct.email}</a>
                               )}
                               {ct.telefono && (
                                 <a href={`tel:${ct.telefono}`} className="text-gray-500 hover:text-gray-700">{ct.telefono}</a>

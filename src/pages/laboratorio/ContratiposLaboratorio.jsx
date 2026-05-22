@@ -101,7 +101,7 @@ function ModalImportar({ onClose, onImport }) {
                 Compatible con CSV separado por punto y coma (;) o coma, y con archivos XLS/XLSX.
               </p>
               <div
-                className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center cursor-pointer hover:border-[#004a99]/50 transition-colors"
+                className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center cursor-pointer hover:border-[#1b4332]/50 transition-colors"
                 onClick={() => inputRef.current?.click()}
                 onDragOver={e => e.preventDefault()}
                 onDrop={e => { e.preventDefault(); handleFile(e.dataTransfer.files[0]) }}
@@ -118,7 +118,7 @@ function ModalImportar({ onClose, onImport }) {
           ) : (
             <div>
               <p className="text-sm text-gray-600 mb-3">
-                Se encontraron <strong className="text-[#004a99]">{filas.length}</strong> filas válidas. Vista previa:
+                Se encontraron <strong className="text-[#1b4332]">{filas.length}</strong> filas válidas. Vista previa:
               </p>
               <div className="overflow-x-auto border border-gray-200 rounded-lg max-h-64">
                 <table className="text-xs w-full">
@@ -134,7 +134,7 @@ function ModalImportar({ onClose, onImport }) {
                       <tr key={i} className="hover:bg-gray-50">
                         <td className="px-3 py-1.5 text-gray-900">{f.marca}</td>
                         <td className="px-3 py-1.5 text-gray-500">{f.productor || '—'}</td>
-                        <td className="px-3 py-1.5 font-medium text-[#004a99]">{f.nombre_fq}</td>
+                        <td className="px-3 py-1.5 font-medium text-[#1b4332]">{f.nombre_fq}</td>
                       </tr>
                     ))}
                     {filas.length > 50 && (
@@ -162,7 +162,7 @@ function ModalImportar({ onClose, onImport }) {
               <button
                 onClick={handleImportar}
                 disabled={loading}
-                className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] disabled:opacity-60 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
+                className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] disabled:opacity-60 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
               >
                 {loading && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
                 Importar {filas.length} registros
@@ -256,7 +256,7 @@ export default function ContratiposLaboratorio() {
         </div>
         <button
           onClick={() => setShowImportar(true)}
-          className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex-shrink-0"
+          className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex-shrink-0"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 11l3 3m0 0l3-3m-3 3V8"/>
@@ -277,7 +277,7 @@ export default function ContratiposLaboratorio() {
                 value={form.nombre_fq}
                 onChange={e => setForm(f => ({ ...f, nombre_fq: e.target.value }))}
                 placeholder="Ej: Ácido clorhídrico 33%"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -288,7 +288,7 @@ export default function ContratiposLaboratorio() {
                 value={form.marca}
                 onChange={e => setForm(f => ({ ...f, marca: e.target.value }))}
                 placeholder="Ej: Muriático Listo"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -297,7 +297,7 @@ export default function ContratiposLaboratorio() {
                 value={form.productor}
                 onChange={e => setForm(f => ({ ...f, productor: e.target.value }))}
                 placeholder="Ej: QuimicaSA (opcional)"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             {formError && (
@@ -309,7 +309,7 @@ export default function ContratiposLaboratorio() {
             <button
               type="submit"
               disabled={saving}
-              className="w-full bg-[#004a99] hover:bg-[#003d80] disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-[#1b4332] hover:bg-[#152e24] disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               {saving && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
               Agregar
@@ -328,7 +328,7 @@ export default function ContratiposLaboratorio() {
                 value={busqueda}
                 onChange={e => setBusqueda(e.target.value)}
                 placeholder="Filtrar por marca, productor o nombre FQ…"
-                className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <span className="text-xs text-gray-400 flex-shrink-0">{filtrados.length.toLocaleString()} registros</span>
@@ -336,7 +336,7 @@ export default function ContratiposLaboratorio() {
           <div className="overflow-y-auto" style={{ maxHeight: 'calc(100vh - 300px)' }}>
             {isLoading ? (
               <div className="py-12 flex justify-center">
-                <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+                <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
               </div>
             ) : filtrados.length === 0 ? (
               <div className="py-12 text-center text-sm text-gray-400">
@@ -359,7 +359,7 @@ export default function ContratiposLaboratorio() {
                     <tr key={c.id} className="hover:bg-gray-50">
                       <td className="px-4 py-2.5 font-medium text-gray-900">{c.marca}</td>
                       <td className="px-4 py-2.5 text-gray-500">{c.productor || '—'}</td>
-                      <td className="px-4 py-2.5 text-[#004a99] font-medium">{c.nombre_fq}</td>
+                      <td className="px-4 py-2.5 text-[#1b4332] font-medium">{c.nombre_fq}</td>
                       <td className="px-2 py-2.5">
                         <button
                           onClick={() => handleEliminar(c.id)}

@@ -27,14 +27,14 @@ export default function OrdenesCopra() {
       <div className="flex gap-1 mb-4 bg-white border border-gray-200 rounded-lg p-1 w-fit flex-wrap">
         {FILTROS_OC.map(f => (
           <button key={f} onClick={() => setFiltro(f)}
-            className={`px-3 py-1.5 rounded text-sm font-medium capitalize transition-colors ${filtro === f ? 'bg-[#004a99] text-white' : 'text-gray-500 hover:text-gray-800'}`}>
+            className={`px-3 py-1.5 rounded text-sm font-medium capitalize transition-colors ${filtro === f ? 'bg-[#1b4332] text-white' : 'text-gray-500 hover:text-gray-800'}`}>
             {f === 'todas' ? 'Todas' : LABELS[f] ?? f}
           </button>
         ))}
       </div>
 
       {error && <p className="text-[#dc3545] text-sm mb-4">Error: {error.message}</p>}
-      {isLoading && <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>}
+      {isLoading && <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>}
       {!isLoading && !error && (
         filtradas.length === 0
           ? <div className="text-center py-12 text-gray-400 text-sm">No hay órdenes en este estado.</div>

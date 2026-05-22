@@ -31,7 +31,7 @@ function ModalProblema({ envio, tipo, onClose, onConfirm }) {
               value={notas}
               onChange={e => setNotas(e.target.value)}
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
               placeholder="Describí el problema..."
             />
           </div>
@@ -83,7 +83,7 @@ export default function CronogramaDeposito() {
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading ? (
           <div className="py-16 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : envios.length === 0 ? (
           <div className="py-16 text-center text-sm text-gray-400">

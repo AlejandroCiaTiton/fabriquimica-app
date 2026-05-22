@@ -57,12 +57,12 @@ export default function FacturasEmitidas() {
         </svg>
         <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
           placeholder="Buscar por número, CAE o cliente…"
-          className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+          className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
       </div>
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : filtradas.length === 0
           ? <div className="p-12 text-center text-sm text-gray-400">Sin facturas emitidas</div>
           : (

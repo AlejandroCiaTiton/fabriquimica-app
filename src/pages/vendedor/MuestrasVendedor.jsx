@@ -50,7 +50,7 @@ function FormNuevoEnvio({ onClose }) {
         <div className="col-span-2">
           <label className="block text-xs font-semibold text-gray-500 mb-1">Cliente *</label>
           <select value={clienteId} onChange={e => setClienteId(e.target.value)} required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
             <option value="">Seleccionar cliente…</option>
             {clientes.map(c => <option key={c.id} value={c.id}>{c.razon_social}</option>)}
           </select>
@@ -58,7 +58,7 @@ function FormNuevoEnvio({ onClose }) {
         <div className="col-span-2">
           <label className="block text-xs font-semibold text-gray-500 mb-1">Producto *</label>
           <select value={productoId} onChange={e => { setProductoId(e.target.value); setLote('') }} required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
             <option value="">Seleccionar producto…</option>
             {productos.map(p => <option key={p.id} value={p.id}>{p.nombre} {p.codigo ? `(${p.codigo})` : ''}</option>)}
           </select>
@@ -66,27 +66,27 @@ function FormNuevoEnvio({ onClose }) {
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">Cantidad (unidades) *</label>
           <input type="number" min="1" value={cantidad} onChange={e => setCantidad(e.target.value)} required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             placeholder="Ej: 3"/>
         </div>
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">Lote</label>
           {lotes.length > 0 ? (
             <select value={lote} onChange={e => setLote(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
               <option value="">Sin especificar</option>
               {lotes.map(l => <option key={l.id} value={l.numero_lote}>{l.numero_lote} · {fmtFecha(l.fecha_produccion)}</option>)}
             </select>
           ) : (
             <input type="text" value={lote} onChange={e => setLote(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               placeholder="Nro. de lote"/>
           )}
         </div>
         <div className="col-span-2">
           <label className="block text-xs font-semibold text-gray-500 mb-1">Notas (opcional)</label>
           <textarea rows={2} value={notas} onChange={e => setNotas(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
             placeholder="Instrucciones de uso, condiciones de almacenamiento…"/>
         </div>
       </div>
@@ -97,7 +97,7 @@ function FormNuevoEnvio({ onClose }) {
           Cancelar
         </button>
         <button type="submit" disabled={enviar.isPending}
-          className="flex-1 bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2 rounded-lg text-sm disabled:opacity-60 flex items-center justify-center gap-2">
+          className="flex-1 bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2 rounded-lg text-sm disabled:opacity-60 flex items-center justify-center gap-2">
           {enviar.isPending && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
           Registrar envío
         </button>
@@ -169,7 +169,7 @@ function PanelResponder({ solicitud, onClose }) {
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">Producto a enviar *</label>
           <select value={prodSelec} onChange={e => setProdSelec(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
             <option value="">Seleccionar…</option>
             {productos.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
           </select>
@@ -180,7 +180,7 @@ function PanelResponder({ solicitud, onClose }) {
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">Producto alternativo *</label>
           <select value={prodAlt} onChange={e => setProdAlt(e.target.value)} required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
             <option value="">Seleccionar…</option>
             {productos.filter(p => p.id !== solicitud.producto_id).map(p =>
               <option key={p.id} value={p.id}>{p.nombre}</option>
@@ -193,7 +193,7 @@ function PanelResponder({ solicitud, onClose }) {
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">Cantidad de unidades a enviar</label>
           <input type="number" min="1" value={cantidad} onChange={e => setCantidad(e.target.value)}
-            className="w-28 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+            className="w-28 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
         </div>
       )}
 
@@ -202,7 +202,7 @@ function PanelResponder({ solicitud, onClose }) {
           {accion === 'rechazar' ? 'Motivo (recomendado)' : 'Mensaje al cliente (opcional)'}
         </label>
         <textarea rows={2} value={respuesta} onChange={e => setRespuesta(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
           placeholder={accion === 'rechazar' ? 'Explicá el motivo…' : 'Instrucciones o comentarios…'}/>
       </div>
 
@@ -213,7 +213,7 @@ function PanelResponder({ solicitud, onClose }) {
           Cancelar
         </button>
         <button type="submit" disabled={responder.isPending}
-          className="flex-1 bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2 rounded-lg text-sm disabled:opacity-60 flex items-center justify-center gap-2">
+          className="flex-1 bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2 rounded-lg text-sm disabled:opacity-60 flex items-center justify-center gap-2">
           {responder.isPending && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
           Confirmar
         </button>
@@ -252,7 +252,7 @@ function SeguimientoPanel({ envio }) {
         <div className="flex gap-2">
           {[['manual','Manual'],['automatico','Automático'],['ambos','Ambos']].map(([v,l]) => (
             <button key={v} type="button" onClick={() => setTipo(v)}
-              className={`flex-1 py-1.5 rounded text-xs font-semibold border-2 transition-all ${tipo === v ? 'border-[#004a99] bg-blue-50 text-[#004a99]' : 'border-gray-200 text-gray-400'}`}>
+              className={`flex-1 py-1.5 rounded text-xs font-semibold border-2 transition-all ${tipo === v ? 'border-[#1b4332] bg-blue-50 text-[#1b4332]' : 'border-gray-200 text-gray-400'}`}>
               {l}
             </button>
           ))}
@@ -261,13 +261,13 @@ function SeguimientoPanel({ envio }) {
           <div className="flex items-center gap-2 text-xs text-gray-600">
             <span>Consultar en</span>
             <input type="number" min="1" max="365" value={dias} onChange={e => setDias(e.target.value)}
-              className="w-14 border border-gray-200 rounded px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+              className="w-14 border border-gray-200 rounded px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
             <span>días desde el envío</span>
           </div>
         )}
         <textarea rows={2} value={nota} onChange={e => setNota(e.target.value)}
           placeholder="Nota interna (opcional)…"
-          className="w-full border border-gray-200 rounded px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"/>
+          className="w-full border border-gray-200 rounded px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"/>
         {err && <p className="text-xs text-red-600">{err}</p>}
         <div className="flex gap-2">
           {tieneSeg && (
@@ -277,7 +277,7 @@ function SeguimientoPanel({ envio }) {
             </button>
           )}
           <button type="button" onClick={handleGuardar} disabled={configurar.isPending}
-            className="flex-1 bg-[#004a99] text-white text-xs font-semibold py-1.5 rounded disabled:opacity-60 flex items-center justify-center gap-1.5">
+            className="flex-1 bg-[#1b4332] text-white text-xs font-semibold py-1.5 rounded disabled:opacity-60 flex items-center justify-center gap-1.5">
             {configurar.isPending && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
             Guardar
           </button>
@@ -309,12 +309,12 @@ function SeguimientoPanel({ envio }) {
             </span>
           )}
         </div>
-        <button onClick={() => setEditing(true)} className="text-[10px] text-gray-400 hover:text-[#004a99]">Editar</button>
+        <button onClick={() => setEditing(true)} className="text-[10px] text-gray-400 hover:text-[#1b4332]">Editar</button>
       </div>
       {envio.seguimiento_nota && <p className="text-xs text-gray-500 italic">"{envio.seguimiento_nota}"</p>}
       {vencido && !envio.seguimiento_contactado && (
         <button onClick={() => marcarContactado.mutate({ envioId: envio.id })} disabled={marcarContactado.isPending}
-          className="w-full bg-[#004a99] text-white text-xs font-semibold py-1.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-1.5">
+          className="w-full bg-[#1b4332] text-white text-xs font-semibold py-1.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-1.5">
           {marcarContactado.isPending && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
           Marcar como contactado
         </button>
@@ -368,7 +368,7 @@ function CardEnvio({ envio }) {
       {/* Seguimiento */}
       <div className="pt-2 border-t border-gray-100">
         <button onClick={() => setShowSeg(s => !s)}
-          className="flex items-center gap-1 text-xs text-gray-400 hover:text-[#004a99] transition-colors">
+          className="flex items-center gap-1 text-xs text-gray-400 hover:text-[#1b4332] transition-colors">
           <svg className={`w-3 h-3 transition-transform ${showSeg ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
           </svg>
@@ -404,7 +404,7 @@ export default function MuestrasVendedor() {
         </div>
         {tab === 'envios' && !showForm && (
           <button onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+            className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
@@ -420,7 +420,7 @@ export default function MuestrasVendedor() {
           ['solicitudes', 'Solicitudes de clientes', pendientesSolic > 0 ? pendientesSolic : null],
         ].map(([v, l, count]) => (
           <button key={v} onClick={() => { setTab(v); setShowForm(false); setSolicSelec(null) }}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
             {l}
             {count != null && (
               <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${v === 'solicitudes' ? 'bg-amber-100 text-amber-700' : 'bg-gray-200 text-gray-500'}`}>{count}</span>
@@ -443,11 +443,11 @@ export default function MuestrasVendedor() {
           )}
 
           {loadEnvios
-            ? <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+            ? <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
             : envios.length === 0
               ? <div className="bg-white rounded-[10px] shadow-card p-12 text-center text-sm text-gray-400">
                   No hay envíos registrados aún.<br/>
-                  <button onClick={() => setShowForm(true)} className="mt-2 text-[#004a99] font-medium hover:underline">Registrar primer envío →</button>
+                  <button onClick={() => setShowForm(true)} className="mt-2 text-[#1b4332] font-medium hover:underline">Registrar primer envío →</button>
                 </div>
               : (
                 <>
@@ -472,7 +472,7 @@ export default function MuestrasVendedor() {
           ) : null}
 
           {loadSolic
-            ? <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+            ? <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
             : solicitudes.length === 0
               ? <div className="bg-white rounded-[10px] shadow-card p-12 text-center text-sm text-gray-400">No hay solicitudes de muestras.</div>
               : (
@@ -499,7 +499,7 @@ export default function MuestrasVendedor() {
                           </div>
                           {s.estado === 'pendiente' && (
                             <button onClick={() => setSolicSelec(solicSelec?.id === s.id ? null : s)}
-                              className="flex-shrink-0 text-xs font-medium text-[#004a99] hover:underline border border-[#004a99] px-3 py-1.5 rounded-lg">
+                              className="flex-shrink-0 text-xs font-medium text-[#1b4332] hover:underline border border-[#1b4332] px-3 py-1.5 rounded-lg">
                               Responder
                             </button>
                           )}

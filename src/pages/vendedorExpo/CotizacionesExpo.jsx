@@ -21,7 +21,7 @@ const ESTADO_BADGE = {
   cancelado:            { text: 'Cancelado',          color: 'bg-red-50 text-red-600' },
 }
 
-const INPUT_SM = 'w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white'
+const INPUT_SM = 'w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white'
 
 function fmt(n, dec = 2) {
   if (n == null) return '—'
@@ -101,7 +101,7 @@ function SelectorCliente({ clienteId, onChange }) {
           </div>
           {errCliente && <p className="text-xs text-red-600">{errCliente}</p>}
           <button type="button" onClick={handleCrear} disabled={crearExterior.isPending}
-            className="text-sm font-medium text-[#004a99] hover:underline disabled:opacity-50">
+            className="text-sm font-medium text-[#1b4332] hover:underline disabled:opacity-50">
             {crearExterior.isPending ? 'Registrando…' : 'Registrar y seleccionar'}
           </button>
         </div>
@@ -411,7 +411,7 @@ function DetallePedido({ pedido, onClose }) {
           {pedido.estado !== 'borrador' && (pedido.incoterm || pedido.puerto_descarga) && (
             <div className="flex gap-4 text-sm text-gray-600">
               {pedido.incoterm && (
-                <span>Incoterm: <strong className="text-[#004a99]">{pedido.incoterm}</strong></span>
+                <span>Incoterm: <strong className="text-[#1b4332]">{pedido.incoterm}</strong></span>
               )}
               {pedido.puerto_descarga && (
                 <span>Puerto: <strong>{pedido.puerto_descarga}</strong></span>
@@ -463,7 +463,7 @@ function DetallePedido({ pedido, onClose }) {
                                       off
                                         ? 'border-gray-100 text-gray-300 cursor-not-allowed'
                                         : l.tipoEnvase === v
-                                        ? 'border-[#004a99] bg-blue-50 text-[#004a99] font-medium'
+                                        ? 'border-[#1b4332] bg-blue-50 text-[#1b4332] font-medium'
                                         : 'border-gray-200 text-gray-500 hover:border-gray-300'
                                     }`}>
                                     {ENVASE_LABELS[v]}
@@ -476,7 +476,7 @@ function DetallePedido({ pedido, onClose }) {
                                   onClick={() => updateLinea(l.lineKey, { capacidadTambor: c })}
                                   className={`text-xs px-2 py-0.5 rounded border transition-colors ${
                                     l.capacidadTambor === c
-                                      ? 'border-[#004a99] bg-blue-50 text-[#004a99] font-medium'
+                                      ? 'border-[#1b4332] bg-blue-50 text-[#1b4332] font-medium'
                                       : 'border-gray-200 text-gray-500 hover:border-gray-300'
                                   }`}>
                                   {c} kg
@@ -494,7 +494,7 @@ function DetallePedido({ pedido, onClose }) {
                                     updateLinea(l.lineKey, { kgLinea: kg, usarBin })
                                   }}
                                   placeholder="kg"
-                                  className="w-20 text-xs text-center border border-gray-200 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-[#004a99]"
+                                  className="w-20 text-xs text-center border border-gray-200 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-[#1b4332]"
                                 />
                                 <span className="text-xs text-gray-400">kg</span>
                               </div>
@@ -530,7 +530,7 @@ function DetallePedido({ pedido, onClose }) {
                       {/* Agregar tipo de envase */}
                       <button type="button"
                         onClick={() => addLinea(productoId, productoNombre)}
-                        className="w-full text-xs text-[#004a99] border border-dashed border-[#004a99]/30 rounded py-1.5 hover:bg-blue-50 transition-colors">
+                        className="w-full text-xs text-[#1b4332] border border-dashed border-[#1b4332]/30 rounded py-1.5 hover:bg-blue-50 transition-colors">
                         + Agregar tipo de envase
                       </button>
                     </div>
@@ -600,8 +600,8 @@ function DetallePedido({ pedido, onClose }) {
                                       onClick={() => setPrecios(p => ({ ...p, [it.id]: String(val) }))}
                                       className={`text-[10px] px-1.5 py-0.5 rounded font-semibold transition-colors ${
                                         active
-                                          ? 'bg-[#004a99] text-white'
-                                          : 'bg-gray-100 text-gray-500 hover:bg-blue-100 hover:text-[#004a99]'
+                                          ? 'bg-[#1b4332] text-white'
+                                          : 'bg-gray-100 text-gray-500 hover:bg-blue-100 hover:text-[#1b4332]'
                                       }`}>
                                       {l.label}
                                     </button>
@@ -615,7 +615,7 @@ function DetallePedido({ pedido, onClose }) {
                                 type="number" min="0" step="0.0001"
                                 value={precios[it.id]}
                                 onChange={e => setPrecios(p => ({ ...p, [it.id]: e.target.value }))}
-                                className="w-24 text-sm text-right border border-gray-200 rounded px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                                className="w-24 text-sm text-right border border-gray-200 rounded px-2 py-0.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
                               />
                             </div>
                           </div>
@@ -695,7 +695,7 @@ function DetallePedido({ pedido, onClose }) {
               </button>
               <button onClick={handleEnviarAProduccion}
                 disabled={loading}
-                className="px-5 py-2 text-sm font-semibold bg-[#004a99] text-white rounded-lg hover:bg-[#003d80] disabled:opacity-50 flex items-center gap-2">
+                className="px-5 py-2 text-sm font-semibold bg-[#1b4332] text-white rounded-lg hover:bg-[#152e24] disabled:opacity-50 flex items-center gap-2">
                 {loading && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
                 Enviar a Producción
               </button>
@@ -762,7 +762,7 @@ export default function CotizacionesExpo() {
           </p>
         </div>
         <button onClick={() => navigate('/vendedor/expo-nueva')}
-          className="flex items-center gap-2 px-4 py-2 bg-[#004a99] text-white text-sm font-semibold rounded-lg hover:bg-[#003d80] transition-colors">
+          className="flex items-center gap-2 px-4 py-2 bg-[#1b4332] text-white text-sm font-semibold rounded-lg hover:bg-[#152e24] transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/>
           </svg>
@@ -772,13 +772,13 @@ export default function CotizacionesExpo() {
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : pedidos.length === 0
           ? (
             <div className="p-12 text-center">
               <p className="text-sm text-gray-400 mb-4">Todavía no creaste ninguna cotización EXPO</p>
               <button onClick={() => navigate('/vendedor/expo-nueva')}
-                className="px-4 py-2 bg-[#004a99] text-white text-sm font-semibold rounded-lg hover:bg-[#003d80]">
+                className="px-4 py-2 bg-[#1b4332] text-white text-sm font-semibold rounded-lg hover:bg-[#152e24]">
                 Crear primera cotización
               </button>
             </div>
@@ -814,7 +814,7 @@ export default function CotizacionesExpo() {
                       )}
                     </td>
                     <td className="px-4 py-3 text-gray-500">{p.pais_destino || '—'}</td>
-                    <td className="px-4 py-3 font-semibold text-[#004a99]">{p.incoterm || '—'}</td>
+                    <td className="px-4 py-3 font-semibold text-[#1b4332]">{p.incoterm || '—'}</td>
                     <td className="px-4 py-3 text-right text-gray-600">{p.peso_neto != null ? `${parseFloat(p.peso_neto).toLocaleString('es-AR')} kg` : '—'}</td>
                     <td className="px-4 py-3 text-right font-medium">{totalUsd > 0 ? `USD ${fmt(totalUsd)}` : '—'}</td>
                     <td className="px-4 py-3">

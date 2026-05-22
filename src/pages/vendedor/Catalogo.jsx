@@ -68,7 +68,7 @@ export default function Catalogo() {
             value={busqueda}
             onChange={e => setBusqueda(e.target.value)}
             placeholder="Buscar por nombre o código…"
-            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
           />
           {busqueda && (
             <button
@@ -89,7 +89,7 @@ export default function Catalogo() {
               title={l.title}
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 lista === l.key
-                  ? 'bg-[#004a99] text-white'
+                  ? 'bg-[#1b4332] text-white'
                   : 'text-gray-500 hover:text-gray-800'
               }`}
             >
@@ -109,7 +109,7 @@ export default function Catalogo() {
 
         {isLoading && (
           <div className="p-12 text-center">
-            <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             <p className="text-sm text-gray-400">Cargando catálogo…</p>
           </div>
         )}

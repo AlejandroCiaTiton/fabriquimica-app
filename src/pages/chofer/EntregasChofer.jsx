@@ -59,16 +59,16 @@ function Calendario({ year, month, entregasPorDia, diaSeleccionado, onSelectDia,
             <button key={ymd} onClick={() => onSelectDia(seleccionado ? null : ymd)}
               className={`relative flex flex-col items-center py-1.5 rounded-lg text-xs font-medium transition-colors ${
                 seleccionado
-                  ? 'bg-[#004a99] text-white'
+                  ? 'bg-[#1b4332] text-white'
                   : esHoy
-                  ? 'bg-blue-50 text-[#004a99] font-bold'
+                  ? 'bg-blue-50 text-[#1b4332] font-bold'
                   : count > 0
                   ? 'hover:bg-gray-100 text-gray-800'
                   : 'hover:bg-gray-50 text-gray-400'
               }`}>
               {dia}
               {count > 0 && !seleccionado && (
-                <span className="w-1.5 h-1.5 rounded-full bg-[#004a99] mt-0.5"/>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#1b4332] mt-0.5"/>
               )}
               {count > 0 && seleccionado && (
                 <span className="w-1.5 h-1.5 rounded-full bg-white mt-0.5"/>
@@ -98,7 +98,7 @@ function ModalNoEntrega({ oc, onConfirm, onClose, loading }) {
           onChange={e => setMotivo(e.target.value)}
           rows={3}
           placeholder="Ej: Cliente ausente, dirección incorrecta, acceso denegado…"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
         />
         <div className="flex gap-3 mt-4">
           <button onClick={onClose}
@@ -129,7 +129,7 @@ function TarjetaEntrega({ oc, onConfirmar, onNoEntrega }) {
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="min-w-0">
           <p className="font-semibold text-gray-900 text-sm truncate">{cli?.razon_social}</p>
-          <p className="font-mono text-xs text-[#004a99]">{oc.numero}</p>
+          <p className="font-mono text-xs text-[#1b4332]">{oc.numero}</p>
           {oc.fecha_estimada_entrega && (
             <p className="text-xs text-gray-400 mt-0.5">
               Entrega estimada: {fmtFecha(oc.fecha_estimada_entrega)}
@@ -246,9 +246,9 @@ export default function EntregasChofer() {
           {ordenesSinFecha.length > 0 && (
             <div className="bg-white rounded-[10px] shadow-card p-4">
               <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Sin fecha asignada</p>
-              <p className="text-2xl font-bold text-[#004a99]">{ordenesSinFecha.length}</p>
+              <p className="text-2xl font-bold text-[#1b4332]">{ordenesSinFecha.length}</p>
               <button onClick={() => setDiaSelec(null)}
-                className="mt-2 text-xs text-[#004a99] hover:underline font-medium">
+                className="mt-2 text-xs text-[#1b4332] hover:underline font-medium">
                 Ver todas →
               </button>
             </div>
@@ -259,7 +259,7 @@ export default function EntregasChofer() {
         <div className="flex-1 min-w-0">
           {isLoading && (
             <div className="flex justify-center py-16">
-              <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+              <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
             </div>
           )}
 

@@ -110,7 +110,7 @@ function ModalEmitir({ oc, onClose }) {
                       onClick={() => setTipo(t.value)}
                       className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors text-left ${
                         tipo === t.value
-                          ? 'border-[#004a99] bg-blue-50 text-[#004a99]'
+                          ? 'border-[#1b4332] bg-blue-50 text-[#1b4332]'
                           : 'border-gray-200 text-gray-600 hover:border-gray-300'
                       }`}>
                       <p className="font-semibold">{t.label}</p>
@@ -125,7 +125,7 @@ function ModalEmitir({ oc, onClose }) {
                 <input type="number" min="1" max="9999"
                   value={puntoVenta}
                   onChange={e => setPuntoVenta(e.target.value)}
-                  className="w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                  className="w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
                 />
               </div>
 
@@ -137,7 +137,7 @@ function ModalEmitir({ oc, onClose }) {
                 <input type="date"
                   value={fechaVencimiento}
                   onChange={e => setFechaVenc(e.target.value)}
-                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
                 />
               </div>
 
@@ -151,7 +151,7 @@ function ModalEmitir({ oc, onClose }) {
               {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{err}</p>}
 
               <button onClick={handleEmitir} disabled={emitir.isPending}
-                className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+                className="w-full bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
                 {emitir.isPending && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
                 {AFIP_ENABLED ? 'Emitir factura (AFIP)' : 'Emitir factura (simulación)'}
               </button>
@@ -198,10 +198,10 @@ function ModalEmitir({ oc, onClose }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                       </svg>
                       PDF adjunto correctamente
-                      <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="ml-auto text-[#004a99] hover:underline font-medium">Ver</a>
+                      <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="ml-auto text-[#1b4332] hover:underline font-medium">Ver</a>
                     </div>
                   : <label className={`flex items-center gap-2 cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border w-fit transition-colors ${
-                      pdfUploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-600 hover:border-[#004a99] hover:text-[#004a99]'
+                      pdfUploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-600 hover:border-[#1b4332] hover:text-[#1b4332]'
                     }`}>
                       <input type="file" accept=".pdf" className="hidden" disabled={pdfUploading}
                         onChange={async e => {
@@ -288,7 +288,7 @@ function TablaOCs({ ocs, onEmitir }) {
                     ? <span className="text-[10px] text-green-600 font-medium">✓ Emitida</span>
                     : (
                       <button onClick={() => onEmitir(oc)}
-                        className="text-xs font-medium text-[#004a99] hover:text-[#003d80] hover:underline">
+                        className="text-xs font-medium text-[#1b4332] hover:text-[#152e24] hover:underline">
                         Emitir →
                       </button>
                     )
@@ -326,7 +326,7 @@ export default function OrdenesFacturar() {
         ].map(([v, l]) => (
           <button key={v} onClick={() => setTab(v)}
             className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-              tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              tab === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}>
             {l}
           </button>
@@ -340,7 +340,7 @@ export default function OrdenesFacturar() {
       )}
 
       {isLoading
-        ? <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+        ? <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
         : <TablaOCs
             ocs={tab === 'pendientes' ? pendientes : tab === 'facturadas' ? facturadas : todas}
             onEmitir={setOcSelec}

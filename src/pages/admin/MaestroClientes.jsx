@@ -76,7 +76,7 @@ function EditCell({ value, onSave, type = 'text', placeholder = '' }) {
       onBlur={handleBlur}
       onKeyDown={e => e.key === 'Enter' && handleBlur()}
       placeholder={placeholder}
-      className="w-full text-sm border border-[#004a99] rounded px-2 py-0.5 focus:outline-none min-w-[120px]"
+      className="w-full text-sm border border-[#1b4332] rounded px-2 py-0.5 focus:outline-none min-w-[120px]"
     />
   )
 
@@ -111,7 +111,7 @@ function ModalContactos({ cliente, onClose }) {
             : <ul className="space-y-3">
                 {contactos.map(c => (
                   <li key={c.id} className="flex items-center gap-3 text-sm">
-                    <div className="w-8 h-8 rounded-full bg-[#004a99]/10 flex items-center justify-center text-[#004a99] font-bold text-xs flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-[#1b4332]/10 flex items-center justify-center text-[#1b4332] font-bold text-xs flex-shrink-0">
                       {(c.nombre || '?')[0].toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -206,7 +206,7 @@ export default function MaestroClientes() {
           ['inactivos', 'Inactivos',  inactivos.length  > 0 ? inactivos.length  : null],
         ].map(([v, l, count]) => (
           <button key={v} onClick={() => setTab(v)}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
             {l}
             {count != null && (
               <span className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${v === 'pendientes' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>{count}</span>
@@ -221,12 +221,12 @@ export default function MaestroClientes() {
         </svg>
         <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
           placeholder="Buscar cliente…"
-          className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+          className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
       </div>
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : filtrados.length === 0
           ? <div className="p-12 text-center text-sm text-gray-400">Sin clientes</div>
           : (
@@ -271,7 +271,7 @@ export default function MaestroClientes() {
                     <select
                       value={c.vendedor_id ?? ''}
                       onChange={e => actualizar.mutate({ id: c.id, campos: { vendedor_id: e.target.value ? parseInt(e.target.value) : null } })}
-                      className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white text-gray-700 w-full min-w-[120px]"
+                      className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white text-gray-700 w-full min-w-[120px]"
                     >
                       <option value="">Sin asignar</option>
                       {vendedores.map(v => (
@@ -283,7 +283,7 @@ export default function MaestroClientes() {
                     <select
                       value={c.zona_id ?? ''}
                       onChange={e => actualizar.mutate({ id: c.id, campos: { zona_id: e.target.value ? parseInt(e.target.value) : null } })}
-                      className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white text-gray-700 w-full"
+                      className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white text-gray-700 w-full"
                     >
                       <option value="">Sin zona</option>
                       {zonas.map(z => (
@@ -298,7 +298,7 @@ export default function MaestroClientes() {
                           onClick={() => handleGeocodificar(c)}
                           disabled={geocodingId === c.id || !c.direccion}
                           title={c.direccion ? 'Geocodificar dirección' : 'Sin dirección cargada'}
-                          className="text-xs text-[#004a99] hover:underline disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="text-xs text-[#1b4332] hover:underline disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           {geocodingId === c.id ? '…' : 'Geocodificar'}
                         </button>
@@ -313,7 +313,7 @@ export default function MaestroClientes() {
                   </td>
                   <td className="px-4 py-2 text-center">
                     <button onClick={() => setModalCliente(c)}
-                      className="text-xs text-[#004a99] hover:underline">
+                      className="text-xs text-[#1b4332] hover:underline">
                       {c.contactos?.length ?? 0}
                     </button>
                   </td>

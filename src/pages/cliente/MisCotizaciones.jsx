@@ -246,10 +246,10 @@ function BuscadorProductosExtra({ productos, idsExcluidos, onAgregar }) {
           </svg>
           <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
             placeholder="Buscar producto…"
-            className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+            className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
         </div>
         <input type="number" min="1" value={cantidad} onChange={e => setCantidad(Number(e.target.value) || 1)}
-          className="w-20 text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+          className="w-20 text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           title="Cantidad kg/lt"/>
       </div>
       {resultados.length > 0 && (
@@ -261,7 +261,7 @@ function BuscadorProductosExtra({ productos, idsExcluidos, onAgregar }) {
                 <p className="text-sm font-medium text-gray-900">{p.nombre}</p>
                 <p className="text-xs text-gray-400">{p.presentacion}</p>
               </div>
-              <svg className="w-4 h-4 text-[#004a99] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-4 h-4 text-[#1b4332] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
               </svg>
             </button>
@@ -309,7 +309,7 @@ function ModalConfirmarOC({ items, respuestas, cot, onConfirmar, onCancelar, isP
           </div>
           <div className="flex justify-between font-bold text-base text-gray-900 pt-1.5 border-t border-gray-200">
             <span>Total</span>
-            <span className="text-[#004a99]">{fmtUSD(cot.total)}</span>
+            <span className="text-[#1b4332]">{fmtUSD(cot.total)}</span>
           </div>
         </div>
 
@@ -324,7 +324,7 @@ function ModalConfirmarOC({ items, respuestas, cot, onConfirmar, onCancelar, isP
           <button
             onClick={onConfirmar}
             disabled={isPending}
-            className="flex-1 bg-[#004a99] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#003d80] disabled:opacity-50"
+            className="flex-1 bg-[#1b4332] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#152e24] disabled:opacity-50"
           >
             {isPending ? (
               <span className="flex items-center justify-center gap-1.5">
@@ -369,8 +369,8 @@ function ModalEmitirOC({ cot, onClose }) {
               <svg className="w-6 h-6 text-[#28a745]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
             </div>
             <h3 className="font-bold text-gray-900 mb-1">OC emitida</h3>
-            <p className="text-sm text-gray-500 mb-4">Código: <strong className="text-[#004a99]">{exito}</strong></p>
-            <button onClick={onClose} className="w-full bg-[#004a99] text-white py-2 rounded-lg text-sm">Cerrar</button>
+            <p className="text-sm text-gray-500 mb-4">Código: <strong className="text-[#1b4332]">{exito}</strong></p>
+            <button onClick={onClose} className="w-full bg-[#1b4332] text-white py-2 rounded-lg text-sm">Cerrar</button>
           </div>
         ) : (
           <>
@@ -383,7 +383,7 @@ function ModalEmitirOC({ cot, onClose }) {
                   {[['entrega','Envío a domicilio'],['retiro','Retiro en fábrica']].map(([v, l]) => (
                     <button key={v} type="button" onClick={() => setTipoEntrega(v)}
                       className={`py-2 rounded-lg text-xs font-semibold border-2 transition-all ${
-                        tipoEntrega === v ? 'border-[#004a99] bg-blue-50 text-[#004a99]' : 'border-gray-200 text-gray-400'
+                        tipoEntrega === v ? 'border-[#1b4332] bg-blue-50 text-[#1b4332]' : 'border-gray-200 text-gray-400'
                       }`}>
                       {l}
                     </button>
@@ -394,18 +394,18 @@ function ModalEmitirOC({ cot, onClose }) {
                 <label className="text-xs font-medium text-gray-500 block mb-1">N° de OC interno (opcional)</label>
                 <input type="text" value={refCliente} onChange={e => setRefCliente(e.target.value)}
                   placeholder="Tu referencia interna"
-                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
               </div>
               <div>
                 <label className="text-xs font-medium text-gray-500 block mb-1">Observaciones (opcional)</label>
                 <textarea value={obs} onChange={e => setObs(e.target.value)} rows={2}
-                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
               </div>
             </div>
             <div className="flex gap-2">
               <button onClick={onClose} className="flex-1 border border-gray-200 rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50">Cancelar</button>
               <button onClick={handleEmitir} disabled={emitir.isPending}
-                className="flex-1 bg-[#004a99] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#003d80] disabled:opacity-50">
+                className="flex-1 bg-[#1b4332] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#152e24] disabled:opacity-50">
                 {emitir.isPending ? 'Emitiendo…' : 'Emitir OC'}
               </button>
             </div>
@@ -546,13 +546,13 @@ function DetalleCotizacion({ cot, onClose }) {
             </h3>
             <p className="text-sm text-gray-500 mb-6">
               {exito === 'ganada'
-                ? <>OC <strong className="text-[#004a99]">{ocNumero}</strong> creada. El vendedor preparará tu pedido.</>
+                ? <>OC <strong className="text-[#1b4332]">{ocNumero}</strong> creada. El vendedor preparará tu pedido.</>
                 : exito === 'perdida' ? 'Le avisamos al vendedor.'
                 : 'Recibirás una cotización actualizada pronto.'}
             </p>
             <button
               onClick={onClose}
-              className="px-5 py-2 bg-[#004a99] text-white rounded-lg text-sm hover:bg-[#003d80]"
+              className="px-5 py-2 bg-[#1b4332] text-white rounded-lg text-sm hover:bg-[#152e24]"
             >
               Cerrar
             </button>
@@ -634,7 +634,7 @@ function DetalleCotizacion({ cot, onClose }) {
                 </div>
                 <div className="flex justify-between font-bold text-base text-gray-900 pt-2 border-t border-gray-200">
                   <span>Total</span>
-                  <span className="text-[#004a99]">{fmtUSD(cot.total)}</span>
+                  <span className="text-[#1b4332]">{fmtUSD(cot.total)}</span>
                 </div>
               </div>
             </div>
@@ -661,7 +661,7 @@ function DetalleCotizacion({ cot, onClose }) {
                   <button
                     onClick={handleConfirmar}
                     disabled={sinResponder > 0 || responder.isPending}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#004a99] hover:bg-[#003d80] disabled:opacity-50 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#1b4332] hover:bg-[#152e24] disabled:opacity-50 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
                   >
                     {responder.isPending ? (
                       <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Enviando…</>
@@ -763,7 +763,7 @@ export default function MisCotizaciones() {
 
         {isLoading && (
           <div className="p-12 flex justify-center">
-            <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin" />
           </div>
         )}
 
@@ -800,7 +800,7 @@ export default function MisCotizaciones() {
                       }`}
                       onClick={() => setDetalle(cot)}
                     >
-                      <td className="px-4 py-3 font-mono text-xs font-semibold text-[#004a99]">
+                      <td className="px-4 py-3 font-mono text-xs font-semibold text-[#1b4332]">
                         {cot.codigo}
                       </td>
                       <td className="px-4 py-3 text-gray-500">{fmtFecha(cot.creado_en)}</td>
@@ -813,7 +813,7 @@ export default function MisCotizaciones() {
                       </td>
                       <td className="px-4 py-3 text-center">
                         {enEspera ? (
-                          <span className="text-xs font-semibold text-[#004a99] bg-blue-50 px-2 py-1 rounded-full">
+                          <span className="text-xs font-semibold text-[#1b4332] bg-blue-50 px-2 py-1 rounded-full">
                             Responder
                           </span>
                         ) : enRevision ? (

@@ -31,7 +31,7 @@ function useEstadisticas() {
   })
 }
 
-function KpiCard({ label, value, sub, color = '#004a99' }) {
+function KpiCard({ label, value, sub, color = '#1b4332' }) {
   return (
     <div className="bg-white rounded-[10px] shadow-card px-5 py-4">
       <p className="text-xs text-gray-400 font-medium mb-1">{label}</p>
@@ -99,7 +99,7 @@ export default function Estadisticas() {
   }
 
   if (isLoading || !stats) {
-    return <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+    return <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
   }
 
   const realTotal = stats.ocPorMes.reduce((a, v) => a + v, 0)
@@ -123,7 +123,7 @@ export default function Estadisticas() {
           label="Facturado acum. (USD)"
           value={`$${Math.round(stats.totalFacturado).toLocaleString('es-AR')}`}
           sub={totalAnual > 0 ? `${pctPlan}% del plan ${AÑO}` : 'OC entregadas'}
-          color="#004a99"
+          color="#1b4332"
         />
       </div>
 
@@ -182,11 +182,11 @@ export default function Estadisticas() {
                 <div className="h-full rounded-full transition-all"
                   style={{
                     width: `${Math.min(pctPlan, 100)}%`,
-                    backgroundColor: pctPlan >= 90 ? '#28a745' : pctPlan >= 60 ? '#004a99' : pctPlan >= 30 ? '#ffc107' : '#dc3545',
+                    backgroundColor: pctPlan >= 90 ? '#28a745' : pctPlan >= 60 ? '#1b4332' : pctPlan >= 30 ? '#ffc107' : '#dc3545',
                   }}
                 />
               </div>
-              <span className={`text-sm font-bold w-12 text-right flex-shrink-0 ${pctPlan >= 90 ? 'text-[#28a745]' : pctPlan >= 60 ? 'text-[#004a99]' : pctPlan >= 30 ? 'text-[#ffc107]' : 'text-[#dc3545]'}`}>
+              <span className={`text-sm font-bold w-12 text-right flex-shrink-0 ${pctPlan >= 90 ? 'text-[#28a745]' : pctPlan >= 60 ? 'text-[#1b4332]' : pctPlan >= 30 ? 'text-[#ffc107]' : 'text-[#dc3545]'}`}>
                 {pctPlan}%
               </span>
             </div>
@@ -242,11 +242,11 @@ export default function Estadisticas() {
                 <td className="px-4 py-3 text-gray-700">Total {AÑO}</td>
                 <td className="px-4 py-3 text-right text-gray-600">USD {totalAnual.toLocaleString('es-AR')}</td>
                 <td className="px-4 py-3 text-right text-gray-800">USD {Math.round(realTotal).toLocaleString('es-AR')}</td>
-                <td className={`px-4 py-3 text-right ${pctPlan >= 90 ? 'text-[#28a745]' : pctPlan >= 60 ? 'text-[#004a99]' : 'text-[#ffc107]'}`}>{pctPlan}%</td>
+                <td className={`px-4 py-3 text-right ${pctPlan >= 90 ? 'text-[#28a745]' : pctPlan >= 60 ? 'text-[#1b4332]' : 'text-[#ffc107]'}`}>{pctPlan}%</td>
                 <td className="px-4 py-3">
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div className="h-full rounded-full"
-                      style={{ width: `${Math.min(pctPlan, 100)}%`, backgroundColor: pctPlan >= 90 ? '#28a745' : pctPlan >= 60 ? '#004a99' : '#ffc107' }}
+                      style={{ width: `${Math.min(pctPlan, 100)}%`, backgroundColor: pctPlan >= 90 ? '#28a745' : pctPlan >= 60 ? '#1b4332' : '#ffc107' }}
                     />
                   </div>
                 </td>
@@ -258,7 +258,7 @@ export default function Estadisticas() {
         <div className="bg-white rounded-[10px] shadow-card p-8 text-center">
           <p className="text-gray-400 text-sm">
             No hay plan cargado para {AÑO}.{' '}
-            <a href="/vendedor/plan" className="text-[#004a99] hover:underline font-medium">Ir a Plan de Ventas →</a>
+            <a href="/vendedor/plan" className="text-[#1b4332] hover:underline font-medium">Ir a Plan de Ventas →</a>
           </p>
         </div>
       )}

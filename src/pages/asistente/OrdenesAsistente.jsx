@@ -56,7 +56,7 @@ export default function OrdenesAsistente() {
           </p>
         </div>
         {!isLoading && ordenes.length > 0 && (
-          <p className="text-sm font-semibold text-[#004a99]">
+          <p className="text-sm font-semibold text-[#1b4332]">
             {fmtUSD(ordenes.reduce((s, o) => s + parseFloat(o.cotizaciones?.total ?? 0), 0))}
           </p>
         )}
@@ -67,7 +67,7 @@ export default function OrdenesAsistente() {
         {FILTROS.map(f => (
           <button key={f} onClick={() => setFiltroEstado(f)}
             className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-              filtroEstado === f ? 'bg-[#004a99] text-white' : 'text-gray-500 hover:text-gray-800'
+              filtroEstado === f ? 'bg-[#1b4332] text-white' : 'text-gray-500 hover:text-gray-800'
             }`}>
             {f === 'todas' ? `Todas (${ordenes.length})` : `${LABELS[f]} (${porEstado[f] ?? 0})`}
           </button>
@@ -82,19 +82,19 @@ export default function OrdenesAsistente() {
           </svg>
           <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
             placeholder="Buscar por cliente u OC#…"
-            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white"/>
+            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white"/>
         </div>
 
         {vendedores.length > 0 && (
           <select value={filtroVendedor} onChange={e => setFiltroVendedor(e.target.value)}
-            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
             <option value="todos">Todos los vendedores</option>
             {vendedores.map(v => <option key={v} value={v}>{v}</option>)}
           </select>
         )}
 
         <select value={filtroPago} onChange={e => setFiltroPago(e.target.value)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
           <option value="todos">Todos los pagos</option>
           <option value="pendiente">Pago pendiente</option>
           <option value="parcial">Pago parcial</option>
@@ -117,7 +117,7 @@ export default function OrdenesAsistente() {
 
       {isLoading && (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+          <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
         </div>
       )}
 

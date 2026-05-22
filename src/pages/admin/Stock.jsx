@@ -89,7 +89,7 @@ function StockCell({ productoId, cantidad }) {
       onChange={e => setVal(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={e => e.key === 'Enter' && handleBlur()}
-      className="w-20 text-right text-sm border border-[#004a99] rounded px-2 py-0.5 focus:outline-none"
+      className="w-20 text-right text-sm border border-[#1b4332] rounded px-2 py-0.5 focus:outline-none"
     />
   )
 
@@ -146,7 +146,7 @@ function PanelDetalle({ producto, onClose }) {
 
         {isLoading && (
           <div className="flex justify-center py-8">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         )}
 
@@ -186,7 +186,7 @@ function PanelDetalle({ producto, onClose }) {
                   </div>
                   {m.coa_url && (
                     <a href={m.coa_url} target="_blank" rel="noopener noreferrer"
-                      className="flex-shrink-0 flex items-center gap-1 text-xs font-medium text-[#004a99] hover:underline">
+                      className="flex-shrink-0 flex items-center gap-1 text-xs font-medium text-[#1b4332] hover:underline">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
                       </svg>
@@ -256,7 +256,7 @@ export default function Stock() {
             {seleccionado ? 'Clic en un producto para ver su historial' : 'Clic en la cantidad para editar · Clic en el nombre para ver historial'}
           </p>
         </div>
-        <label className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg cursor-pointer transition-colors">
+        <label className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg cursor-pointer transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
           </svg>
@@ -281,7 +281,7 @@ export default function Stock() {
             </svg>
             <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
               placeholder="Buscar producto…"
-              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
           </div>
 
           {!prodSel && (
@@ -292,7 +292,7 @@ export default function Stock() {
 
           <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
             {isLoading
-              ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+              ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
               : (
               <table className="w-full text-sm">
                 <thead>

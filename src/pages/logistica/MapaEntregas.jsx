@@ -130,7 +130,7 @@ export default function MapaEntregas() {
             ].map(([v, l]) => (
               <button key={v} onClick={() => setFiltro(v)}
                 className={`text-left px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  filtro === v ? 'bg-[#004a99] text-white' : 'text-gray-600 hover:bg-gray-100'
+                  filtro === v ? 'bg-[#1b4332] text-white' : 'text-gray-600 hover:bg-gray-100'
                 }`}>
                 {l}
               </button>
@@ -218,7 +218,7 @@ export default function MapaEntregas() {
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-gray-900 truncate">{cli?.razon_social}</p>
-                    <p className="text-xs font-mono text-[#004a99]">{oc.numero}</p>
+                    <p className="text-xs font-mono text-[#1b4332]">{oc.numero}</p>
                   </div>
                   <div className="flex-shrink-0 w-3 h-3 rounded-full mt-1" style={{ backgroundColor: cfg.color }}/>
                 </div>
@@ -252,7 +252,7 @@ export default function MapaEntregas() {
         )}
         {!loadError && !isLoaded && (
           <div className="flex items-center justify-center h-full">
-            <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         )}
         {isLoaded && (
@@ -290,7 +290,7 @@ export default function MapaEntregas() {
                     onCloseClick={() => setChoferSelec(null)}
                   >
                     <div className="text-sm">
-                      <p className="font-bold text-[#004a99]">{c.perfiles?.nombre || 'Chofer'}</p>
+                      <p className="font-bold text-[#1b4332]">{c.perfiles?.nombre || 'Chofer'}</p>
                       <p className="text-xs text-gray-500 mt-0.5">En ruta · {recorrido.length} puntos registrados</p>
                     </div>
                   </InfoWindowF>
@@ -321,7 +321,7 @@ export default function MapaEntregas() {
                   {selected === oc.id && (
                     <InfoWindowF position={pos} onCloseClick={() => setSelected(null)}>
                       <div className="text-sm min-w-[200px]">
-                        <p className="font-bold text-[#004a99] mb-0.5">{oc.numero}</p>
+                        <p className="font-bold text-[#1b4332] mb-0.5">{oc.numero}</p>
                         <p className="font-semibold text-gray-900 mb-1">{cli.razon_social}</p>
                         {oc.fecha_estimada_entrega && (
                           <p className="text-xs text-gray-500 mb-1">

@@ -85,7 +85,7 @@ function ModalCrear({ onClose, onSave }) {
               <input
                 value={form.codigo}
                 onChange={e => setForm(f => ({ ...f, codigo: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -94,7 +94,7 @@ function ModalCrear({ onClose, onSave }) {
                 type="date"
                 value={form.fechaInicio}
                 onChange={e => setForm(f => ({ ...f, fechaInicio: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@ function ModalCrear({ onClose, onSave }) {
               value={form.nombre}
               onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))}
               placeholder="Ej: Desarrollo neutralizante pH 5"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
           <div>
@@ -115,13 +115,13 @@ function ModalCrear({ onClose, onSave }) {
               value={form.descripcion}
               onChange={e => setForm(f => ({ ...f, descripcion: e.target.value }))}
               rows={2}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
             />
           </div>
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="block text-xs font-medium text-gray-600">Productos utilizados</label>
-              <button type="button" onClick={agregarProducto} className="text-xs text-[#004a99] hover:underline">
+              <button type="button" onClick={agregarProducto} className="text-xs text-[#1b4332] hover:underline">
                 + Agregar
               </button>
             </div>
@@ -132,7 +132,7 @@ function ModalCrear({ onClose, onSave }) {
                     value={p}
                     onChange={e => actualizarProducto(idx, e.target.value)}
                     placeholder={`Producto ${idx + 1}`}
-                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
                   />
                   {form.productosUtilizados.length > 1 && (
                     <button type="button" onClick={() => quitarProducto(idx)} className="text-gray-300 hover:text-red-500">
@@ -151,7 +151,7 @@ function ModalCrear({ onClose, onSave }) {
               value={form.resultadoEsperado}
               onChange={e => setForm(f => ({ ...f, resultadoEsperado: e.target.value }))}
               rows={2}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
             />
           </div>
           {error && (
@@ -165,7 +165,7 @@ function ModalCrear({ onClose, onSave }) {
           <button
             type="submit"
             form="form-desarrollo"
-            className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
+            className="bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
           >
             Crear desarrollo
           </button>
@@ -212,7 +212,7 @@ function ModalEditar({ desarrollo, onClose, onSave }) {
             <select
               value={estado}
               onChange={e => setEstado(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             >
               <option value="en-curso">En curso</option>
               <option value="exitoso">Exitoso</option>
@@ -226,7 +226,7 @@ function ModalEditar({ desarrollo, onClose, onSave }) {
               type="date"
               value={fechaFin}
               onChange={e => setFechaFin(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
           <div>
@@ -235,7 +235,7 @@ function ModalEditar({ desarrollo, onClose, onSave }) {
               value={resultadoObtenido}
               onChange={e => setResultadoObtenido(e.target.value)}
               rows={4}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
               placeholder="Describí el resultado obtenido..."
             />
           </div>
@@ -246,7 +246,7 @@ function ModalEditar({ desarrollo, onClose, onSave }) {
             <button type="button" onClick={onClose} className="text-sm text-gray-500 hover:text-gray-700 px-4 py-2">
               Cancelar
             </button>
-            <button type="submit" className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
+            <button type="submit" className="bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
               Guardar cambios
             </button>
           </div>
@@ -281,7 +281,7 @@ export default function DesarrollosLaboratorio() {
         </div>
         <button
           onClick={() => setShowCrear(true)}
-          className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex-shrink-0"
+          className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex-shrink-0"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
@@ -293,7 +293,7 @@ export default function DesarrollosLaboratorio() {
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading ? (
           <div className="py-16 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : desarrollos.length === 0 ? (
           <div className="py-16 text-center text-sm text-gray-400">
@@ -331,7 +331,7 @@ export default function DesarrollosLaboratorio() {
                   <td className="px-4 py-3">
                     <button
                       onClick={() => setModalEditar(d)}
-                      className="text-xs text-[#004a99] hover:underline font-medium"
+                      className="text-xs text-[#1b4332] hover:underline font-medium"
                     >
                       Editar
                     </button>

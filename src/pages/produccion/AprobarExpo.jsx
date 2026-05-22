@@ -12,8 +12,8 @@ function fmt(n, dec = 0) {
   return parseFloat(n).toLocaleString('es-AR', { minimumFractionDigits: dec })
 }
 
-const INPUT_S  = 'text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#004a99]'
-const SELECT_S = 'text-xs border border-gray-200 rounded px-1.5 py-1 focus:outline-none focus:ring-1 focus:ring-[#004a99] bg-white'
+const INPUT_S  = 'text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#1b4332]'
+const SELECT_S = 'text-xs border border-gray-200 rounded px-1.5 py-1 focus:outline-none focus:ring-1 focus:ring-[#1b4332] bg-white'
 
 // kg neto por unidad de cada tipo de envase
 const TIPO_META = {
@@ -306,7 +306,7 @@ function ModalDimensionamiento({ pedido, onClose }) {
 
             {palletsCustom === null ? (
               <button onClick={addPallet}
-                className="w-full text-xs text-[#004a99] border border-dashed border-[#004a99]/30 rounded-lg py-2.5 hover:bg-blue-50 transition-colors">
+                className="w-full text-xs text-[#1b4332] border border-dashed border-[#1b4332]/30 rounded-lg py-2.5 hover:bg-blue-50 transition-colors">
                 + Definir composición de pallets manualmente
               </button>
             ) : (
@@ -333,7 +333,7 @@ function ModalDimensionamiento({ pedido, onClose }) {
                         </div>
                         <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className={`h-full rounded-full transition-all duration-200 ${exceso ? 'bg-red-400' : completo ? 'bg-green-500' : 'bg-[#004a99]'}`}
+                            className={`h-full rounded-full transition-all duration-200 ${exceso ? 'bg-red-400' : completo ? 'bg-green-500' : 'bg-[#1b4332]'}`}
                             style={{ width: `${pct * 100}%` }}
                           />
                         </div>
@@ -411,7 +411,7 @@ function ModalDimensionamiento({ pedido, onClose }) {
                           </div>
                         )
                       })}
-                      <button onClick={() => addRow(pi)} className="text-xs text-[#004a99] hover:underline mt-0.5">
+                      <button onClick={() => addRow(pi)} className="text-xs text-[#1b4332] hover:underline mt-0.5">
                         + Agregar ítem en este pallet
                       </button>
                     </div>
@@ -419,7 +419,7 @@ function ModalDimensionamiento({ pedido, onClose }) {
                 ))}
 
                 <button onClick={addPallet}
-                  className="w-full text-xs text-[#004a99] border border-dashed border-[#004a99]/30 rounded-lg py-2 hover:bg-blue-50 transition-colors">
+                  className="w-full text-xs text-[#1b4332] border border-dashed border-[#1b4332]/30 rounded-lg py-2 hover:bg-blue-50 transition-colors">
                   + Agregar pallet
                 </button>
               </div>
@@ -459,7 +459,7 @@ function ModalDimensionamiento({ pedido, onClose }) {
               value={notas}
               onChange={e => setNotas(e.target.value)}
               placeholder="Indicaciones o motivo del rechazo…"
-              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
             />
           </div>
 
@@ -474,7 +474,7 @@ function ModalDimensionamiento({ pedido, onClose }) {
             Rechazar — devolver al vendedor
           </button>
           <button onClick={handleAprobar} disabled={loading}
-            className="px-5 py-2 text-sm font-semibold bg-[#004a99] text-white rounded-lg hover:bg-[#003d80] disabled:opacity-50 flex items-center gap-2 transition-colors">
+            className="px-5 py-2 text-sm font-semibold bg-[#1b4332] text-white rounded-lg hover:bg-[#152e24] disabled:opacity-50 flex items-center gap-2 transition-colors">
             {loading && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
             Aprobar y enviar a COMEX
           </button>
@@ -504,7 +504,7 @@ export default function AprobarExpo() {
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading ? (
           <div className="p-12 flex justify-center">
-            <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : pedidos.length === 0 ? (
           <div className="p-12 text-center text-sm text-gray-400">

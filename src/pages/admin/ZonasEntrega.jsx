@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useZonas, useCrearZona, useEliminarZona } from '../../hooks/useLogistica'
 
 const COLORES_PRESET = [
-  '#004a99', '#28a745', '#dc3545', '#fd7e14', '#6f42c1',
+  '#1b4332', '#28a745', '#dc3545', '#fd7e14', '#6f42c1',
   '#20c997', '#e83e8c', '#17a2b8', '#ffc107', '#6c757d',
 ]
 
@@ -52,7 +52,7 @@ export default function ZonasEntrega() {
               value={nombre}
               onChange={e => setNombre(e.target.value)}
               placeholder="Ej: Zona Norte, Capital, GBA Sur…"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
           <div>
@@ -75,7 +75,7 @@ export default function ZonasEntrega() {
           {err && <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded px-2 py-1">{err}</p>}
 
           <button type="submit" disabled={crear.isPending}
-            className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-60">
+            className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-60">
             {crear.isPending && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
             Crear zona
           </button>
@@ -86,7 +86,7 @@ export default function ZonasEntrega() {
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading && (
           <div className="p-8 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         )}
         {!isLoading && zonas.length === 0 && (

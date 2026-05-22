@@ -28,7 +28,7 @@ function SolicitudCard({ sol, onCotizar }) {
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono text-sm font-bold text-[#004a99]">{sol.codigo}</span>
+            <span className="font-mono text-sm font-bold text-[#1b4332]">{sol.codigo}</span>
             <Badge estado={sol.estado} />
           </div>
           <p className="text-sm font-semibold text-gray-900 mt-0.5">
@@ -39,7 +39,7 @@ function SolicitudCard({ sol, onCotizar }) {
         {sol.estado === 'pendiente' && (
           <button
             onClick={() => onCotizar(sol.id)}
-            className="flex items-center gap-1.5 bg-[#004a99] hover:bg-[#003d80] text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors flex-shrink-0"
+            className="flex items-center gap-1.5 bg-[#1b4332] hover:bg-[#152e24] text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors flex-shrink-0"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -113,7 +113,7 @@ export default function Solicitudes() {
 
       {isLoading && (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin" />
         </div>
       )}
 

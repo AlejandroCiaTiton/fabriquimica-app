@@ -80,7 +80,7 @@ export default function AltaVendedor() {
     )
   }
 
-  const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]'
+  const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]'
 
   return (
     <div className="p-6 max-w-4xl">
@@ -132,7 +132,7 @@ export default function AltaVendedor() {
             )}
 
             <button type="submit" disabled={loading}
-              className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+              className="w-full bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
               {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
               Crear vendedor
             </button>
@@ -145,7 +145,7 @@ export default function AltaVendedor() {
             <h2 className="font-semibold text-gray-800">Equipo actual</h2>
           </div>
           {isLoading
-            ? <div className="p-8 flex justify-center"><div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+            ? <div className="p-8 flex justify-center"><div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
             : vendedores.length === 0
             ? <div className="p-8 text-center text-sm text-gray-400">Sin vendedores</div>
             : (
@@ -153,7 +153,7 @@ export default function AltaVendedor() {
                 {vendedores.map(v => (
                   <li key={v.id} className="flex items-center justify-between px-5 py-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#004a99]/10 flex items-center justify-center text-[#004a99] font-bold text-sm">
+                      <div className="w-8 h-8 rounded-full bg-[#1b4332]/10 flex items-center justify-center text-[#1b4332] font-bold text-sm">
                         {(v.perfiles?.nombre ?? '?')[0].toUpperCase()}
                       </div>
                       <span className="text-sm font-medium text-gray-800">

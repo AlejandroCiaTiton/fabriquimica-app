@@ -52,7 +52,7 @@ function OCCard({ oc, onFechaChange }) {
     <div className={`bg-white rounded-lg shadow-sm border-l-4 p-3`} style={{ borderLeftColor: cfg.color }}>
       <div className="flex items-start justify-between gap-2 mb-2">
         <div>
-          <p className="font-mono text-xs font-bold text-[#004a99]">{oc.numero}</p>
+          <p className="font-mono text-xs font-bold text-[#1b4332]">{oc.numero}</p>
           <p className="text-sm font-semibold text-gray-900">{cli?.razon_social}</p>
           {cli?.zonas_entrega && (
             <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
@@ -77,7 +77,7 @@ function OCCard({ oc, onFechaChange }) {
         <div>
           <label className="text-[10px] text-gray-400 block mb-0.5">Fecha entrega</label>
           <input type="date" value={fecha} onChange={e => guardarFecha(e.target.value)}
-            className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#004a99]"
+            className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#1b4332]"
           />
         </div>
 
@@ -85,7 +85,7 @@ function OCCard({ oc, onFechaChange }) {
           <button
             onClick={() => avanzar.mutate({ ocId: oc.id, estadoActual: oc.estado })}
             disabled={avanzar.isPending}
-            className="mt-4 text-xs font-semibold bg-[#004a99] text-white px-3 py-1.5 rounded-lg hover:bg-[#003d80] transition-colors disabled:opacity-50"
+            className="mt-4 text-xs font-semibold bg-[#1b4332] text-white px-3 py-1.5 rounded-lg hover:bg-[#152e24] transition-colors disabled:opacity-50"
           >
             Listo p/entrega →
           </button>
@@ -163,7 +163,7 @@ export default function PlanDiario() {
 
       {isLoading && (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+          <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
         </div>
       )}
 
@@ -190,14 +190,14 @@ export default function PlanDiario() {
               const ocs = porFecha[key] ?? []
               const esHoy = key === isoDate(new Date())
               return (
-                <div key={key} className={`min-h-[120px] ${esHoy ? 'ring-2 ring-[#004a99] rounded-lg' : ''}`}>
+                <div key={key} className={`min-h-[120px] ${esHoy ? 'ring-2 ring-[#1b4332] rounded-lg' : ''}`}>
                   <div className={`px-2 py-1.5 rounded-t-lg text-xs font-semibold ${
-                    esHoy ? 'bg-[#004a99] text-white' : 'bg-gray-100 text-gray-600'
+                    esHoy ? 'bg-[#1b4332] text-white' : 'bg-gray-100 text-gray-600'
                   }`}>
                     {fmtFecha(dia)}
                     {ocs.length > 0 && (
                       <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[10px] ${
-                        esHoy ? 'bg-white text-[#004a99]' : 'bg-[#004a99] text-white'
+                        esHoy ? 'bg-white text-[#1b4332]' : 'bg-[#1b4332] text-white'
                       }`}>{ocs.length}</span>
                     )}
                   </div>

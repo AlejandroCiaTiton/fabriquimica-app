@@ -65,7 +65,7 @@ function ModalGestion({ cotId, onClose }) {
         {/* Header */}
         <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
           <div>
-            <p className="font-mono font-bold text-[#004a99]">{cot?.codigo ?? '…'}</p>
+            <p className="font-mono font-bold text-[#1b4332]">{cot?.codigo ?? '…'}</p>
             <p className="text-sm text-gray-500">{cot?.clientes?.razon_social}</p>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -79,7 +79,7 @@ function ModalGestion({ cotId, onClose }) {
         <div className="flex-1 overflow-y-auto p-5">
           {isLoading ? (
             <div className="flex justify-center py-10">
-              <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+              <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
             </div>
           ) : ocGenerada ? (
             <div className="text-center py-8 space-y-3">
@@ -89,10 +89,10 @@ function ModalGestion({ cotId, onClose }) {
                 </svg>
               </div>
               <p className="font-semibold text-gray-900">OC generada</p>
-              <p className="font-mono font-bold text-[#004a99] text-lg">{ocGenerada.numero}</p>
+              <p className="font-mono font-bold text-[#1b4332] text-lg">{ocGenerada.numero}</p>
               <p className="text-sm text-gray-500">Ya aparece en Órdenes de Compra para su seguimiento.</p>
               <button onClick={onClose}
-                className="mt-2 px-5 py-2 bg-[#004a99] text-white rounded-lg text-sm hover:bg-[#003d80]">
+                className="mt-2 px-5 py-2 bg-[#1b4332] text-white rounded-lg text-sm hover:bg-[#152e24]">
                 Cerrar
               </button>
             </div>
@@ -132,7 +132,7 @@ function ModalGestion({ cotId, onClose }) {
                   <span>IVA 21%</span><span>{fmtUSD(iva)}</span>
                 </div>
                 <div className="flex justify-between font-bold text-gray-900 pt-1 border-t border-gray-200">
-                  <span>Total</span><span className="text-[#004a99]">{fmtUSD(total)}</span>
+                  <span>Total</span><span className="text-[#1b4332]">{fmtUSD(total)}</span>
                 </div>
               </div>
 
@@ -144,7 +144,7 @@ function ModalGestion({ cotId, onClose }) {
                     <button key={v} type="button" onClick={() => setTipoEntrega(v)}
                       className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
                         tipoEntrega === v
-                          ? 'bg-[#004a99] text-white border-[#004a99]'
+                          ? 'bg-[#1b4332] text-white border-[#1b4332]'
                           : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
                       }`}>
                       {l}
@@ -163,7 +163,7 @@ function ModalGestion({ cotId, onClose }) {
                   value={refCliente}
                   onChange={e => setRefCliente(e.target.value)}
                   placeholder="Ej: OC-2024-001"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
                 />
               </div>
 
@@ -261,7 +261,7 @@ export default function Cotizaciones() {
         </div>
         <Link
           to="/vendedor/nueva-cotizacion"
-          className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors"
+          className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -278,7 +278,7 @@ export default function Cotizaciones() {
             onClick={() => setFiltro(f)}
             className={`px-3 py-1.5 rounded text-sm font-medium capitalize transition-colors ${
               filtro === f
-                ? 'bg-[#004a99] text-white'
+                ? 'bg-[#1b4332] text-white'
                 : 'text-gray-500 hover:text-gray-800'
             }`}
           >
@@ -294,7 +294,7 @@ export default function Cotizaciones() {
         )}
         {isLoading && (
           <div className="p-12 flex justify-center">
-            <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin" />
           </div>
         )}
         {!isLoading && !error && (
@@ -320,7 +320,7 @@ export default function Cotizaciones() {
               ) : (
                 filtradas.map(cot => (
                   <tr key={cot.id} className={`hover:bg-blue-50/40 transition-colors ${cot.estado === 'revision' ? 'border-l-4 border-l-orange-400' : ''}`}>
-                    <td className="px-4 py-3 font-mono text-xs font-semibold text-[#004a99]">
+                    <td className="px-4 py-3 font-mono text-xs font-semibold text-[#1b4332]">
                       {cot.codigo}
                     </td>
                     <td className="px-4 py-3 font-medium text-gray-900">
@@ -359,7 +359,7 @@ export default function Cotizaciones() {
                             <button
                               onClick={() => navigate(`/vendedor/nueva-cotizacion?recotizar=${cot.id}`)}
                               title="Modificar precios"
-                              className="text-xs font-semibold text-[#004a99] bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded-full transition-colors"
+                              className="text-xs font-semibold text-[#1b4332] bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded-full transition-colors"
                             >
                               Modificar
                             </button>
@@ -384,7 +384,7 @@ export default function Cotizaciones() {
                             <button
                               onClick={() => navigate(`/vendedor/nueva-cotizacion?recotizar=${cot.id}`)}
                               title="Modificar"
-                              className="text-xs font-semibold text-[#004a99] bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded-full transition-colors"
+                              className="text-xs font-semibold text-[#1b4332] bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded-full transition-colors"
                             >
                               Modificar
                             </button>
@@ -416,7 +416,7 @@ export default function Cotizaciones() {
                           </>
                         )}
                         <button onClick={() => descargarCotPDF(cot.id)} title="Descargar PDF"
-                          className="text-gray-400 hover:text-[#004a99] transition-colors">
+                          className="text-gray-400 hover:text-[#1b4332] transition-colors">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
                           </svg>

@@ -9,7 +9,7 @@ const CONDICIONES = [
   '30/60 días', '30/60/90 días',
 ]
 
-const CAMPO = 'w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white'
+const CAMPO = 'w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white'
 
 function Field({ label, required, children }) {
   return (
@@ -89,7 +89,7 @@ export default function AltaEmpresaVendedor() {
             </button>
             <button
               onClick={() => navigate(isExpo ? '/vendedor/expo-cotizaciones' : '/vendedor/cotizaciones')}
-              className="px-4 py-2 text-sm font-semibold bg-[#004a99] text-white rounded-lg hover:bg-[#003d80]">
+              className="px-4 py-2 text-sm font-semibold bg-[#1b4332] text-white rounded-lg hover:bg-[#152e24]">
               Ir a cotizaciones
             </button>
           </div>
@@ -112,7 +112,7 @@ export default function AltaEmpresaVendedor() {
         {/* Datos empresa */}
         <div className="bg-white rounded-[10px] shadow-card p-5 space-y-4">
           <h2 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <svg className="w-4 h-4 text-[#004a99]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4 text-[#1b4332]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
             </svg>
             Datos de la empresa
@@ -164,7 +164,7 @@ export default function AltaEmpresaVendedor() {
         {/* Contacto */}
         <div className="bg-white rounded-[10px] shadow-card p-5 space-y-4">
           <h2 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <svg className="w-4 h-4 text-[#004a99]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4 text-[#1b4332]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
             </svg>
             Contacto de compras
@@ -199,7 +199,7 @@ export default function AltaEmpresaVendedor() {
             Cancelar
           </button>
           <button type="submit" disabled={crear.isPending}
-            className="px-5 py-2 text-sm font-semibold bg-[#004a99] text-white rounded-lg hover:bg-[#003d80] disabled:opacity-50 flex items-center gap-2">
+            className="px-5 py-2 text-sm font-semibold bg-[#1b4332] text-white rounded-lg hover:bg-[#152e24] disabled:opacity-50 flex items-center gap-2">
             {crear.isPending && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
             Registrar empresa
           </button>

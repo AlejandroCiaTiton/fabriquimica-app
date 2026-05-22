@@ -8,7 +8,7 @@ import { useCatalogoExpo, useCrearPedidoExpo, useEnviarAProduccion } from '../..
 
 // ── Constantes ────────────────────────────────────────────────────────────────
 
-const INPUT = 'w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white'
+const INPUT = 'w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white'
 
 const ITEM_VACIO = () => ({
   productoId: null, productoNombre: '', presentacion: '',
@@ -98,7 +98,7 @@ function FilaItem({ item, dim, productos, onChange, onRemove }) {
             onChange({ ...item, cantidadKg: kg, subtotalUsd: sub })
           }}
           placeholder="Cant. (kg)"
-          className="w-28 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+          className="w-28 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
         />
         <div className="relative w-32">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">USD</span>
@@ -109,7 +109,7 @@ function FilaItem({ item, dim, productos, onChange, onRemove }) {
               subtotalUsd: e.target.value && item.cantidadKg
                 ? (parseFloat(e.target.value) * parseFloat(item.cantidadKg)).toFixed(2) : '' })}
             placeholder="Precio"
-            className="w-full text-sm border border-gray-200 rounded-lg pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full text-sm border border-gray-200 rounded-lg pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           />
         </div>
         <div className="w-28 text-sm text-gray-500 px-2 py-2 text-right">
@@ -132,8 +132,8 @@ function FilaItem({ item, dim, productos, onChange, onRemove }) {
             <button key={l.label} type="button" onClick={() => aplicarPrecio(l.val)}
               className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
                 parseFloat(item.precioUsd) === parseFloat(l.val)
-                  ? 'border-[#004a99] bg-blue-50 text-[#004a99] font-semibold'
-                  : 'border-gray-200 text-gray-500 hover:border-[#004a99] hover:text-[#004a99]'
+                  ? 'border-[#1b4332] bg-blue-50 text-[#1b4332] font-semibold'
+                  : 'border-gray-200 text-gray-500 hover:border-[#1b4332] hover:text-[#1b4332]'
               }`}>
               {l.label} · USD {parseFloat(l.val).toLocaleString('es-AR', { minimumFractionDigits: 2 })}
             </button>
@@ -153,7 +153,7 @@ function FilaItem({ item, dim, productos, onChange, onRemove }) {
                   tipoPallet: v === 'bidon' ? 'madera' : item.tipoPallet })}
                 className={`text-xs px-2 py-0.5 rounded border transition-colors ${
                   item.tipoEnvase === v
-                    ? 'border-[#004a99] bg-blue-50 text-[#004a99] font-medium'
+                    ? 'border-[#1b4332] bg-blue-50 text-[#1b4332] font-medium'
                     : 'border-gray-200 text-gray-500 hover:border-gray-300'
                 }`}>
                 {ENVASE_LABELS[v]}
@@ -169,7 +169,7 @@ function FilaItem({ item, dim, productos, onChange, onRemove }) {
                 type="number" min="0.5" max="3" step="0.01"
                 value={item.densidadBidon}
                 onChange={e => onChange({ ...item, densidadBidon: e.target.value })}
-                className="w-16 text-xs border border-gray-200 rounded px-2 py-0.5 focus:outline-none focus:ring-1 focus:ring-[#004a99]"
+                className="w-16 text-xs border border-gray-200 rounded px-2 py-0.5 focus:outline-none focus:ring-1 focus:ring-[#1b4332]"
               />
               <span className="text-xs text-gray-400">kg/L</span>
             </div>
@@ -183,7 +183,7 @@ function FilaItem({ item, dim, productos, onChange, onRemove }) {
                 <button key={c} type="button" onClick={() => onChange({ ...item, capacidadTambor: c })}
                   className={`text-xs px-2 py-0.5 rounded border transition-colors ${
                     item.capacidadTambor === c
-                      ? 'border-[#004a99] bg-blue-50 text-[#004a99] font-medium'
+                      ? 'border-[#1b4332] bg-blue-50 text-[#1b4332] font-medium'
                       : 'border-gray-200 text-gray-500 hover:border-gray-300'
                   }`}>
                   {c} kg
@@ -200,7 +200,7 @@ function FilaItem({ item, dim, productos, onChange, onRemove }) {
                 <button key={v} type="button" onClick={() => onChange({ ...item, tipoPallet: v })}
                   className={`text-xs px-2 py-0.5 rounded border transition-colors ${
                     item.tipoPallet === v
-                      ? 'border-[#004a99] bg-blue-50 text-[#004a99] font-medium'
+                      ? 'border-[#1b4332] bg-blue-50 text-[#1b4332] font-medium'
                       : 'border-gray-200 text-gray-500 hover:border-gray-300'
                   }`}>
                   {l}
@@ -439,7 +439,7 @@ export default function NuevaCotizacionExpo() {
         </div>
 
         <button onClick={addItem}
-          className="flex items-center gap-2 text-sm text-[#004a99] hover:underline mt-1">
+          className="flex items-center gap-2 text-sm text-[#1b4332] hover:underline mt-1">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/>
           </svg>
@@ -498,7 +498,7 @@ export default function NuevaCotizacionExpo() {
           Guardar borrador
         </button>
         <button onClick={() => handleSubmit(true)} disabled={loading}
-          className="px-6 py-2 text-sm font-semibold bg-[#004a99] text-white rounded-lg hover:bg-[#003d80] transition-colors disabled:opacity-50 flex items-center gap-2">
+          className="px-6 py-2 text-sm font-semibold bg-[#1b4332] text-white rounded-lg hover:bg-[#152e24] transition-colors disabled:opacity-50 flex items-center gap-2">
           {loading && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
           Enviar a Producción
         </button>

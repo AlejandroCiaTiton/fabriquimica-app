@@ -72,14 +72,14 @@ function VencimientoInline({ oc, puedeCambiar }) {
       ) : (
         puedeCambiar && (
           <button onClick={() => setEditing(true)}
-            className="text-[10px] text-gray-300 hover:text-[#004a99] transition-colors">
+            className="text-[10px] text-gray-300 hover:text-[#1b4332] transition-colors">
             + Agregar vencimiento
           </button>
         )
       )}
       {val && puedeCambiar && (
         <button onClick={() => setEditing(true)}
-          className="text-[10px] text-gray-400 hover:text-[#004a99] ml-0.5">✏</button>
+          className="text-[10px] text-gray-400 hover:text-[#1b4332] ml-0.5">✏</button>
       )}
     </span>
   )
@@ -110,24 +110,24 @@ function FormPago({ oc, saldoOC, onClose }) {
     <form onSubmit={handleSubmit} className="bg-blue-50 border border-blue-100 rounded-lg p-3 space-y-2 mt-2">
       <div className="flex items-center gap-2 flex-wrap">
         <select value={tipo} onChange={e => setTipo(e.target.value)}
-          className="text-xs border border-gray-200 rounded px-2 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-[#004a99]">
+          className="text-xs border border-gray-200 rounded px-2 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-[#1b4332]">
           <option value="anticipo">Anticipo</option>
           <option value="parcial">Pago parcial</option>
           <option value="total">Pago total</option>
         </select>
         <input type="number" placeholder={`Monto (saldo: ${fmtMoneda(saldoOC)})`}
           value={monto} onChange={e => setMonto(e.target.value)} min="0.01" step="0.01"
-          className="w-52 text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#004a99]"/>
+          className="w-52 text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#1b4332]"/>
         <input type="date" value={fecha} onChange={e => setFecha(e.target.value)}
-          className="text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#004a99]"/>
+          className="text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#1b4332]"/>
         <input type="text" placeholder="Nota (opcional)" value={nota} onChange={e => setNota(e.target.value)}
-          className="flex-1 min-w-32 text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#004a99]"/>
+          className="flex-1 min-w-32 text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#1b4332]"/>
       </div>
       {err && <p className="text-[10px] text-red-600">{err}</p>}
       <div className="flex items-center gap-3">
         <button type="button" onClick={onClose} className="text-xs text-gray-500 hover:text-gray-700">Cancelar</button>
         <button type="submit" disabled={registrar.isPending}
-          className="text-xs bg-[#004a99] text-white px-3 py-1.5 rounded hover:bg-[#003d80] disabled:opacity-60">
+          className="text-xs bg-[#1b4332] text-white px-3 py-1.5 rounded hover:bg-[#152e24] disabled:opacity-60">
           {registrar.isPending ? 'Guardando…' : 'Guardar pago'}
         </button>
       </div>
@@ -166,7 +166,7 @@ function PagosPanel({ oc, ocPagos, puedeCambiar }) {
 
       {puedeCambiar && saldo > 0.01 && !showForm && (
         <button onClick={() => setShowForm(true)}
-          className="text-[10px] font-semibold text-[#004a99] hover:underline">
+          className="text-[10px] font-semibold text-[#1b4332] hover:underline">
           + Registrar pago
         </button>
       )}
@@ -244,12 +244,12 @@ function FilaCliente({ cliente, puedeCambiar, comprobanteMap, pagosByOcId }) {
 
         return (
           <>
-            <tr key={oc.id} className="bg-gray-50/60 border-l-2 border-[#004a99]/20">
+            <tr key={oc.id} className="bg-gray-50/60 border-l-2 border-[#1b4332]/20">
               <td className="pl-10 pr-4 py-2.5">
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setOcExpandida(expanded ? null : oc.id)}
-                    className="text-gray-400 hover:text-[#004a99] transition-colors">
+                    className="text-gray-400 hover:text-[#1b4332] transition-colors">
                     <svg className={`w-3.5 h-3.5 transition-transform ${expanded ? 'rotate-90' : ''}`}
                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
@@ -299,7 +299,7 @@ function FilaCliente({ cliente, puedeCambiar, comprobanteMap, pagosByOcId }) {
 
             {/* Sub-fila de pagos */}
             {expanded && (
-              <tr key={`${oc.id}-pagos`} className="bg-blue-50/40 border-l-2 border-[#004a99]/20">
+              <tr key={`${oc.id}-pagos`} className="bg-blue-50/40 border-l-2 border-[#1b4332]/20">
                 <td colSpan={6} className="pl-16 pr-4 py-1">
                   <PagosPanel oc={oc} ocPagos={ocPagos} puedeCambiar={puedeCambiar}/>
                 </td>
@@ -453,18 +453,18 @@ export default function EstadoCuenta() {
           </svg>
           <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
             placeholder="Buscar cliente…"
-            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
         </div>
         <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer select-none">
           <input type="checkbox" checked={soloDeuda} onChange={e => setSoloDeuda(e.target.checked)}
-            className="rounded border-gray-300 text-[#004a99]"/>
+            className="rounded border-gray-300 text-[#1b4332]"/>
           Solo con deuda
         </label>
       </div>
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : filtrados.length === 0
           ? <div className="p-12 text-center text-sm text-gray-400">Sin clientes</div>
           : (

@@ -60,7 +60,7 @@ function FormProgramar({ oc, transportistas, onSubmit, onCancel }) {
           <select
             value={form.transportistaId}
             onChange={e => setForm(f => ({ ...f, transportistaId: e.target.value }))}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           >
             <option value="">Seleccionar...</option>
             {transportistas.map(t => (
@@ -78,7 +78,7 @@ function FormProgramar({ oc, transportistas, onSubmit, onCancel }) {
             type="date"
             value={form.fechaProgramada}
             onChange={e => setForm(f => ({ ...f, fechaProgramada: e.target.value }))}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           />
         </div>
         <div>
@@ -87,7 +87,7 @@ function FormProgramar({ oc, transportistas, onSubmit, onCancel }) {
             type="time"
             value={form.horaEstimada}
             onChange={e => setForm(f => ({ ...f, horaEstimada: e.target.value }))}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           />
         </div>
         <div className="col-span-2">
@@ -96,7 +96,7 @@ function FormProgramar({ oc, transportistas, onSubmit, onCancel }) {
             value={form.observaciones}
             onChange={e => setForm(f => ({ ...f, observaciones: e.target.value }))}
             placeholder="Opcional..."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           />
         </div>
         {error && (
@@ -108,7 +108,7 @@ function FormProgramar({ oc, transportistas, onSubmit, onCancel }) {
           </button>
           <button
             type="submit"
-            className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
+            className="bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
           >
             Programar envío
           </button>
@@ -150,7 +150,7 @@ export default function CronogramaEnvios() {
         <h2 className="text-base font-semibold text-gray-800 mb-3">Órdenes listas para despacho</h2>
         {loadingOC ? (
           <div className="py-8 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : ordenesListas.length === 0 ? (
           <div className="bg-white rounded-[10px] shadow-card py-10 text-center text-sm text-gray-400">
@@ -174,7 +174,7 @@ export default function CronogramaEnvios() {
                     </span>
                     <button
                       onClick={() => setFormAbierto(formAbierto === oc.id ? null : oc.id)}
-                      className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
+                      className="bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
                     >
                       {formAbierto === oc.id ? 'Cancelar' : 'Programar envío'}
                     </button>
@@ -200,7 +200,7 @@ export default function CronogramaEnvios() {
         <h2 className="text-base font-semibold text-gray-800 mb-3">Envíos programados</h2>
         {loadingCron ? (
           <div className="py-8 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : cronograma.length === 0 ? (
           <div className="bg-white rounded-[10px] shadow-card py-10 text-center text-sm text-gray-400">

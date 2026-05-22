@@ -110,13 +110,13 @@ export default function AsignacionClientes() {
             value={busqueda}
             onChange={e => setBusqueda(e.target.value)}
             placeholder="Buscar cliente…"
-            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           />
         </div>
         <select
           value={filtroVendedor}
           onChange={e => setFiltroVendedor(e.target.value)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white text-gray-700"
+          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white text-gray-700"
         >
           <option value="">Todos los vendedores</option>
           <option value="__sin__">Sin asignar</option>
@@ -128,7 +128,7 @@ export default function AsignacionClientes() {
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : filtrados.length === 0
           ? <div className="p-12 text-center text-sm text-gray-400">Sin clientes</div>
           : (
@@ -157,7 +157,7 @@ export default function AsignacionClientes() {
                     <select
                       value={c.vendedor_id ?? ''}
                       onChange={e => reasignar.mutate({ clienteId: c.id, vendedorId: e.target.value ? parseInt(e.target.value) : null })}
-                      className="text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white text-gray-700 w-full"
+                      className="text-xs border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white text-gray-700 w-full"
                     >
                       <option value="">Sin asignar</option>
                       {vendedoresSolo.map(v => (

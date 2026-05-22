@@ -136,7 +136,7 @@ function PanelDetalle({ producto, onClose }) {
 
         {isLoading && (
           <div className="flex justify-center py-10">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         )}
 
@@ -181,7 +181,7 @@ function PanelDetalle({ producto, onClose }) {
                     </div>
                     {m.coa_url && (
                       <a href={m.coa_url} target="_blank" rel="noopener noreferrer"
-                        className="flex-shrink-0 flex items-center gap-1 text-xs font-medium text-[#004a99] hover:underline">
+                        className="flex-shrink-0 flex items-center gap-1 text-xs font-medium text-[#1b4332] hover:underline">
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
                         </svg>
@@ -241,13 +241,13 @@ export default function StockVendedor() {
               value={busqueda}
               onChange={e => setBusqueda(e.target.value)}
               placeholder="Buscar producto…"
-              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
 
           <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
             {isLoading
-              ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+              ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
               : (
               <table className="w-full text-sm">
                 <thead>

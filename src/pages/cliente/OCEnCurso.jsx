@@ -21,7 +21,7 @@ function PipelineBar({ estado }) {
         <div key={e} className="flex items-center gap-1">
           <div className={`px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${
             i < idx ? 'bg-green-100 text-green-700' :
-            i === idx ? 'bg-[#004a99] text-white' : 'bg-gray-100 text-gray-400'
+            i === idx ? 'bg-[#1b4332] text-white' : 'bg-gray-100 text-gray-400'
           }`}>
             {i < idx && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
             {LABELS[e]}
@@ -50,7 +50,7 @@ function BtnSubirComprobante({ ocId }) {
   return (
     <div className="space-y-1">
       <label className={`flex items-center gap-1.5 cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${
-        uploading ? 'border-gray-200 text-gray-400' : 'border-[#004a99] text-[#004a99] hover:bg-blue-50'
+        uploading ? 'border-gray-200 text-gray-400' : 'border-[#1b4332] text-[#1b4332] hover:bg-blue-50'
       }`}>
         <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden" disabled={uploading} onChange={handleFile}/>
         {uploading
@@ -73,7 +73,7 @@ function PanelDespacho({ oc, facturaPdfUrl }) {
 
   return (
     <div className="mb-3 p-3 bg-blue-50 border border-blue-100 rounded-lg space-y-2">
-      <p className="text-[10px] font-semibold text-[#004a99] uppercase tracking-wide">Información de despacho</p>
+      <p className="text-[10px] font-semibold text-[#1b4332] uppercase tracking-wide">Información de despacho</p>
       <div className="flex flex-wrap gap-3 text-xs text-gray-700 items-center">
         {(oc.numero_factura || facturaPdfUrl) && (
           <span className="flex items-center gap-1">
@@ -81,7 +81,7 @@ function PanelDespacho({ oc, facturaPdfUrl }) {
             {oc.numero_factura && <span className="font-semibold ml-1">{oc.numero_factura}</span>}
             {facturaPdfUrl && (
               <a href={facturaPdfUrl} target="_blank" rel="noopener noreferrer"
-                className="ml-1 text-[#004a99] hover:underline flex items-center gap-0.5 font-semibold">
+                className="ml-1 text-[#1b4332] hover:underline flex items-center gap-0.5 font-semibold">
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
@@ -197,7 +197,7 @@ function RecepcionForm({ oc }) {
               )}
               {rec?.accion_correctiva && (
                 <p className="text-xs text-gray-700 mt-1.5 bg-white border border-gray-100 rounded px-2 py-1.5">
-                  <span className="font-semibold text-[#004a99]">Respuesta del vendedor: </span>
+                  <span className="font-semibold text-[#1b4332]">Respuesta del vendedor: </span>
                   {rec.accion_correctiva}
                 </p>
               )}
@@ -210,7 +210,7 @@ function RecepcionForm({ oc }) {
 
   return (
     <div className="mt-3 border border-blue-100 rounded-lg overflow-hidden">
-      <div className="bg-blue-50 px-3 py-2 text-xs font-semibold text-[#004a99]">
+      <div className="bg-blue-50 px-3 py-2 text-xs font-semibold text-[#1b4332]">
         Confirmá la recepción de cada producto
       </div>
       {items.map(item => {
@@ -239,7 +239,7 @@ function RecepcionForm({ oc }) {
                   value={comentarios[item.id] ?? rec?.comentario ?? ''}
                   onChange={e => setComentarios(c => ({...c, [item.id]: e.target.value}))}
                   onBlur={() => marcar.mutate({ ocId: oc.id, cotizacionItemId: item.id, estado, comentario: comentarios[item.id] })}
-                  className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                  className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
                 />
                 {fotoUrl ? (
                   <div className="flex items-center gap-2">
@@ -251,7 +251,7 @@ function RecepcionForm({ oc }) {
                 ) : (
                   <label className="flex items-center gap-1.5 cursor-pointer w-fit">
                     <input type="file" accept="image/*" className="hidden" onChange={e => handleFoto(e, item.id)}/>
-                    <span className={`text-xs border border-dashed rounded px-2.5 py-1 transition-colors ${foto?.uploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-500 hover:border-[#004a99] hover:text-[#004a99]'}`}>
+                    <span className={`text-xs border border-dashed rounded px-2.5 py-1 transition-colors ${foto?.uploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-500 hover:border-[#1b4332] hover:text-[#1b4332]'}`}>
                       {foto?.uploading ? 'Subiendo…' : '📷 Adjuntar foto'}
                     </span>
                   </label>
@@ -283,16 +283,16 @@ function OCCard({ oc, comprobante, facturaPdfUrl }) {
     <div className="bg-white rounded-[10px] shadow-card p-4">
       <div className="flex items-start justify-between gap-3 cursor-pointer" onClick={() => setExpandido(e => !e)}>
         <div>
-          <p className="font-mono font-bold text-[#004a99]">{oc.numero}</p>
+          <p className="font-mono font-bold text-[#1b4332]">{oc.numero}</p>
           {oc.referencia_cliente && <p className="text-xs text-gray-400">Ref: {oc.referencia_cliente}</p>}
           <p className="text-xs text-gray-400 mt-0.5">{new Date(oc.creado_en).toLocaleDateString('es-AR')} · {items.length} ítems</p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
-          <p className="font-bold text-[#004a99]">{fmtUSD(oc.cotizaciones?.total)}</p>
+          <p className="font-bold text-[#1b4332]">{fmtUSD(oc.cotizaciones?.total)}</p>
           <button
             onClick={e => { e.stopPropagation(); import('../../utils/pdfGenerator').then(m => m.generateOCPDF(oc)) }}
             title="Descargar PDF"
-            className="p-1.5 text-gray-300 hover:text-[#004a99] transition-colors"
+            className="p-1.5 text-gray-300 hover:text-[#1b4332] transition-colors"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -340,7 +340,7 @@ export default function OCEnCurso() {
         <h1 className="text-xl font-bold text-gray-900">OC en Curso</h1>
         <p className="text-sm text-gray-400 mt-0.5">{isLoading ? 'Cargando…' : `${enCurso.length} órdenes en proceso`}</p>
       </div>
-      {isLoading && <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>}
+      {isLoading && <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>}
       {!isLoading && enCurso.length === 0 && <div className="text-center py-12 text-gray-400 text-sm">No hay órdenes en curso.</div>}
       {!isLoading && <div className="space-y-3 max-w-2xl">{enCurso.map(oc => <OCCard key={oc.id} oc={oc} comprobante={comprobanteMap[oc.id]} facturaPdfUrl={facturaPdfMap[oc.id]}/>)}</div>}
     </div>

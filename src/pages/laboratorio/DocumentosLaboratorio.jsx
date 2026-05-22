@@ -65,7 +65,7 @@ function FormSubirDoc({ producto, tipo, onSubmit, onCancel }) {
         Subir {tipo.label} — {producto.nombre}
         {producto.url && (
           <a href={producto.url} target="_blank" rel="noopener noreferrer"
-            className="ml-2 text-[#004a99] hover:underline font-normal">
+            className="ml-2 text-[#1b4332] hover:underline font-normal">
             (ver actual)
           </a>
         )}
@@ -73,7 +73,7 @@ function FormSubirDoc({ producto, tipo, onSubmit, onCancel }) {
       <form onSubmit={handleSubmit} className="space-y-3">
         <div
           onClick={() => inputRef.current?.click()}
-          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-[#004a99] transition-colors"
+          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-[#1b4332] transition-colors"
         >
           {archivo
             ? <p className="text-sm text-gray-700 font-medium">{archivo.name}</p>
@@ -150,13 +150,13 @@ export default function DocumentosLaboratorio() {
           value={buscar}
           onChange={e => setBuscar(e.target.value)}
           placeholder="Buscar producto…"
-          className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] w-56"
+          className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] w-56"
         />
       </div>
 
       {isLoading ? (
         <div className="py-10 flex justify-center">
-          <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+          <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
         </div>
       ) : (
         <>

@@ -75,7 +75,7 @@ function VistaOrdenes({ ordenes }) {
                 onClick={() => setExpandida(abierta ? null : oc.id)}
               >
                 <td className="px-3 py-3"><Chevron open={abierta}/></td>
-                <td className="px-4 py-3 font-mono text-xs font-semibold text-[#004a99]">#{oc.numero}</td>
+                <td className="px-4 py-3 font-mono text-xs font-semibold text-[#1b4332]">#{oc.numero}</td>
                 <td className="px-4 py-3 font-medium text-gray-900">{cliente}</td>
                 <td className="px-4 py-3 text-xs text-gray-500">{vendedor}</td>
                 <td className="px-4 py-3 text-xs text-gray-500">{fmtFecha(oc.creado_en)}</td>
@@ -332,7 +332,7 @@ function VistaPorProducto({ ordenes, busqueda }) {
                             <tr key={i}>
                               <td className="px-3 py-2 font-medium text-gray-800">{c.cliente}</td>
                               <td className="px-3 py-2 text-right text-gray-600">{c.cantidad} kg/lt</td>
-                              <td className="px-3 py-2 font-mono text-[#004a99]">#{c.oc_numero}</td>
+                              <td className="px-3 py-2 font-mono text-[#1b4332]">#{c.oc_numero}</td>
                               <td className="px-3 py-2 text-gray-500">{fmtFecha(c.fecha)}</td>
                               <td className="px-3 py-2">
                                 <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${estadoCfg.cls}`}>
@@ -389,7 +389,7 @@ export default function HistoricoCompras() {
           {[['ordenes', 'Órdenes'], ['clientes', 'Por cliente'], ['productos', 'Por producto']].map(([v, l]) => (
             <button key={v} onClick={() => setVista(v)}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                vista === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                vista === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'
               }`}>
               {l}
             </button>
@@ -407,7 +407,7 @@ export default function HistoricoCompras() {
               vista === 'clientes'  ? 'Buscar por cliente…' :
               'Buscar por cliente o N° orden…'
             }
-            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
         </div>
 
         {/* Tabs de estado — sólo en vista Órdenes */}
@@ -416,7 +416,7 @@ export default function HistoricoCompras() {
             {ESTADO_TABS.map(([val, lbl]) => (
               <button key={val} onClick={() => setEstadoTab(val)}
                 className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                  estadoTab === val ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  estadoTab === val ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'
                 }`}>
                 {lbl}
               </button>
@@ -433,7 +433,7 @@ export default function HistoricoCompras() {
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : vista === 'ordenes'
             ? <VistaOrdenes ordenes={ordenesFiltradas} />
             : vista === 'clientes'

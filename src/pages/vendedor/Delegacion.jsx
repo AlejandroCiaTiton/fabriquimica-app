@@ -171,7 +171,7 @@ export default function Delegacion() {
     )
   }
 
-  const SELECT = 'border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white'
+  const SELECT = 'border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white'
 
   return (
     <div className="p-6 max-w-5xl space-y-6">
@@ -217,7 +217,7 @@ export default function Delegacion() {
           <div className="mt-4">
             <label className="block text-sm font-medium text-gray-600 mb-1.5">Motivo (opcional)</label>
             <input type="text"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               placeholder="Ej: Vacaciones, licencia médica…"
               value={motivo}
               onChange={e => setMotivo(e.target.value)}
@@ -235,14 +235,14 @@ export default function Delegacion() {
             </h2>
             {clientesDesde.length > 0 && (
               <button onClick={seleccionarTodos}
-                className="text-xs text-[#004a99] hover:underline font-medium">
+                className="text-xs text-[#1b4332] hover:underline font-medium">
                 {seleccionados.size === clientesDesde.length ? 'Deseleccionar todos' : 'Seleccionar todos'}
               </button>
             )}
           </div>
 
           {loadCli
-            ? <div className="p-8 flex justify-center"><div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+            ? <div className="p-8 flex justify-center"><div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
             : clientesDesde.length === 0
             ? <div className="p-8 text-center text-sm text-gray-400">Este vendedor no tiene clientes activos</div>
             : (
@@ -252,7 +252,7 @@ export default function Delegacion() {
                     onClick={() => toggleSel(c.id)}
                     className={`flex items-center gap-3 px-5 py-3 cursor-pointer hover:bg-gray-50 transition-colors ${seleccionados.has(c.id) ? 'bg-blue-50' : ''}`}>
                     <input type="checkbox" readOnly checked={seleccionados.has(c.id)}
-                      className="rounded accent-[#004a99] w-4 h-4 flex-shrink-0" />
+                      className="rounded accent-[#1b4332] w-4 h-4 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-800">{c.razon_social}</p>
                       {c.cuit && <p className="text-xs text-gray-400">CUIT {c.cuit}</p>}
@@ -272,7 +272,7 @@ export default function Delegacion() {
                 {error && <p className="text-sm text-red-600">{error}</p>}
                 {ok && <p className="text-sm text-green-700">{ok}</p>}
                 <button onClick={delegar} disabled={loading || seleccionados.size === 0 || !haciaId}
-                  className="px-5 py-2 bg-[#004a99] text-white text-sm font-medium rounded-lg hover:bg-[#003a7a] disabled:opacity-50 flex items-center gap-2">
+                  className="px-5 py-2 bg-[#1b4332] text-white text-sm font-medium rounded-lg hover:bg-[#152e24] disabled:opacity-50 flex items-center gap-2">
                   {loading && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
                   Delegar {seleccionados.size > 0 ? seleccionados.size : ''} cliente{seleccionados.size !== 1 ? 's' : ''}
                 </button>
@@ -290,7 +290,7 @@ export default function Delegacion() {
         </div>
 
         {loadDel
-          ? <div className="p-8 flex justify-center"><div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-8 flex justify-center"><div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : delegaciones.length === 0
           ? <div className="p-8 text-center text-sm text-gray-400">No hay delegaciones activas</div>
           : (
@@ -311,7 +311,7 @@ export default function Delegacion() {
                     <td className="px-4 py-3 font-medium text-gray-800">{d.clientes?.razon_social ?? '—'}</td>
                     <td className="px-4 py-3 text-gray-600">{d.vendedor_desde?.perfiles?.nombre ?? '—'}</td>
                     <td className="px-4 py-3">
-                      <span className="text-[#004a99] font-medium">{d.vendedor_hacia?.perfiles?.nombre ?? '—'}</span>
+                      <span className="text-[#1b4332] font-medium">{d.vendedor_hacia?.perfiles?.nombre ?? '—'}</span>
                     </td>
                     <td className="px-4 py-3 text-xs text-gray-500">
                       {new Date(d.creado_en).toLocaleDateString('es-AR')}

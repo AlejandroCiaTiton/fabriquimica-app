@@ -58,7 +58,7 @@ export default function NuevaContrasena() {
     return (
       <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-4">
         <div className="bg-white rounded-[10px] shadow-md w-full max-w-sm p-8 text-center">
-          <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin mx-auto mb-4"/>
+          <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin mx-auto mb-4"/>
           <p className="text-sm text-gray-500">Verificando link…</p>
         </div>
       </div>
@@ -85,7 +85,7 @@ export default function NuevaContrasena() {
     <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-4">
       <div className="bg-white rounded-[10px] shadow-md w-full max-w-sm p-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-[#004a99]">Fabriquímica</h1>
+          <h1 className="text-2xl font-bold text-[#1b4332]">Fabriquímica</h1>
           <p className="text-gray-500 text-sm mt-1">Nueva contraseña</p>
         </div>
 
@@ -96,7 +96,7 @@ export default function NuevaContrasena() {
               type="password"
               value={pass}
               onChange={e => setPass(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
               placeholder="Mínimo 6 caracteres"
               required
             />
@@ -107,7 +107,7 @@ export default function NuevaContrasena() {
               type="password"
               value={confirm}
               onChange={e => setConfirm(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
               placeholder="Repetí la contraseña"
               required
             />
@@ -120,7 +120,7 @@ export default function NuevaContrasena() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+            className="w-full bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
           >
             {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
             {loading ? 'Guardando…' : 'Guardar nueva contraseña'}

@@ -40,7 +40,7 @@ function FormSubirCoa({ lote, esRevalidacion, onSubmit, onCancel }) {
       <form onSubmit={handleSubmit} className="space-y-3">
         <div
           onClick={() => inputRef.current?.click()}
-          className="border-2 border-dashed border-blue-200 rounded-lg p-4 text-center cursor-pointer hover:border-[#004a99] transition-colors"
+          className="border-2 border-dashed border-blue-200 rounded-lg p-4 text-center cursor-pointer hover:border-[#1b4332] transition-colors"
         >
           {archivo
             ? <p className="text-sm text-gray-700 font-medium">{archivo.name}</p>
@@ -56,7 +56,7 @@ function FormSubirCoa({ lote, esRevalidacion, onSubmit, onCancel }) {
             Cancelar
           </button>
           <button type="submit" disabled={cargando}
-            className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors disabled:opacity-60 flex items-center gap-2">
+            className="bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors disabled:opacity-60 flex items-center gap-2">
             {cargando && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
             {cargando ? 'Subiendo…' : esRevalidacion ? 'Guardar Revalidación' : 'Guardar COA'}
           </button>
@@ -72,7 +72,7 @@ function HistorialCoa({ loteId, urlActual }) {
   if (isLoading) {
     return (
       <div className="flex justify-center py-3">
-        <div className="w-4 h-4 border-2 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+        <div className="w-4 h-4 border-2 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
       </div>
     )
   }
@@ -87,13 +87,13 @@ function HistorialCoa({ loteId, urlActual }) {
         <div key={v.id} className="flex items-center justify-between gap-3 py-1.5 px-2 rounded hover:bg-gray-100">
           <div className="flex items-center gap-2">
             {i === 0
-              ? <span className="text-[10px] font-semibold bg-[#004a99] text-white px-1.5 py-0.5 rounded-full">Actual</span>
+              ? <span className="text-[10px] font-semibold bg-[#1b4332] text-white px-1.5 py-0.5 rounded-full">Actual</span>
               : <span className="text-[10px] font-medium bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">v{versiones.length - i}</span>
             }
             <span className="text-xs text-gray-500">{fmtFechaHora(v.creado_en)}</span>
           </div>
           <a href={v.url} target="_blank" rel="noopener noreferrer"
-            className="text-xs font-medium text-[#004a99] hover:underline flex-shrink-0">
+            className="text-xs font-medium text-[#1b4332] hover:underline flex-shrink-0">
             Descargar
           </a>
         </div>
@@ -150,13 +150,13 @@ export default function CoasLaboratorio() {
             value={buscar}
             onChange={e => setBuscar(e.target.value)}
             placeholder="Buscar producto o lote…"
-            className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] w-52"
+            className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] w-52"
           />
         </div>
 
         {loadingSin ? (
           <div className="py-8 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : sinCoaFiltrados.length === 0 ? (
           <div className="bg-white rounded-[10px] shadow-card py-10 text-center text-sm text-gray-400">
@@ -180,7 +180,7 @@ export default function CoasLaboratorio() {
                   </div>
                   <button
                     onClick={() => toggle(lote.id)}
-                    className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors flex-shrink-0"
+                    className="bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors flex-shrink-0"
                   >
                     Subir COA
                   </button>
@@ -204,7 +204,7 @@ export default function CoasLaboratorio() {
         <h2 className="text-base font-semibold text-gray-800 mb-3">COAs cargados</h2>
         {loadingCon ? (
           <div className="py-8 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : conCoa.length === 0 ? (
           <div className="bg-white rounded-[10px] shadow-card py-10 text-center text-sm text-gray-400">
@@ -227,7 +227,7 @@ export default function CoasLaboratorio() {
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <a href={lote.coa_url} target="_blank" rel="noopener noreferrer"
-                      className="text-[#004a99] hover:underline text-xs font-medium">
+                      className="text-[#1b4332] hover:underline text-xs font-medium">
                       Ver COA
                     </a>
                     <span className="text-gray-200">|</span>
@@ -236,7 +236,7 @@ export default function CoasLaboratorio() {
                       className={`text-xs font-medium transition-colors ${
                         formAbierto === `rev-${lote.id}`
                           ? 'text-gray-400'
-                          : 'text-gray-500 hover:text-[#004a99]'
+                          : 'text-gray-500 hover:text-[#1b4332]'
                       }`}
                     >
                       Revalidar
@@ -246,7 +246,7 @@ export default function CoasLaboratorio() {
                       onClick={() => toggle(`hist-${lote.id}`)}
                       className={`text-xs font-medium transition-colors ${
                         formAbierto === `hist-${lote.id}`
-                          ? 'text-[#004a99]'
+                          ? 'text-[#1b4332]'
                           : 'text-gray-400 hover:text-gray-700'
                       }`}
                     >

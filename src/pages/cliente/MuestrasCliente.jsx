@@ -68,7 +68,7 @@ function CardMuestra({ muestra }) {
       {/* Acción: confirmar recepción */}
       {muestra.estado === 'enviada' && (
         <button onClick={confirmarRecepcion} disabled={actualizar.isPending}
-          className="mt-1 w-full bg-[#004a99] hover:bg-[#003d80] text-white text-xs font-medium py-2 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+          className="mt-1 w-full bg-[#1b4332] hover:bg-[#152e24] text-white text-xs font-medium py-2 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
           {actualizar.isPending
             ? <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"/>
             : <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -83,7 +83,7 @@ function CardMuestra({ muestra }) {
       {muestra.estado === 'recibida' && (
         <>
           <button onClick={() => setExpandida(e => !e)}
-            className="mt-1 w-full border border-[#004a99] text-[#004a99] text-xs font-medium py-2 rounded-lg hover:bg-blue-50 transition-colors">
+            className="mt-1 w-full border border-[#1b4332] text-[#1b4332] text-xs font-medium py-2 rounded-lg hover:bg-blue-50 transition-colors">
             {expandida ? 'Cancelar' : 'Registrar evaluación'}
           </button>
           {expandida && (
@@ -91,13 +91,13 @@ function CardMuestra({ muestra }) {
               <div>
                 <label className="block text-xs font-semibold text-gray-500 mb-1">¿Para qué la usaste? *</label>
                 <textarea rows={2} value={uso} onChange={e => setUso(e.target.value)}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
                   placeholder="Describí la aplicación o proceso donde usaste la muestra…"/>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-500 mb-1">Resultado (opcional)</label>
                 <textarea rows={2} value={resultado} onChange={e => setResultado(e.target.value)}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
                   placeholder="Resultado obtenido, observaciones, si cumplió las expectativas…"/>
               </div>
               <button onClick={guardarEvaluacion} disabled={!uso.trim() || guardando}
@@ -164,7 +164,7 @@ function CardSolicitud({ solicitud }) {
           <button
             onClick={handleAceptarAlternativa}
             disabled={aceptarAlt.isPending}
-            className="w-full bg-[#004a99] text-white text-xs font-semibold py-2 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-1.5">
+            className="w-full bg-[#1b4332] text-white text-xs font-semibold py-2 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-1.5">
             {aceptarAlt.isPending
               ? <><div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"/> Procesando…</>
               : <>
@@ -204,7 +204,7 @@ function FormSolicitar({ onClose }) {
       <div>
         <label className="block text-xs font-semibold text-gray-500 mb-1">Producto de interés (opcional)</label>
         <select value={productoId} onChange={e => setProductoId(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]">
           <option value="">No sé / Quiero una recomendación</option>
           {productos.map(p => <option key={p.id} value={p.id}>{p.nombre} {p.codigo ? `(${p.codigo})` : ''}</option>)}
         </select>
@@ -212,7 +212,7 @@ function FormSolicitar({ onClose }) {
       <div>
         <label className="block text-xs font-semibold text-gray-500 mb-1">¿Para qué la usarías? *</label>
         <textarea rows={3} value={usoPrevisto} onChange={e => setUsoPrevisto(e.target.value)} required
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
           placeholder="Describí la aplicación o proceso en el que querés usarla, el tipo de producto que buscás…"/>
       </div>
       {err && <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{err}</p>}
@@ -222,7 +222,7 @@ function FormSolicitar({ onClose }) {
           Cancelar
         </button>
         <button type="submit" disabled={solicitar.isPending}
-          className="flex-1 bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2 rounded-lg text-sm disabled:opacity-60 flex items-center justify-center gap-2">
+          className="flex-1 bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2 rounded-lg text-sm disabled:opacity-60 flex items-center justify-center gap-2">
           {solicitar.isPending && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
           Enviar solicitud
         </button>
@@ -251,7 +251,7 @@ export default function MuestrasCliente() {
         </div>
         {tab === 'solicitar' && !showForm && (
           <button onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+            className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
@@ -285,10 +285,10 @@ export default function MuestrasCliente() {
           ['solicitar', 'Mis solicitudes',    solicPendientes > 0     ? solicPendientes     : null],
         ].map(([v, l, count]) => (
           <button key={v} onClick={() => { setTab(v); setShowForm(false) }}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
             {l}
             {count != null && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-[#004a99] text-white">{count}</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-[#1b4332] text-white">{count}</span>
             )}
           </button>
         ))}
@@ -297,12 +297,12 @@ export default function MuestrasCliente() {
       {/* ── TAB RECIBIDAS ── */}
       {tab === 'recibidas' && (
         loadM
-          ? <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : muestras.length === 0
             ? <div className="bg-white rounded-[10px] shadow-card p-12 text-center text-sm text-gray-400">
                 Todavía no recibiste muestras.
                 <br/>
-                <button onClick={() => setTab('solicitar')} className="mt-2 text-[#004a99] font-medium hover:underline">Solicitar una muestra →</button>
+                <button onClick={() => setTab('solicitar')} className="mt-2 text-[#1b4332] font-medium hover:underline">Solicitar una muestra →</button>
               </div>
             : <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {muestras.map(m => <CardMuestra key={m.id} muestra={m}/>)}
@@ -323,7 +323,7 @@ export default function MuestrasCliente() {
             <div className="bg-white rounded-[10px] shadow-card p-12 text-center text-sm text-gray-400">
               No realizaste solicitudes de muestras aún.
               <br/>
-              <button onClick={() => setShowForm(true)} className="mt-2 text-[#004a99] font-medium hover:underline">Solicitar primera muestra →</button>
+              <button onClick={() => setShowForm(true)} className="mt-2 text-[#1b4332] font-medium hover:underline">Solicitar primera muestra →</button>
             </div>
           )}
 

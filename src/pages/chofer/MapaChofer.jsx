@@ -9,7 +9,7 @@ const CENTER_DEFAULT = { lat: -34.6037, lng: -58.3816 }
 const MAP_STYLE = { width: '100%', height: '100%' }
 
 function markerSvg(confirmado) {
-  const color = confirmado ? '#28a745' : '#004a99'
+  const color = confirmado ? '#28a745' : '#1b4332'
   return encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
       <circle cx="14" cy="14" r="11" fill="${color}" stroke="white" stroke-width="2"/>
@@ -39,7 +39,7 @@ function ModalNoEntrega({ oc, onConfirm, onClose, loading }) {
           onChange={e => setMotivo(e.target.value)}
           rows={3}
           placeholder="Ej: Cliente ausente, dirección incorrecta, acceso denegado…"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
         />
         <div className="flex gap-3 mt-4">
           <button onClick={onClose}
@@ -191,7 +191,7 @@ export default function MapaChofer() {
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-gray-900 truncate">{cli?.razon_social}</p>
-                    <p className="text-xs font-mono text-[#004a99]">{oc.numero}</p>
+                    <p className="text-xs font-mono text-[#1b4332]">{oc.numero}</p>
                   </div>
                   {plan?.notas && (
                     <span className="flex-shrink-0 text-[10px] font-semibold bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full">
@@ -220,7 +220,7 @@ export default function MapaChofer() {
         )}
         {!loadError && !isLoaded && (
           <div className="flex items-center justify-center h-full">
-            <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         )}
         {isLoaded && (
@@ -265,7 +265,7 @@ export default function MapaChofer() {
                   {selected === oc.id && (
                     <InfoWindowF position={pos} onCloseClick={() => setSelected(null)}>
                       <div className="text-sm min-w-[220px] max-w-[260px]">
-                        <p className="font-bold text-[#004a99] mb-0.5">{oc.numero}</p>
+                        <p className="font-bold text-[#1b4332] mb-0.5">{oc.numero}</p>
                         <p className="font-semibold text-gray-900 mb-1">{cli.razon_social}</p>
                         {fecha && (
                           <p className="text-xs text-gray-500 mb-2">Entrega: {fmtFecha(fecha)}</p>

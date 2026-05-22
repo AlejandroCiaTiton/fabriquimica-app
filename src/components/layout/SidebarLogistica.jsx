@@ -14,7 +14,7 @@ function NavItem({ to, icon, label }) {
   return (
     <NavLink to={to} className={({ isActive }) =>
       `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-        isActive ? 'bg-[#004a99] text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+        isActive ? 'bg-[#1b4332] text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
       }`
     }>
       <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -31,9 +31,9 @@ export default function SidebarLogistica() {
 
   return (
     <aside className="fixed top-0 left-0 h-full w-60 bg-white border-r border-gray-200 flex flex-col z-40">
-      <div className="px-5 py-4 border-b border-green-900 bg-[#1b4332]">
-        <div className="bg-white rounded-lg px-3 py-2 inline-block"><img src="/logo_fabriquimica.png" alt="Fabriquímica" className="h-7 object-contain" /></div>
-        <p className="text-xs text-green-200 mt-0.5">Logística</p>
+      <div className="px-5 py-4 border-b border-gray-100">
+        <img src="/logo.jpg" alt="Fabriquímica" className="h-8 object-contain" />
+        <p className="text-xs text-gray-400 mt-0.5">Logística</p>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-1">
         <NavItem to="/logistica/mapa"           icon="mapa"           label="Mapa de entregas" />

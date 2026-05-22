@@ -17,7 +17,7 @@ export function PipelineBar({ estado }) {
         <div key={e} className="flex items-center gap-1">
           <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-colors ${
             i < idx  ? 'bg-green-100 text-green-700' :
-            i === idx ? 'bg-[#004a99] text-white' :
+            i === idx ? 'bg-[#1b4332] text-white' :
                         'bg-gray-100 text-gray-400'
           }`}>
             {i < idx && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
@@ -90,10 +90,10 @@ function FilaAccionCorrectiva({ oc, item, rec }) {
       <div className="flex gap-2 mb-3">
         <textarea value={accion} onChange={e => setAccion(e.target.value)}
           placeholder="Describí la acción correctiva…" rows={2}
-          className="flex-1 text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"/>
+          className="flex-1 text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"/>
         <button onClick={() => save()} disabled={guardar.isPending}
           className={`self-end text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 ${
-            saved ? 'bg-green-100 text-green-700' : 'bg-[#004a99] text-white hover:bg-[#003d80]'
+            saved ? 'bg-green-100 text-green-700' : 'bg-[#1b4332] text-white hover:bg-[#152e24]'
           }`}>
           {saved ? <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                  : guardar.isPending ? '…' : 'Guardar'}
@@ -166,7 +166,7 @@ function PanelRecepcion({ oc }) {
 
   return (
     <div className="mt-3 border border-blue-100 rounded-lg overflow-hidden">
-      <div className="bg-blue-50 px-3 py-2 text-xs font-semibold text-[#004a99]">Confirmá la recepción de mercadería</div>
+      <div className="bg-blue-50 px-3 py-2 text-xs font-semibold text-[#1b4332]">Confirmá la recepción de mercadería</div>
       {items.map(item => {
         const rec = getRec(item.id); const estado = rec?.estado
         return (
@@ -188,7 +188,7 @@ function PanelRecepcion({ oc }) {
                 value={comentarios[item.id] ?? rec?.comentario ?? ''}
                 onChange={e => setComentarios(c => ({ ...c, [item.id]: e.target.value }))}
                 onBlur={() => marcar.mutate({ ocId: oc.id, cotizacionItemId: item.id, estado, comentario: comentarios[item.id] })}
-                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] mt-1"/>
+                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] mt-1"/>
             )}
           </div>
         )
@@ -248,10 +248,10 @@ function CamposEntrega({ oc }) {
       <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Entrega estimada</p>
       <div className="flex gap-2 items-end">
         <input type="date" value={fecha} onChange={e => setFecha(e.target.value)}
-          className="flex-1 text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white"/>
+          className="flex-1 text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white"/>
         <button onClick={guardar} disabled={!dirty || actualizar.isPending}
           className={`flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 ${
-            guardado ? 'bg-green-100 text-green-700' : dirty ? 'bg-[#004a99] text-white hover:bg-[#003d80]' : 'bg-gray-100 text-gray-400 cursor-default'
+            guardado ? 'bg-green-100 text-green-700' : dirty ? 'bg-[#1b4332] text-white hover:bg-[#152e24]' : 'bg-gray-100 text-gray-400 cursor-default'
           }`}>
           {guardado
             ? <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -274,7 +274,7 @@ export default function OCCard({ oc, isNew, facturaPdfUrl, showVendedor = false 
       <div className="flex items-start justify-between gap-3 mb-1">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono font-bold text-[#004a99]">{oc.numero}</span>
+            <span className="font-mono font-bold text-[#1b4332]">{oc.numero}</span>
             {oc.referencia_cliente && (
               <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">Ref: {oc.referencia_cliente}</span>
             )}
@@ -291,11 +291,11 @@ export default function OCCard({ oc, isNew, facturaPdfUrl, showVendedor = false 
           <p className="text-xs text-gray-400">{new Date(oc.creado_en).toLocaleDateString('es-AR')}</p>
         </div>
         <div className="text-right flex-shrink-0 flex flex-col items-end gap-1">
-          <p className="font-bold text-[#004a99]">{fmtUSD(oc.cotizaciones?.total)}</p>
+          <p className="font-bold text-[#1b4332]">{fmtUSD(oc.cotizaciones?.total)}</p>
           <p className="text-xs text-gray-400">{items.length} ítem{items.length !== 1 ? 's' : ''}</p>
           <button
             onClick={async () => { const { generateOCPDF } = await import('../../utils/pdfGenerator'); generateOCPDF(oc) }}
-            title="Descargar PDF" className="text-gray-400 hover:text-[#004a99] transition-colors mt-1">
+            title="Descargar PDF" className="text-gray-400 hover:text-[#1b4332] transition-colors mt-1">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
             </svg>
@@ -323,7 +323,7 @@ export default function OCCard({ oc, isNew, facturaPdfUrl, showVendedor = false 
           <span className="font-mono text-xs font-semibold text-gray-800">{oc.numero_factura}</span>
           {facturaPdfUrl && (
             <a href={facturaPdfUrl} target="_blank" rel="noopener noreferrer"
-              className="ml-auto text-xs text-[#004a99] font-medium hover:underline flex items-center gap-0.5">
+              className="ml-auto text-xs text-[#1b4332] font-medium hover:underline flex items-center gap-0.5">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
               </svg>
@@ -345,7 +345,7 @@ export default function OCCard({ oc, isNew, facturaPdfUrl, showVendedor = false 
           </button>
         ) : (
           <button onClick={() => avanzar.mutate({ ocId: oc.id, estadoActual: oc.estado })} disabled={avanzar.isPending}
-            className="flex items-center gap-1.5 mt-3 bg-[#004a99] hover:bg-[#003d80] text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors disabled:opacity-50">
+            className="flex items-center gap-1.5 mt-3 bg-[#1b4332] hover:bg-[#152e24] text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors disabled:opacity-50">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             Pasar a: {LABELS[PIPELINE[idx + 1]]}
           </button>

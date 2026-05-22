@@ -30,7 +30,7 @@ export default function RecuperarContrasena() {
     <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-4">
       <div className="bg-white rounded-[10px] shadow-md w-full max-w-sm p-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-[#004a99]">Fabriquímica</h1>
+          <h1 className="text-2xl font-bold text-[#1b4332]">Fabriquímica</h1>
           <p className="text-gray-500 text-sm mt-1">Recuperar contraseña</p>
         </div>
 
@@ -45,7 +45,7 @@ export default function RecuperarContrasena() {
             <p className="text-xs text-gray-400">
               Si <strong>{email}</strong> tiene una cuenta, recibirás un link para resetear tu contraseña.
             </p>
-            <Link to="/login" className="block text-sm font-semibold text-[#004a99] hover:underline mt-4">
+            <Link to="/login" className="block text-sm font-semibold text-[#1b4332] hover:underline mt-4">
               ← Volver al inicio de sesión
             </Link>
           </div>
@@ -60,7 +60,7 @@ export default function RecuperarContrasena() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
                 placeholder="usuario@fabriquimica.com"
                 required
               />
@@ -73,13 +73,13 @@ export default function RecuperarContrasena() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-60"
+              className="w-full bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-60"
             >
               {loading ? 'Enviando…' : 'Enviar link de recuperación'}
             </button>
 
             <div className="text-center pt-2">
-              <Link to="/login" className="text-sm text-gray-500 hover:text-[#004a99]">
+              <Link to="/login" className="text-sm text-gray-500 hover:text-[#1b4332]">
                 ← Volver al inicio de sesión
               </Link>
             </div>

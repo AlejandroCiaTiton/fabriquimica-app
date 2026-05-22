@@ -3,11 +3,11 @@ import { useTrabajos, useConfirmarLote } from '../../hooks/useProduccion'
 
 const ESTADO_CONFIG = {
   pendiente:  { color: '#f59e0b', bgClass: 'bg-yellow-100 text-yellow-800', label: 'Pendiente'  },
-  'en-curso': { color: '#004a99', bgClass: 'bg-blue-100 text-blue-800',    label: 'En curso'   },
+  'en-curso': { color: '#1b4332', bgClass: 'bg-blue-100 text-blue-800',    label: 'En curso'   },
   completado: { color: '#16a34a', bgClass: 'bg-green-100 text-green-800',  label: 'Completado' },
 }
 
-const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]'
+const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]'
 
 function semanaDesd(base) {
   const lunes = new Date(base)
@@ -74,7 +74,7 @@ function ModalConfirmarLote({ trabajo, onClose }) {
               type="file"
               accept=".pdf,.jpg,.jpeg,.png"
               onChange={e => setCoa(e.target.files?.[0] ?? null)}
-              className="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-[#004a99] hover:file:bg-blue-100 cursor-pointer"
+              className="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-[#1b4332] hover:file:bg-blue-100 cursor-pointer"
             />
             {coa && <p className="text-xs text-gray-400 mt-1 truncate">{coa.name}</p>}
           </div>
@@ -118,7 +118,7 @@ function TrabajoCard({ trabajo, onConfirmar }) {
           )}
           {trabajo.coa_url && (
             <a href={trabajo.coa_url} target="_blank" rel="noopener noreferrer"
-              className="text-[#004a99] hover:underline flex items-center gap-0.5 font-medium">
+              className="text-[#1b4332] hover:underline flex items-center gap-0.5 font-medium">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
               </svg>
@@ -205,7 +205,7 @@ export default function CalendarioProduccion() {
 
       {isLoading && (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+          <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
         </div>
       )}
 
@@ -230,13 +230,13 @@ export default function CalendarioProduccion() {
               const ocs   = porFecha[key] ?? []
               const esHoy = key === isoDate(new Date())
               return (
-                <div key={key} className={esHoy ? 'ring-2 ring-[#004a99] rounded-lg' : ''}>
+                <div key={key} className={esHoy ? 'ring-2 ring-[#1b4332] rounded-lg' : ''}>
                   <div className={`px-2 py-1.5 rounded-t-lg text-xs font-semibold flex items-center justify-between select-none ${
-                    esHoy ? 'bg-[#004a99] text-white' : 'bg-gray-100 text-gray-600'
+                    esHoy ? 'bg-[#1b4332] text-white' : 'bg-gray-100 text-gray-600'
                   }`}>
                     <span>{fmtDia(dia)}</span>
                     {ocs.length > 0 && (
-                      <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${esHoy ? 'bg-white text-[#004a99]' : 'bg-[#004a99] text-white'}`}>
+                      <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${esHoy ? 'bg-white text-[#1b4332]' : 'bg-[#1b4332] text-white'}`}>
                         {ocs.length}
                       </span>
                     )}

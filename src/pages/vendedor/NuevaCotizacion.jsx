@@ -60,7 +60,7 @@ function ItemRow({ item, index, onChangeCantidad, onChangePrecio, onSetLista, on
           step="1"
           value={item.cantidad}
           onChange={e => onChangeCantidad(index, e.target.value)}
-          className="w-full text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+          className="w-full text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
         />
       </div>
 
@@ -73,7 +73,7 @@ function ItemRow({ item, index, onChangeCantidad, onChangePrecio, onSetLista, on
           step="0.01"
           value={item.precio_unitario}
           onChange={e => onChangePrecio(index, e.target.value)}
-          className="w-full text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent"
+          className="w-full text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332] focus:border-transparent"
         />
         <div className="flex gap-1">
           {LISTAS.map(l => {
@@ -87,7 +87,7 @@ function ItemRow({ item, index, onChangeCantidad, onChangePrecio, onSetLista, on
                 title={`${l.label}: USD ${val}`}
                 className={`px-1.5 py-0.5 rounded text-[10px] font-semibold transition-colors ${
                   isActive
-                    ? 'bg-[#004a99] text-white'
+                    ? 'bg-[#1b4332] text-white'
                     : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                 }`}
               >
@@ -168,7 +168,7 @@ function BuscadorProducto({ productos, itemsActuales, onAgregar, listaDefault, s
               key={l.key}
               onClick={() => setListaDefault(l.key)}
               className={`flex-1 py-1 rounded text-xs font-semibold transition-colors ${
-                listaDefault === l.key ? 'bg-[#004a99] text-white' : 'text-gray-500 hover:text-gray-800'
+                listaDefault === l.key ? 'bg-[#1b4332] text-white' : 'text-gray-500 hover:text-gray-800'
               }`}
             >
               {l.label}
@@ -180,7 +180,7 @@ function BuscadorProducto({ productos, itemsActuales, onAgregar, listaDefault, s
           min="1"
           value={cantDefault}
           onChange={e => setCantDefault(Number(e.target.value) || 1)}
-          className="w-20 text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+          className="w-20 text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           title="Cantidad por defecto"
           placeholder="Cant."
         />
@@ -196,7 +196,7 @@ function BuscadorProducto({ productos, itemsActuales, onAgregar, listaDefault, s
           value={busqueda}
           onChange={e => setBusqueda(e.target.value)}
           placeholder="Buscar por nombre o código…"
-          className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+          className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
         />
       </div>
 
@@ -216,7 +216,7 @@ function BuscadorProducto({ productos, itemsActuales, onAgregar, listaDefault, s
                   <p className="text-sm font-medium text-gray-900 leading-tight">{p.nombre}</p>
                   <p className="text-xs text-gray-400">{p.presentacion} · {p.codigo}</p>
                 </div>
-                <span className="text-sm font-semibold text-[#004a99] ml-3 flex-shrink-0">
+                <span className="text-sm font-semibold text-[#1b4332] ml-3 flex-shrink-0">
                   {precio != null ? `USD ${precio}` : '—'}
                 </span>
               </button>
@@ -385,7 +385,7 @@ export default function NuevaCotizacion() {
           </svg>
         </div>
         <h2 className="text-lg font-bold text-gray-900 mb-1">Cotización enviada</h2>
-        <p className="text-sm text-gray-500 mb-1">Código: <strong className="text-[#004a99]">{exito.codigo}</strong></p>
+        <p className="text-sm text-gray-500 mb-1">Código: <strong className="text-[#1b4332]">{exito.codigo}</strong></p>
         <p className="text-sm text-gray-500 mb-6">El cliente ya puede verla y responder.</p>
         <div className="flex gap-3 justify-center">
           <button
@@ -396,7 +396,7 @@ export default function NuevaCotizacion() {
           </button>
           <button
             onClick={() => navigate('/vendedor/cotizaciones')}
-            className="px-4 py-2 bg-[#004a99] text-white rounded-lg text-sm hover:bg-[#003d80]"
+            className="px-4 py-2 bg-[#1b4332] text-white rounded-lg text-sm hover:bg-[#152e24]"
           >
             Ver cotizaciones
           </button>
@@ -454,7 +454,7 @@ export default function NuevaCotizacion() {
         <button
           onClick={handleEnviar}
           disabled={crearCotizacion.isPending || actualizarCotizacion.isPending || !clienteId || !items.length}
-          className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] disabled:opacity-50 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors"
+          className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] disabled:opacity-50 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors"
         >
           {(crearCotizacion.isPending || actualizarCotizacion.isPending) ? (
             <>
@@ -498,7 +498,7 @@ export default function NuevaCotizacion() {
         <div className="flex-1 bg-white rounded-[10px] shadow-card overflow-hidden">
           <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
             <span className="text-sm font-semibold text-gray-700">
-              Ítems {items.length > 0 && <span className="text-[#004a99]">({items.length})</span>}
+              Ítems {items.length > 0 && <span className="text-[#1b4332]">({items.length})</span>}
             </span>
             {items.length > 0 && (
               <button
@@ -581,7 +581,7 @@ export default function NuevaCotizacion() {
             </div>
             <div className="flex justify-between text-base font-bold text-gray-900 pt-2 border-t border-gray-100">
               <span>Total</span>
-              <span className="text-[#004a99]">{fmtUSD(total)}</span>
+              <span className="text-[#1b4332]">{fmtUSD(total)}</span>
             </div>
           </div>
 
@@ -595,7 +595,7 @@ export default function NuevaCotizacion() {
                 max="30"
                 value={validezDias}
                 onChange={e => setValidezDias(parseInt(e.target.value) || 1)}
-                className="w-16 text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-16 text-center text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
               <span className="text-sm text-gray-500">días</span>
             </div>
@@ -612,7 +612,7 @@ export default function NuevaCotizacion() {
               onChange={e => setObservaciones(e.target.value)}
               placeholder="Notas para el cliente…"
               rows={3}
-              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
 

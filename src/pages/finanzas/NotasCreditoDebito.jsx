@@ -47,8 +47,8 @@ function ModalNuevaNota({ tipo, onClose }) {
         </div>
         <h3 className="text-base font-bold text-gray-900 mb-1">{cfg.fullLabel} emitida</h3>
         <p className="text-sm text-gray-500 mb-1">Número:</p>
-        <p className="font-mono text-lg font-bold text-[#004a99] mb-6">{ok}</p>
-        <button onClick={onClose} className="px-5 py-2 bg-[#004a99] text-white rounded-lg text-sm hover:bg-[#003d80]">
+        <p className="font-mono text-lg font-bold text-[#1b4332] mb-6">{ok}</p>
+        <button onClick={onClose} className="px-5 py-2 bg-[#1b4332] text-white rounded-lg text-sm hover:bg-[#152e24]">
           Cerrar
         </button>
       </div>
@@ -71,7 +71,7 @@ function ModalNuevaNota({ tipo, onClose }) {
               type="number" min="0.01" step="0.01" required
               value={monto} onChange={e => setMonto(e.target.value)}
               placeholder="0.00"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
           <div>
@@ -80,14 +80,14 @@ function ModalNuevaNota({ tipo, onClose }) {
               required rows={3}
               value={motivo} onChange={e => setMotivo(e.target.value)}
               placeholder="Describí el motivo de la nota…"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
           <div className="flex gap-2 pt-1">
             <button
               type="submit"
               disabled={crear.isPending}
-              className="flex-1 py-2.5 bg-[#004a99] text-white text-sm font-medium rounded-lg hover:bg-[#003d80] disabled:opacity-50 transition-colors"
+              className="flex-1 py-2.5 bg-[#1b4332] text-white text-sm font-medium rounded-lg hover:bg-[#152e24] disabled:opacity-50 transition-colors"
             >
               {crear.isPending ? 'Emitiendo…' : `Emitir ${cfg.fullLabel}`}
             </button>
@@ -165,7 +165,7 @@ function FilaNota({ nota }) {
               <button
                 onClick={handleEmitir}
                 disabled={emitir.isPending}
-                className="text-[10px] font-semibold px-2 py-1 bg-[#004a99] text-white rounded hover:bg-[#003d80] disabled:opacity-50 transition-colors"
+                className="text-[10px] font-semibold px-2 py-1 bg-[#1b4332] text-white rounded hover:bg-[#152e24] disabled:opacity-50 transition-colors"
               >
                 {emitir.isPending ? '…' : 'Emitir'}
               </button>
@@ -291,7 +291,7 @@ export default function NotasCreditoDebito() {
           {[['todas','Todo'],['pendiente','Pendientes'],['emitida','Emitidas'],['anulada','Anuladas']].map(([k,l]) => (
             <button key={k} onClick={() => setFiltroEstado(k)}
               className={`text-xs font-medium px-3 py-1.5 rounded-lg transition-colors ${
-                filtroEstado === k ? 'bg-[#004a99] text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                filtroEstado === k ? 'bg-[#1b4332] text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
               }`}>
               {l}
             </button>
@@ -313,7 +313,7 @@ export default function NotasCreditoDebito() {
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <div className="w-7 h-7 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-7 h-7 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : filtradas.length === 0 ? (
           <p className="py-12 text-center text-sm text-gray-400">No hay notas para los filtros seleccionados</p>
@@ -363,7 +363,7 @@ function EmitirRapido({ nota }) {
     <button
       onClick={handleEmitir}
       disabled={emitir.isPending}
-      className="text-xs font-semibold px-3 py-1.5 bg-[#004a99] text-white rounded-lg hover:bg-[#003d80] disabled:opacity-50 flex-shrink-0 transition-colors"
+      className="text-xs font-semibold px-3 py-1.5 bg-[#1b4332] text-white rounded-lg hover:bg-[#152e24] disabled:opacity-50 flex-shrink-0 transition-colors"
     >
       {emitir.isPending ? '…' : 'Emitir NC'}
     </button>

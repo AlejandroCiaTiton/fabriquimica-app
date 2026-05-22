@@ -218,7 +218,7 @@ function LoteRow({ row, idx, lotes, isLoading, usados, onUpdate, onRemove }) {
             onChange={handleSelect}
             disabled={isLoading}
             className={`w-full border rounded px-2 py-1 text-xs bg-white focus:outline-none focus:ring-2 disabled:opacity-60 ${
-              insuf ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-[#004a99]'
+              insuf ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-[#1b4332]'
             }`}
           >
             <option value="">{isLoading ? 'Cargando…' : '— Lote —'}</option>
@@ -242,7 +242,7 @@ function LoteRow({ row, idx, lotes, isLoading, usados, onUpdate, onRemove }) {
             onChange={e => onUpdate(idx, 'lote', e.target.value)}
             onBlur={() => { if (!row.lote) setManual(false) }}
             placeholder="Ej: L2025-042"
-            className="w-full border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+            className="w-full border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
           />
         )}
         {insuf && !sinStock && (
@@ -257,7 +257,7 @@ function LoteRow({ row, idx, lotes, isLoading, usados, onUpdate, onRemove }) {
         value={row.cantidad}
         onChange={e => onUpdate(idx, 'cantidad', e.target.value)}
         placeholder="kg/lt"
-        className="w-20 text-right border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+        className="w-20 text-right border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
       />
       <button
         onClick={() => onRemove(idx)}
@@ -316,7 +316,7 @@ function LotesMultiples({ productoId, itemCantidad, value, onChange }) {
         <button
           type="button"
           onClick={addRow}
-          className="text-xs text-[#004a99] hover:underline font-medium"
+          className="text-xs text-[#1b4332] hover:underline font-medium"
         >
           + Agregar lote
         </button>
@@ -575,7 +575,7 @@ function TarjetaOC({ oc }) {
                   onClick={handleMarcarListo}
                   disabled={!todosConLote || guardarLotes.isPending || avanzar.isPending}
                   title={!todosConLote ? 'Completá la asignación de lotes de todos los productos' : ''}
-                  className="px-4 py-1.5 text-sm font-medium bg-[#004a99] hover:bg-[#003d80] text-white rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                  className="px-4 py-1.5 text-sm font-medium bg-[#1b4332] hover:bg-[#152e24] text-white rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
                   {avanzar.isPending ? 'Procesando…' : 'Marcar como listo para entrega →'}
                 </button>
                 {!todosConLote && (
@@ -611,7 +611,7 @@ export default function OrdenesProduccion() {
 
       {isLoading && (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+          <div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
         </div>
       )}
 

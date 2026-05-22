@@ -10,8 +10,8 @@ const ESTADO_BADGE = {
   cancelado:       { text: 'Cancelado',  color: 'bg-red-50 text-red-600' },
 }
 
-const INPUT = 'w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white'
-const INPUT_SM = 'w-full border border-gray-200 rounded px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] bg-white text-right'
+const INPUT = 'w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white'
+const INPUT_SM = 'w-full border border-gray-200 rounded px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] bg-white text-right'
 
 
 function fmt(n, dec = 2) {
@@ -67,10 +67,10 @@ function imprimirCotizacion(pedido) {
   <title>Cotización EXPO ${pedido.numero}</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; color: #222; font-size: 13px; }
-    h1 { color: #004a99; margin-bottom: 4px; font-size: 20px; }
+    h1 { color: #1b4332; margin-bottom: 4px; font-size: 20px; }
     .meta { color: #666; margin: 2px 0; }
     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th { background: #e8f0fa; color: #004a99; padding: 8px 10px; text-align: left; font-size: 11px; text-transform: uppercase; }
+    th { background: #e8f0fa; color: #1b4332; padding: 8px 10px; text-align: left; font-size: 11px; text-transform: uppercase; }
     td { border-bottom: 1px solid #eee; padding: 7px 10px; }
     tfoot td { border-top: 2px solid #ccc; font-weight: bold; }
     .dim { margin-top: 24px; background: #f7f9fc; border: 1px solid #dde; padding: 12px 16px; border-radius: 6px; font-size: 12px; }
@@ -218,7 +218,7 @@ function ModalPedido({ pedido, onClose }) {
             <p className="text-sm text-gray-500 mt-0.5">
               {pedido.cliente_nombre}{pedido.pais_destino ? ` — ${pedido.pais_destino}` : ''}
               <span className="mx-1.5 text-gray-300">·</span>
-              <span className="font-semibold text-[#004a99]">{pedido.incoterm ?? '—'}</span>
+              <span className="font-semibold text-[#1b4332]">{pedido.incoterm ?? '—'}</span>
               {pedido.puerto_descarga && (
                 <><span className="mx-1 text-gray-300">→</span>{pedido.puerto_descarga}</>
               )}
@@ -280,8 +280,8 @@ function ModalPedido({ pedido, onClose }) {
                                       onClick={() => setPrecios(p => ({ ...p, [it.id]: String(val) }))}
                                       className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border transition-colors ${
                                         activo
-                                          ? 'bg-[#004a99] text-white border-[#004a99]'
-                                          : 'border-gray-200 text-gray-500 hover:border-[#004a99] hover:text-[#004a99]'
+                                          ? 'bg-[#1b4332] text-white border-[#1b4332]'
+                                          : 'border-gray-200 text-gray-500 hover:border-[#1b4332] hover:text-[#1b4332]'
                                       }`}
                                     >
                                       {label}
@@ -362,7 +362,7 @@ function ModalPedido({ pedido, onClose }) {
                               ? `${fmt(getPrecioBase(it.id), 4)} + ${fmt(extraPerKg, 4)}`
                               : `0 + ${fmt(extraPerKg, 4)}`}
                           </td>
-                          <td className="py-1.5 text-right font-semibold text-[#004a99] w-28">
+                          <td className="py-1.5 text-right font-semibold text-[#1b4332] w-28">
                             = USD {fmt(getPrecioFinal(it), 4)}/kg
                           </td>
                           <td className="py-1.5 text-right font-medium text-gray-700 w-28">
@@ -453,7 +453,7 @@ function ModalPedido({ pedido, onClose }) {
             </button>
             {esPendiente && (
               <button onClick={handleEnviar} disabled={guardar.isPending}
-                className="px-5 py-2 text-sm font-semibold bg-[#004a99] text-white rounded-lg hover:bg-[#003d80] disabled:opacity-50 flex items-center gap-2 transition-colors">
+                className="px-5 py-2 text-sm font-semibold bg-[#1b4332] text-white rounded-lg hover:bg-[#152e24] disabled:opacity-50 flex items-center gap-2 transition-colors">
                 {guardar.isPending && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
                 Enviar cotización al vendedor
               </button>
@@ -486,7 +486,7 @@ export default function SolicitudesComex() {
       <div className="flex gap-1 mb-4 bg-gray-100 p-1 rounded-lg w-fit">
         {[['pendiente', `Pendientes (${pendientes.length})`], ['historial', `Historial (${historial.length})`]].map(([v, l]) => (
           <button key={v} onClick={() => setTab(v)}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
             {l}
           </button>
         ))}
@@ -500,7 +500,7 @@ export default function SolicitudesComex() {
 
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading
-          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+          ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
           : lista.length === 0
           ? <div className="p-12 text-center text-sm text-gray-400">
               {tab === 'pendiente' ? 'No hay solicitudes pendientes' : 'Sin historial aún'}
@@ -530,7 +530,7 @@ export default function SolicitudesComex() {
                     <td className="px-4 py-3 text-gray-700">{p.creado_por_perfil?.nombre ?? '—'}</td>
                     <td className="px-4 py-3 font-medium text-gray-800">{p.cliente_nombre}</td>
                     <td className="px-4 py-3 text-gray-500">{p.pais_destino || '—'}</td>
-                    <td className="px-4 py-3 font-semibold text-[#004a99]">{p.incoterm}</td>
+                    <td className="px-4 py-3 font-semibold text-[#1b4332]">{p.incoterm}</td>
                     <td className="px-4 py-3 text-right text-gray-600">{p.peso_bruto != null ? `${fmtKg(p.peso_bruto)} kg` : '—'}</td>
                     <td className="px-4 py-3 text-right font-medium">{totalUsd > 0 ? `USD ${fmt(totalUsd)}` : '—'}</td>
                     {tab !== 'pendiente' && (
@@ -543,7 +543,7 @@ export default function SolicitudesComex() {
                     <td className="px-4 py-3 text-gray-400 text-xs">{new Date(p.creado_en).toLocaleDateString('es-AR')}</td>
                     <td className="px-4 py-3 text-right">
                       <button onClick={() => setModal(p)}
-                        className="text-sm font-semibold text-[#004a99] hover:underline">
+                        className="text-sm font-semibold text-[#1b4332] hover:underline">
                         {tab === 'pendiente' ? 'Cotizar' : 'Ver'}
                       </button>
                     </td>

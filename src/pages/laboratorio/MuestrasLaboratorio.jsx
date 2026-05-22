@@ -64,7 +64,7 @@ function ModalActualizar({ muestra, onClose, onSave }) {
             <select
               value={resultado}
               onChange={e => setResultado(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             >
               <option value="pendiente">Pendiente</option>
               <option value="aprobado">Aprobado</option>
@@ -78,14 +78,14 @@ function ModalActualizar({ muestra, onClose, onSave }) {
               value={devolucion}
               onChange={e => setDevolucion(e.target.value)}
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332] resize-none"
             />
           </div>
           <div className="flex justify-end gap-3 pt-1">
             <button type="button" onClick={onClose} className="text-sm text-gray-500 hover:text-gray-700 px-4 py-2">
               Cancelar
             </button>
-            <button type="submit" className="bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+            <button type="submit" className="bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
               Guardar
             </button>
           </div>
@@ -154,7 +154,7 @@ export default function MuestrasLaboratorio() {
         </div>
         <button
           onClick={() => setShowForm(s => !s)}
-          className="flex items-center gap-2 bg-[#004a99] hover:bg-[#003d80] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex-shrink-0"
+          className="flex items-center gap-2 bg-[#1b4332] hover:bg-[#152e24] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex-shrink-0"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
@@ -174,7 +174,7 @@ export default function MuestrasLaboratorio() {
               <select
                 value={form.clienteId}
                 onChange={e => setForm(f => ({ ...f, clienteId: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               >
                 <option value="">Seleccionar...</option>
                 {clientes.map(c => <option key={c.id} value={c.id}>{c.razon_social}</option>)}
@@ -185,7 +185,7 @@ export default function MuestrasLaboratorio() {
               <select
                 value={form.productoId}
                 onChange={e => setForm(f => ({ ...f, productoId: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               >
                 <option value="">Seleccionar...</option>
                 {productos.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
@@ -199,7 +199,7 @@ export default function MuestrasLaboratorio() {
                 type="date"
                 value={form.fechaEnvio}
                 onChange={e => setForm(f => ({ ...f, fechaEnvio: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -209,7 +209,7 @@ export default function MuestrasLaboratorio() {
                 value={form.cantidadG}
                 onChange={e => setForm(f => ({ ...f, cantidadG: e.target.value }))}
                 placeholder="Ej: 500"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -218,7 +218,7 @@ export default function MuestrasLaboratorio() {
                 value={form.numeroLote}
                 onChange={e => setForm(f => ({ ...f, numeroLote: e.target.value }))}
                 placeholder="Ej: L-2024-001"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             <div>
@@ -227,7 +227,7 @@ export default function MuestrasLaboratorio() {
                 value={form.notas}
                 onChange={e => setForm(f => ({ ...f, notas: e.target.value }))}
                 placeholder="Opcional..."
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
               />
             </div>
             {formError && (
@@ -240,7 +240,7 @@ export default function MuestrasLaboratorio() {
               <button
                 type="submit"
                 disabled={crearMuestra.isPending}
-                className="bg-[#004a99] hover:bg-[#003d80] disabled:opacity-60 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors flex items-center gap-2"
+                className="bg-[#1b4332] hover:bg-[#152e24] disabled:opacity-60 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors flex items-center gap-2"
               >
                 {crearMuestra.isPending && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
                 Registrar muestra
@@ -258,7 +258,7 @@ export default function MuestrasLaboratorio() {
             onClick={() => setFiltroEstado(estado)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               filtroEstado === estado
-                ? 'bg-[#004a99] text-white'
+                ? 'bg-[#1b4332] text-white'
                 : 'bg-white text-gray-600 hover:bg-gray-100 shadow-sm'
             }`}
           >
@@ -270,7 +270,7 @@ export default function MuestrasLaboratorio() {
       <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
         {isLoading ? (
           <div className="py-16 flex justify-center">
-            <div className="w-6 h-6 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/>
+            <div className="w-6 h-6 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/>
           </div>
         ) : filtradas.length === 0 ? (
           <div className="py-16 text-center text-sm text-gray-400">
@@ -306,7 +306,7 @@ export default function MuestrasLaboratorio() {
                     {(m.resultado === 'pendiente' || m.resultado === null) && (
                       <button
                         onClick={() => setModalActualizar(m)}
-                        className="text-xs text-[#004a99] hover:underline font-medium"
+                        className="text-xs text-[#1b4332] hover:underline font-medium"
                       >
                         Actualizar
                       </button>

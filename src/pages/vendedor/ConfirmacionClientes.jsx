@@ -148,7 +148,7 @@ function ModalAprobar({ solicitud, vendedores, onClose, onDone }) {
     }
   }
 
-  const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]'
+  const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]'
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
@@ -169,7 +169,7 @@ function ModalAprobar({ solicitud, vendedores, onClose, onDone }) {
           <div className="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5 space-y-0.5">
             <p className="text-xs text-gray-500">Acceso del cliente</p>
             <p className="text-sm font-medium text-gray-800">{email || <span className="text-red-500 italic">Sin email de contacto</span>}</p>
-            <p className="text-xs text-gray-500 mt-1">Contraseña inicial: <span className="font-mono font-semibold text-[#004a99]">{PASS_DEFAULT}</span> — comunicársela al cliente.</p>
+            <p className="text-xs text-gray-500 mt-1">Contraseña inicial: <span className="font-mono font-semibold text-[#1b4332]">{PASS_DEFAULT}</span> — comunicársela al cliente.</p>
           </div>
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-1">Condición de pago</label>
@@ -250,7 +250,7 @@ export default function ConfirmacionClientes() {
           ['historial',  'Historial'],
         ].map(([v, l]) => (
           <button key={v} onClick={() => setTab(v)}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${tab === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
             {l}
             {v === 'pendientes' && pendientes.length > 0 && (
               <span className="ml-1.5 w-5 h-5 inline-flex items-center justify-center bg-[#dc3545] text-white text-[10px] rounded-full font-bold">
@@ -266,7 +266,7 @@ export default function ConfirmacionClientes() {
           {error
             ? <div className="p-6 text-sm text-red-600 bg-red-50 border border-red-200 rounded m-4">{error.message}</div>
             : isLoading
-            ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+            ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
             : pendientes.length === 0
             ? <div className="p-12 text-center text-sm text-gray-400">No hay solicitudes pendientes</div>
             : (

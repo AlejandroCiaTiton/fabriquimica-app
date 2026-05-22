@@ -16,7 +16,7 @@ const EMPTY = {
   fechaVencimiento: '',
 }
 
-const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]'
+const INPUT = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1b4332]'
 
 function BadgeVto({ fecha }) {
   if (!fecha) return <span className="text-gray-300">—</span>
@@ -94,7 +94,7 @@ export default function RecepcionMercaderia() {
         {[['registrar', 'Registrar ingreso'], ['historial', 'Historial']].map(([v, l]) => (
           <button key={v} onClick={() => setTab(v)}
             className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-              tab === v ? 'bg-white text-[#004a99] shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              tab === v ? 'bg-white text-[#1b4332] shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}>
             {l}
             {v === 'historial' && historial.length > 0 && (
@@ -118,7 +118,7 @@ export default function RecepcionMercaderia() {
                     onClick={() => { set('tipo', v); setErr(''); setOk('') }}
                     className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
                       form.tipo === v
-                        ? 'border-[#004a99] bg-blue-50 text-[#004a99]'
+                        ? 'border-[#1b4332] bg-blue-50 text-[#1b4332]'
                         : 'border-gray-200 text-gray-500 hover:border-gray-300'
                     }`}>
                     {l}
@@ -194,7 +194,7 @@ export default function RecepcionMercaderia() {
             {ok  && <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">{ok}</p>}
 
             <button type="submit" disabled={registrar.isPending}
-              className="w-full bg-[#004a99] hover:bg-[#003d80] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+              className="w-full bg-[#1b4332] hover:bg-[#152e24] text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
               {registrar.isPending && (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               )}
@@ -213,12 +213,12 @@ export default function RecepcionMercaderia() {
             </svg>
             <input type="text" value={busH} onChange={e => setBusH(e.target.value)}
               placeholder="Buscar por producto, código o lote…"
-              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004a99]"/>
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"/>
           </div>
 
           <div className="bg-white rounded-[10px] shadow-card overflow-hidden">
             {loadH
-              ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#004a99] border-t-transparent rounded-full animate-spin"/></div>
+              ? <div className="p-12 flex justify-center"><div className="w-8 h-8 border-4 border-[#1b4332] border-t-transparent rounded-full animate-spin"/></div>
               : histFiltrado.length === 0
               ? <div className="p-12 text-center text-sm text-gray-400">Sin recepciones registradas</div>
               : (
