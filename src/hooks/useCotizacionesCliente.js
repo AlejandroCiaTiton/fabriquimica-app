@@ -56,11 +56,17 @@ export function useResponderCotizacion() {
 
       const todosAceptados  = respuestas.every(r => r.accion === 'aceptado')
       const todosRechazados = respuestas.every(r => r.accion === 'rechazado')
+      const hayRecotizar    = respuestas.some(r => r.accion === 'recotizar')
+      const hayAceptados    = respuestas.some(r => r.accion === 'aceptado')
       const nuevoEstado = todosAceptados
         ? 'ganada'
         : todosRechazados
         ? 'perdida'
-        : 'revision'
+        : hayRecotizar
+        ? 'revision'
+        : hayAceptados
+        ? 'parcial'
+        : 'perdida'
 
       const { error } = await supabase
         .from('cotizaciones')

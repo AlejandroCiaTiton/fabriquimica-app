@@ -274,8 +274,12 @@ function BuscadorProductosExtra({ productos, idsExcluidos, onAgregar }) {
 
 // ─── modal confirmación OC ────────────────────────────────────────────────────
 
-function ModalConfirmarOC({ items, respuestas, cot, onConfirmar, onCancelar, isPending }) {
+function ModalConfirmarOC({ items, respuestas, onConfirmar, onCancelar, isPending }) {
+  const IVA = 0.21
   const itemsAceptados = items.filter(it => respuestas[it.id]?.accion === 'aceptado')
+  const subtotal = itemsAceptados.reduce((s, it) => s + (it.subtotal ?? 0), 0)
+  const iva      = subtotal * IVA
+  const total    = subtotal + iva
 
   return (
     <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/50">
@@ -302,14 +306,14 @@ function ModalConfirmarOC({ items, respuestas, cot, onConfirmar, onCancelar, isP
 
         <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 space-y-1.5">
           <div className="flex justify-between text-sm text-gray-600">
-            <span>Subtotal</span><span>{fmtUSD(cot.subtotal)}</span>
+            <span>Subtotal</span><span>{fmtUSD(subtotal)}</span>
           </div>
           <div className="flex justify-between text-sm text-gray-600">
-            <span>IVA 21%</span><span>{fmtUSD(cot.iva)}</span>
+            <span>IVA 21%</span><span>{fmtUSD(iva)}</span>
           </div>
           <div className="flex justify-between font-bold text-base text-gray-900 pt-1.5 border-t border-gray-200">
             <span>Total</span>
-            <span className="text-[#1b4332]">{fmtUSD(cot.total)}</span>
+            <span className="text-[#1b4332]">{fmtUSD(total)}</span>
           </div>
         </div>
 
@@ -458,8 +462,9 @@ function DetalleCotizacion({ cot, onClose }) {
       cantNueva: respuestas[it.id]?.cantNueva,
       nota:      respuestas[it.id]?.nota,
     }))
-    const todosAceptados = payload.every(r => r.accion === 'aceptado')
-    if (todosAceptados) {
+    const hayRecotizar = payload.some(r => r.accion === 'recotizar')
+    const hayAceptados = payload.some(r => r.accion === 'aceptado')
+    if (!hayRecotizar && hayAceptados) {
       setPendingPayload(payload)
       setModalConfirmarOC(true)
       return
@@ -473,7 +478,7 @@ function DetalleCotizacion({ cot, onClose }) {
       if (productosExtra.length > 0) {
         await crearSolicitud.mutateAsync({ items: productosExtra, observaciones: '' })
       }
-      if (result.nuevoEstado === 'ganada') {
+      if (result.nuevoEstado === 'ganada' || result.nuevoEstado === 'parcial') {
         const oc = await emitir.mutateAsync({ cotizacionId: cot.id })
         setOcNumero(oc.numero)
       }
@@ -522,10 +527,10 @@ function DetalleCotizacion({ cot, onClose }) {
         {exito && (
           <div className="flex-1 flex flex-col items-center justify-center p-10 text-center">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 ${
-              exito === 'ganada' ? 'bg-green-100' :
+              exito === 'ganada' || exito === 'parcial' ? 'bg-green-100' :
               exito === 'perdida' ? 'bg-red-100' : 'bg-yellow-100'
             }`}>
-              {exito === 'ganada' ? (
+              {exito === 'ganada' || exito === 'parcial' ? (
                 <svg className="w-7 h-7 text-[#28a745]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -540,12 +545,12 @@ function DetalleCotizacion({ cot, onClose }) {
               )}
             </div>
             <h3 className="font-bold text-gray-900 mb-1">
-              {exito === 'ganada' ? '¡Orden de compra generada!' :
+              {exito === 'ganada' || exito === 'parcial' ? '¡Orden de compra generada!' :
                exito === 'perdida' ? 'Cotización rechazada' :
                'Revisión enviada al vendedor'}
             </h3>
             <p className="text-sm text-gray-500 mb-6">
-              {exito === 'ganada'
+              {exito === 'ganada' || exito === 'parcial'
                 ? <>OC <strong className="text-[#1b4332]">{ocNumero}</strong> creada. El vendedor preparará tu pedido.</>
                 : exito === 'perdida' ? 'Le avisamos al vendedor.'
                 : 'Recibirás una cotización actualizada pronto.'}
@@ -684,7 +689,6 @@ function DetalleCotizacion({ cot, onClose }) {
         <ModalConfirmarOC
           items={items}
           respuestas={respuestas}
-          cot={cot}
           onConfirmar={() => ejecutarConfirmacion(pendingPayload)}
           onCancelar={() => setModalConfirmarOC(false)}
           isPending={responder.isPending || emitir.isPending}
